@@ -1,0 +1,50 @@
+
+header {
+    backdrop-filter: blur(3px);
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.links li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.links a {
+    color: white;
+    text-decoration: none;
+}
+
+.links a:hover {
+    font-size: larger;
+    color: aqua;    /* cambiar color a uno de la paleta escogida */
+    text-decoration: none;
+}
+
+
+body{
+    background-image: url(../images/background.jpg); /* Cambiar imagen */
+    background-color: azure;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 5%;
+}
+
+.title {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1px;
+    text-align: center;
+}
+
+.description {
+    text-align: justify;
+}
