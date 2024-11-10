@@ -1,4 +1,9 @@
 
+@font-face {
+    font-family: Muro;
+    src: url(../fonts/muro/Muro.otf);
+}
+
 header {
     backdrop-filter: blur(3px);
     text-align: center;
@@ -19,34 +24,47 @@ nav ul {
 }
 
 .links a {
+    font-family: Muro;
     color: white;
     text-decoration: none;
 }
 
 .links a:hover {
     font-size: larger;
-    color: aqua;    /* cambiar color a uno de la paleta escogida */
+    color: #06A196;
     text-decoration: none;
+}
+
+#login {
+    background-color: #06A196;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+#login:hover {
+    font-size: larger;
+    color: white;
 }
 
 
 body{
     background-image: url(../images/background.jpg); /* Cambiar imagen */
-    background-color: azure;
+    background-color: #06A196;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 5%;
 }
 
 .title {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Muro;
     color: white;
-    -webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 1px;
+    /*-webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1px;*/
     text-align: center;
+    
 }
 
 #game-title {
-    font-size: 50px;
+    font-size: 70px;
 }
 
 .description {
