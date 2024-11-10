@@ -5,7 +5,7 @@
 }
 
 header {
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
     text-align: center;
     position: fixed;
     top: 0;
@@ -46,10 +46,17 @@ nav ul {
     color: white;
 }
 
+html {
+    background-color: #06A196;
+    background-image: url(../images/background.jpeg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 
 body{
-    background-image: url(../images/background.jpg); /* Cambiar imagen */
-    background-color: #06A196;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 5%;
 }

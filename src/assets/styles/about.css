@@ -46,9 +46,16 @@ nav ul {
     color: white;
 }
 
-body{
-    background-image: url(../images/background.jpg); /* Cambiar imagen */
+html {
     background-color: #06A196;
+    background-image: url(../images/background.jpeg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 5%;
 }

@@ -5,7 +5,7 @@
 }
 
 header {
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(4px);
     text-align: center;
     position: fixed;
     top: 0;
@@ -46,17 +46,33 @@ nav ul {
     color: white;
 }
 
+html {
+    background-color: #CAEEEB;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 body{
-    background-image: url(../images/background.jpg); /* Cambiar imagen */
-    background-color: #06A196;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 5%;
 }
 
+.main-div {
+    display: flex;
+}
+
+img {
+    width: 50%;
+    padding-top: 4%;
+}
+
+
 .title {
     font-family:Muro;
-    font-size: 50px;
-    color: white;
+    font-size: 60px;
+    color: #06A196;
     /*-webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 1px;*/
     text-align: center;
@@ -64,4 +80,5 @@ body{
 
 .description {
     text-align: justify;
+    margin-right: 4%;
 }
