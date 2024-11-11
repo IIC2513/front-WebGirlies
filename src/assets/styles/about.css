@@ -4,15 +4,6 @@
     src: url(../fonts/muro/Muro.otf);
 }
 
-header {
-    backdrop-filter: blur(3px);
-    text-align: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -46,27 +37,24 @@ nav ul {
     color: white;
 }
 
-html {
-    background-color: #06A196;
-    background-image: url(../images/background.jpeg);
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 
-body{
+.about {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 5%;
+    padding-top: 0;
+    background: #CAEEEB;
+    background-size: cover;
+    margin: 0;
+    align-items: center;
 }
 
-.title {
-    font-family:Muro;
+.title-about {
+    font-family: Muro;
     font-size: 50px;
     color: white;
-    /*-webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 1px;*/
-    text-align: center;
+    text-align: center; /* centra el texto */
+    padding: 5%;
+    margin: 0 auto; /* centra el contenedor */
+    width: 80%; /* ajusta el ancho según prefieras */
 }
 
 .description {

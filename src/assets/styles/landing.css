@@ -46,8 +46,8 @@ nav ul {
     color: white;
 }
 
-html {
-    background-color: #06A196;
+.landing{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-image: url(../images/background.jpeg);
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -55,15 +55,10 @@ html {
     background-size: cover;
 }
 
-
-body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 5%;
-}
-
 .title {
     font-family: Muro;
     color: white;
+    font-size: 40px;
     /*-webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 1px;*/
     text-align: center;
@@ -71,9 +66,10 @@ body{
 }
 
 #game-title {
-    font-size: 70px;
+    font-size: 80px;
 }
 
 .description {
     text-align: justify;
+    padding: 5%;
 }

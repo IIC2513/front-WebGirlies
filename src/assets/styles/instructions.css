@@ -9,6 +9,8 @@ header {
     text-align: center;
     position: fixed;
     top: 0;
+    margin: 0;
+    padding: 0;
     width: 100%;
 }
 
@@ -31,7 +33,7 @@ nav ul {
 
 .links a:hover {
     font-size: larger;
-    color: #06A196;    /* cambiar color a uno de la paleta escogida */
+    color: #06A196;
     text-decoration: none;
 }
 
@@ -46,17 +48,15 @@ nav ul {
     color: white;
 }
 
-html {
-    background-color: #CAEEEB;
+
+.instructions {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 0%;
+    background: #CAEEEB;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 5%;
 }
 
 .main-div {
@@ -64,14 +64,15 @@ body{
 }
 
 img {
-    width: 50%;
-    padding-top: 4%;
+    width: 40%;
+    padding-top: 7%;
 }
 
 
-.title {
+.title-instructions {
     font-family:Muro;
     font-size: 60px;
+    padding-top: 5%;
     color: #06A196;
     /*-webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 1px;*/
@@ -79,6 +80,7 @@ img {
 }
 
 .description {
+    color: black;
     text-align: justify;
     margin-right: 4%;
 }
