@@ -12,6 +12,7 @@ function LandingPage() {
             <li><a href='/'>Inicio</a></li>
             <li><a href='/about'>Nosotros</a></li>
             <li><a href='/instructions'>Como Jugar</a></li>
+            <li><a href='/board'>Ir a Jugar</a></li>
             <li><a href="login.html" id="login">Iniciar Sesión</a></li>
           </div>
         </ul>
