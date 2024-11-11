@@ -40,7 +40,7 @@ nav ul {
 
 .about {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 0;
+    padding-top: 0%;
     background: #CAEEEB;
     background-size: cover;
     margin: 0;
@@ -52,11 +52,13 @@ nav ul {
     font-size: 50px;
     color: white;
     text-align: center; /* centra el texto */
-    padding: 5%;
+    padding: 7%;
     margin: 0 auto; /* centra el contenedor */
-    width: 80%; /* ajusta el ancho según prefieras */
+
 }
 
 .description {
     text-align: justify;
+    padding-left: 5%;
+    padding-bottom: 26%;
 }

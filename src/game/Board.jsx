@@ -1,4 +1,4 @@
-import "./board.css"
+import styles from './board.module.css'
 import Cell from "./Cell"
 
 export default function Board() {
@@ -8,7 +8,8 @@ export default function Board() {
         {id:3, imgSrc: '../assets/images/board'}, /*cambiar una vez tengamos las imagenes de los cuartos*/
     ]
     return(
-        <div className="board">
+        <body className={styles.boardBody}>
+            <p className={styles.descripction}>PRUEBA</p>
             <header>
                 <div className="links"></div>
                 <nav>
@@ -22,14 +23,17 @@ export default function Board() {
                     </ul>
                 </nav>
             </header>
-            <div className="board-row">
-                {cells.slice(0,2).map(cell=> (
-                    <Cell key={cell.id} imgSrc={cell.imgSrc}/>
-                ))}
+            
+            <div className="board">
+                <div className="board-row">
+                    {cells.slice(0,2).map(cell=> (
+                        <Cell key={cell.id} imgSrc={cell.imgSrc}/>
+                    ))}
+                </div>
+                <div className="board-row">
+                    <Cell key={cell[2].id} imgSrc={cell[2].imgSrc}/>
+                </div>
             </div>
-            <div className="board-row">
-                <Cell key={cell[2].id} imgSrc={cell[2].imgSrc}/>
-            </div>
-        </div>
+        </body>
     )
 }
