@@ -1,4 +1,5 @@
 import styles from '../assets/styles/landing.module.css'
+import LogoutButton from '../profile/Logout'
 
 function LandingPage() {
 
@@ -14,11 +15,18 @@ function LandingPage() {
             <li><a href='/instructions'>Como Jugar</a></li>
             <li><a href='/board'>Ir a Jugar</a></li>
             <li><a href="login.html" id="login">Iniciar Sesión</a></li>
+            <a href='/login'>Login</a>
+            <a href='/signup'>Registro</a>
+            <a href='/admincheck'>Chequeo Scope Admin</a>
+            <a href='/usercheck'>Chequeo Scope User</a>
+            <br></br>
+            <LogoutButton></LogoutButton>
           </div>
         </ul>
       </nav>
     </header>
     
+
     <h1 className={styles.title}>ASESINATO EN EL HOSPITAL</h1>
     <p className={styles.description}>El juego es policial y gira en torno a resolver un asesinato. 
         Habrá un impostor (o asesino) que los jugadores deberán descubrir. Los jugadores 
