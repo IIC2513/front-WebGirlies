@@ -4,15 +4,6 @@
     src: url(../fonts/muro/Muro.otf);
 }
 
-header {
-    backdrop-filter: blur(4px);
-    text-align: center;
-    position: fixed;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
 
 
 nav ul {
@@ -57,30 +48,37 @@ nav ul {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    margin: 0;
 }
 
-.main-div {
+
+.main {
     display: flex;
 }
 
 img {
     width: 40%;
-    padding-top: 7%;
+    padding: 7%;
 }
 
 
-.title-instructions {
+.title {
     font-family:Muro;
     font-size: 60px;
-    padding-top: 5%;
+    padding-top: 15%;
     color: #06A196;
-    /*-webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 1px;*/
     text-align: center;
+    margin: 0 auto;
+}
+
+.subtitle {
+    color: #06A196;
+    padding-left: 5%;
 }
 
 .description {
     color: black;
     text-align: justify;
     margin-right: 4%;
+    padding-left: 5%;
 }

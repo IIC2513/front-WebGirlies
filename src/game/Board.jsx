@@ -1,39 +1,41 @@
-import "./Board.css"
-import Cell from "./Cell"
-import img1 from '../assets/images/baord.jpeg';
+import './Board.css';
+import React, { createContext, useState, useEffect } from "react";
+import axios from 'axios';
 
-export default function Board() {
-    const cells = [
-        { id: 1, imgSrc: img1 },
-        { id: 2, imgSrc: img1 },
-        { id: 3, imgSrc: img1 }
-    ];
-    return(
-        <body>
-            <header>
-                <div className="links"></div>
-                <nav>
-                    <ul>
-                        <div className="links">
-                            <li><a href='/'>Inicio</a></li>
-                            <li><a href='/about'>Nosotros</a></li>
-                            <li><a href='/instructions'>Como Jugar</a></li>
-                            <li><a href="login.html" id="login">Iniciar Sesión</a></li>
-                        </div>
-                    </ul>
-                </nav>
-            </header>
-            <div className="board">
-                <div className="board-row">
-                    {cells.slice(0, 2).map(cell=> (
-                    <Cell key={cell.id} imgSrc={cell.imgSrc}/>
-                    ))}
-                </div>
-                <div className="board-row">
-                    <Cell key={cells[2].id} imgSrc={cells[2].imgSrc}/>
-                    <Cell key={cells[2].id} imgSrc={cells[2].imgSrc}/>
-                </div>
-            </div>
-        </body>
-    )
+// Exporta el contexto y el componente sin usar `default`
+export const GameContext = createContext(null);
+
+export function Board() {
+  const [cells, setCells] = useState([]);
+  const [playerName, setPlayerName] = useState("");
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
+      params: { boardId: 1 }  // Pasando boardId como parámetro
+    })
+      .then((response) => {
+        const data = response.data[0]; // Accede al primer objeto de la respuesta
+        setCells(data.cells);
+        setPlayerName(data.Player?.name || ""); // Verifica si existe Player
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  
+  return (
+    <GameContext.Provider value={{ cells, setCells }}>
+      <h1 className="title">Tablero de {playerName}</h1>
+      <div className="board">
+        <div className="board-row">
+          {cells.map(cell => (
+            <img
+              src={cell.image}
+              id={cell.cellId}
+            />
+          ))}
+        </div>
+      </div>
+    </GameContext.Provider>
+  );
 }

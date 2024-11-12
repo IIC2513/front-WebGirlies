@@ -22,7 +22,7 @@ nav ul {
 
 .links a:hover {
     font-size: larger;
-    color: #06A196;    /* cambiar color a uno de la paleta escogida */
+    color: #06A196;  
     text-decoration: none;
 }
 
@@ -40,7 +40,7 @@ nav ul {
 
 .about {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 0;
+    padding-top: 0%;
     background: #CAEEEB;
     background-size: cover;
     margin: 0;
@@ -49,14 +49,18 @@ nav ul {
 
 .title-about {
     font-family: Muro;
-    font-size: 50px;
-    color: white;
-    text-align: center; /* centra el texto */
-    padding: 5%;
-    margin: 0 auto; /* centra el contenedor */
-    width: 80%; /* ajusta el ancho según prefieras */
+    font-size: 60px;
+    color: #06A196;
+    text-align: center; 
+    padding: 7%;
+    margin: 0 auto;
+
 }
 
 .description {
     text-align: justify;
+    color: black;
+    padding-left: 5%;
+    padding-bottom: 26%;
+    text-align: left;
 }

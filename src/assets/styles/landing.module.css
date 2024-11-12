@@ -48,7 +48,10 @@ nav ul {
 
 .landing{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url(../images/background.jpeg);
+}
+
+html {
+    background: url(../images/background.jpeg) #CAEEEB;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -56,20 +59,18 @@ nav ul {
 }
 
 .title {
+    padding-top: 100px;
     font-family: Muro;
     color: white;
-    font-size: 40px;
-    /*-webkit-text-stroke-color: black;
-    -webkit-text-stroke-width: 1px;*/
+    font-size: 80px;
     text-align: center;
     
 }
 
-#game-title {
-    font-size: 80px;
-}
-
 .description {
     text-align: justify;
+    background-color: rgba(6, 161, 150, 0.7);
+
+    border-radius: 20px;
     padding: 5%;
 }

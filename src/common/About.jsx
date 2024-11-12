@@ -11,6 +11,7 @@ function About() {
                         <li><a href='/'>Inicio</a></li>
                         <li><a href='/about'>Nosotros</a></li>
                         <li><a href='/instructions'>Como Jugar</a></li>
+                        <li><a href='/board'>Ir a Jugar</a></li>
                         <li><a href="login.html" id="login">Iniciar Sesión</a></li>
                     </div>
                 </ul>
@@ -19,7 +20,9 @@ function About() {
         
         <main>
             <h1 class="title-about">Acerca de Nosotros</h1>
-            <p class="description">Descripcion del equipo desarrollador</p>
+            <p class="description">Somos un equipo de especialistas con amplio conocimiento en la industria de los videojuegos.
+                Queremos que todos puedan disfrutar de nuestro juego.
+            </p>
         </main>
     </body>
   )
