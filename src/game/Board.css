@@ -1,0 +1,65 @@
+.boardBody { 
+    display: flex;
+    background-color: #CAEEEB;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.title {
+    font-family: Muro;
+    color: #06A196;
+    font-size: 60px;
+    text-align: center;
+    
+}
+
+
+.board {
+    display: table;
+    background-color: #06A196;
+    padding: 10px;
+    margin: 10% auto;
+}
+
+.board-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.description{
+    color: white;
+}
+
+header {
+    backdrop-filter: blur(4px);
+    text-align: center;
+    position: fixed;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.links li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.links a {
+    font-family: Muro;
+    color: white;
+    text-decoration: none;
+}
+
+.links a:hover {
+    font-size: larger;
+    color: #06A196;
+    text-decoration: none;
+}
