@@ -1,14 +1,15 @@
-import "./board.css"
+import "./Board.css"
 import Cell from "./Cell"
+import img1 from '../assets/images/baord.jpeg';
 
 export default function Board() {
     const cells = [
-        {id:1, imgSrc: '../assets/images/board'}, /*cambiar una vez tengamos las imagenes de los cuartos*/
-        {id:2, imgSrc: '../assets/images/board'}, /*cambiar una vez tengamos las imagenes de los cuartos*/
-        {id:3, imgSrc: '../assets/images/board'}, /*cambiar una vez tengamos las imagenes de los cuartos*/
-    ]
+        { id: 1, imgSrc: img1 },
+        { id: 2, imgSrc: img1 },
+        { id: 3, imgSrc: img1 }
+    ];
     return(
-        <div className="board">
+        <body>
             <header>
                 <div className="links"></div>
                 <nav>
@@ -22,14 +23,17 @@ export default function Board() {
                     </ul>
                 </nav>
             </header>
-            <div className="board-row">
-                {cells.slice(0,2).map(cell=> (
+            <div className="board">
+                <div className="board-row">
+                    {cells.slice(0, 2).map(cell=> (
                     <Cell key={cell.id} imgSrc={cell.imgSrc}/>
-                ))}
+                    ))}
+                </div>
+                <div className="board-row">
+                    <Cell key={cells[2].id} imgSrc={cells[2].imgSrc}/>
+                    <Cell key={cells[2].id} imgSrc={cells[2].imgSrc}/>
+                </div>
             </div>
-            <div className="board-row">
-                <Cell key={cell[2].id} imgSrc={cell[2].imgSrc}/>
-            </div>
-        </div>
+        </body>
     )
 }
