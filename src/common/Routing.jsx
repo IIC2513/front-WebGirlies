@@ -4,6 +4,7 @@ import UserWelcome from '../profile/user_welcome'
 import LandingPage from './LandingPage'
 import {Board} from '../game/Board'
 import About from './About'
+import {CharacterSelection} from '../game/CharacterSelection'
 
 function Routing() {
     return (
@@ -15,6 +16,7 @@ function Routing() {
                 <Route path={'/instructions'} element={<Instructions/>}/>
                 <Route path={'/welcome'} element={<UserWelcome/>}/>
                 <Route path={''} element={<LandingPage/>}/>
+                <Route path={'/character'} element={<CharacterSelection/>}/>
             </Routes>
         </BrowserRouter>
         </>
