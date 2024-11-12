@@ -2,7 +2,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Instructions from '../game/Instructions'
 import UserWelcome from '../profile/user_welcome'
 import LandingPage from './LandingPage'
-import Board from '../game/Board'
+import {Board} from '../game/Board'
 import About from './About'
 
 function Routing() {
