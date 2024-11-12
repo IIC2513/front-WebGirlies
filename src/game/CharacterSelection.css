@@ -1,0 +1,63 @@
+.character-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre las tarjetas */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    padding: 20px;
+  }
+  
+  .character-card {
+    width: 200px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff; /* Fondo blanco para cada tarjeta */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
+    text-align: center;
+    transition: transform 0.2s; /* Efecto de escala al pasar el cursor */
+  }
+  
+  .character-card:hover {
+    transform: scale(1.05); /* Aumenta la escala en hover */
+  }
+  
+  .character-avatar {
+    width: 100%;
+    height: auto;
+    border-radius: 50%; /* Hace que el avatar sea circular */
+    margin-bottom: 10px;
+  }
+  
+  .character-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0 5px;
+    color: #333;
+  }
+  
+  .character-card p {
+    font-size: 0.9em;
+    color: #555;
+    margin: 5px 0;
+  }
+
+  .message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .message.success {
+    background-color: #d4edda; /* Verde claro para mensajes exitosos */
+    color: #155724;
+  }
+  
+  .message.error {
+    background-color: #f8d7da; /* Rojo claro para mensajes de error */
+    color: #721c24;
+  }
+  
+  

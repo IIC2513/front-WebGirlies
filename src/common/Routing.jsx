@@ -4,6 +4,7 @@ import UserWelcome from '../profile/user_welcome'
 import LandingPage from './LandingPage'
 import {Board} from '../game/Board'
 import About from './About'
+import {CharacterSelection} from '../game/CharacterSelection'
 import Login from '../profile/Login'
 import Signup from '../profile/Signup'
 import AdminCheck from '../protected/AdminCheck'
@@ -24,6 +25,7 @@ function Routing() {
                 <Route path={"/admincheck"} element={<AdminCheck />}/>
                 <Route path={"/usercheck"} element={<UserCheck />}/>
                 <Route path={''} element={<LandingPage/>}/>
+                <Route path={'/character'} element={<CharacterSelection/>}/>
             </Routes>
         </BrowserRouter>
         </>
