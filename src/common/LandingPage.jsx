@@ -1,11 +1,11 @@
-import '../assets/styles/landing.css'
+import styles from '../assets/styles/landing.module.css'
 
 function LandingPage() {
 
   return (
-  <body className='landing'>
+  <body className={styles.landing}>
     <header>
-      <div class="links"></div>
+      <div className={styles.links}></div>
       <nav>
         <ul>
           <div class="links">
@@ -19,14 +19,11 @@ function LandingPage() {
       </nav>
     </header>
     
-    <main>
-      <h1 class="title" id="game-title">ASESINATO EN EL HOSPITAL</h1>
-      <h3 class="title">Tecnología y Aplicaciones Web Edition</h3>
-      <p class="description">El juego es policial y gira en torno a resolver un asesinato. 
-          Habrá un impostor (o asesino) que los jugadores deberán descubrir. Los jugadores 
-          tendrán que reunir pistas e intentar resolver el crimen, descubriendo tanto lugar, 
-          como asesino y arma, pero el impostor intentará desviar la atención para que no lo descubran.</p>
-    </main>
+    <h1 className={styles.title}>ASESINATO EN EL HOSPITAL</h1>
+    <p className={styles.description}>El juego es policial y gira en torno a resolver un asesinato. 
+        Habrá un impostor (o asesino) que los jugadores deberán descubrir. Los jugadores 
+        tendrán que reunir pistas e intentar resolver el crimen, descubriendo tanto lugar, 
+        como asesino y arma, pero el impostor intentará desviar la atención para que no lo descubran.</p>
   </body>
   )
 }
