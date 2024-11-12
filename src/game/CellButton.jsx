@@ -1,6 +1,4 @@
-
-
-export default function CellButton({onClick, label}){
+export default function CellButton({onClick, showImage}){
   return(
     <div>
       <button onClick={onClick}>
