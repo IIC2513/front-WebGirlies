@@ -1,58 +1,35 @@
-.boardBody {
-    display: flex;
-    background-color: #CAEEEB;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    height: 100vh; /* Para centrar verticalmente */
-}
-
-.title {
-    font-family: Muro;
-    color: #06A196;
-    font-size: 60px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
 .board {
     display: grid;
-    grid-template-columns: repeat(18, 1fr); /* Ajusta el número de columnas según el diseño */
+    grid-template-columns: repeat(18, 1fr); /* 18 columnas */
+    grid-template-rows: repeat(18, 1fr); /* 18 filas */
     gap: 10px;
     background-color: #06A196;
     padding: 20px;
     border-radius: 8px;
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto;
 }
 
-.board-row {
-    display: contents;
+.board-cell {
+    width: 50px; /* Tamaño de la celda */
+    height: 50px;
+    position: relative;
 }
 
-.description {
-    color: white;
-}
-
-header {
-    backdrop-filter: blur(4px);
-    text-align: center;
-    position: fixed;
-    top: 0;
+.cell-image {
     width: 100%;
-    background: rgba(255, 255, 255, 0.8); /* Color de fondo con transparencia */
+    height: 100%;
 }
 
-.links li {
-    display: inline;
-    margin-right: 10px;
+.place-image {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    height: 20px;
 }
 
-.links a {
-    font-family: Muro;
-    color: white;
-    text-decoration: none;
-}
-
-.links a:hover {
-    font-size: larger;
-    color: #06A196;
+.place-image{
+    position: absolute;
+    transform: translate(50%, -90%);
+    width: 30px;
+    height: 30px;
 }
