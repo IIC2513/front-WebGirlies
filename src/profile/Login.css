@@ -6,8 +6,8 @@
 
 .general {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-top: 0%;
-  padding-bottom: 5%;
+  padding-top: 2%;
+  padding-bottom: 12%;
   background: #CAEEEB;
   background-size: cover;
   margin: 0;
@@ -19,7 +19,7 @@
   font-size: 60px;
   color: #06A196;
   text-align: center; 
-  padding: 7%;
+  padding: 9%;
   margin: 0 auto;
 
 }
