@@ -1,4 +1,5 @@
-import '../assets/styles/about.css'
+import '../assets/styles/about.css';
+import LogoutButton from '../profile/Logout';
 
 function About() {
     return (
@@ -12,7 +13,9 @@ function About() {
                         <li><a href='/about'>Nosotros</a></li>
                         <li><a href='/instructions'>Como Jugar</a></li>
                         <li><a href='/board'>Ir a Jugar</a></li>
-                        <li><a href="login.html" id="login">Iniciar Sesión</a></li>
+                        <li><a href='/login' >Login</a></li>
+                        <li><a href='/signup'>Registro</a></li>
+                        <li><LogoutButton /></li>
                     </div>
                 </ul>
             </nav>
