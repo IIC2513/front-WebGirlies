@@ -4,7 +4,12 @@
     src: url(../fonts/muro/Muro.otf);
 }
 
-header {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.headerLan {
     backdrop-filter: blur(4px);
     text-align: center;
     position: fixed;
@@ -12,10 +17,8 @@ header {
     width: 100%;
 }
 
-
 nav ul {
     list-style-type: none;
-    padding: 0;
 }
 
 .links li {
@@ -47,15 +50,9 @@ nav ul {
 }
 
 .landing{
+    margin: 0;
+    background: url(../assets/images/pasillo-oscuro-hospital-salida-emergencia-luz-encima.jpg) #CAEEEB;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-html {
-    background: url(../images/background.jpeg) #CAEEEB;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 .title {
@@ -74,3 +71,21 @@ html {
     border-radius: 20px;
     padding: 5%;
 }
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    background-color: #CAEEEB;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  }
+  button:hover {
+    border-color: #646cff;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
