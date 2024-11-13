@@ -11,6 +11,7 @@ export function Board() {
   const [cells, setCells] = useState([]);
   const [places, setPlaces] = useState([]);
   const [cards, setCards] = useState([]);
+  const [character, setCharacter] = useState([]);
   
 
   useEffect(() => {
@@ -22,6 +23,8 @@ export function Board() {
         setCells(response.data["boards"]["0"].cells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
+        setCharacter(response.data["character"]);
+        console.log(character["Character"].avatar);
       })
       .catch((error) => {
         console.log(error);
@@ -29,48 +32,53 @@ export function Board() {
   }, []);
 
   return (
-    <GameContext.Provider value={{ cells, setCells, places, cards }}>
+    <GameContext.Provider value={{ cells, setCells, places, character }}>
       <h1 className="title">Tablero</h1>
       <div className="board">
         {cells.map(cell => (
-          <div key={`${cell.x}-${cell.y}`} className="board-cell">
+          <div key={`${cell.x}-${cell.y}`} className="board-cell" style={{ position: 'relative' }}>
             <img
               src={cell.image}
               alt={`Cell ${cell.x}, ${cell.y}`}
               className="cell-image"
+              style={{
+                position: 'absolute',
+                zIndex: 1, // Asegúrate de que las celdas estén debajo del personaje
+              }}
             />
-            {/* Filtrar y mostrar lugares */}
             {places
               .filter(place => place.doorX === cell.x && place.doorY === cell.y)
               .map((place, index) => (
-                <div key={index} className="place-container">
-                  <img
-                    src={place.image}
-                    alt={place.name}
-                    className="place-image"
-                    style={{
-                      position: "absolute",
-                      left: `${place.doorX}%`,
-                      top: `${place.doorY}%`,
-                    }}
-                  />
-                  {/* Mostrar cartas correspondientes a este lugar */}
-                  {cards
-                    .filter(card => card.placeId === place.placeId) // Filtrar por placeId
-                    .map((card, index) => (
-                      <div key={index} className="card-container" style={{ position: "absolute", top: "10px", left: "10px" }}>
-                        <img
-                          src={card.cardInside.image}
-                          alt={card.cardInside.description}
-                          className="card-image"
-                        />
-                      </div>
-                    ))}
-                </div>
+                <img
+                  key={index}
+                  src={place.image}
+                  alt={place.name}
+                  className="place-image"
+                  style={{
+                    position: "absolute",
+                    zIndex: 1,  // Asegúrate de que las imágenes de los lugares estén debajo del personaje
+                    left: `${place.doorX}%`,
+                    top: `${place.doorY}%`,
+                  }}
+                />
               ))}
+  
+            {character.positionX === cell.x && character.positionY === cell.y && (
+              <img
+                src={character["Character"].avatar}
+                alt={character.name}
+                className="character-avatar"
+                style={{
+                  position: "absolute",
+                  left: `${cell.x}%`, // Ajusta la posición según tus necesidades
+                  top: `${cell.y}%`,  // Ajusta la posición según tus necesidades
+                  zIndex: 10,         // Este valor garantiza que el personaje quede encima de todos los demás elementos
+                }}
+              />
+            )}
           </div>
         ))}
       </div>
     </GameContext.Provider>
   );
-}  
+  }  
