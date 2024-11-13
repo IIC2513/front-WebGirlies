@@ -1,4 +1,4 @@
-import styles from '../assets/styles/instructions.module.css'
+import styles from './instructions.module.css'
 import board from './../assets/images/baord.jpeg'
 
 function Instructions() {
