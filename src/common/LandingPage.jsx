@@ -15,7 +15,7 @@ function LandingPage() {
               <li><a href='/'>Start</a></li>
               <li><a href='/about'>About us</a></li>
               <li><a href='/instructions'>How to play</a></li>
-              <li><a href='/board'>Play</a></li>
+              <li><a href='/jugar'>Play</a></li>
 
               {/* Mostrar Login y Sign Up solo si no hay token */}
               {!token ? (

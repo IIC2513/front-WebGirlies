@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom'; // Asegura la importación de useNavigate
 import axios from 'axios';
 import './Login.css';
 
@@ -10,6 +11,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();

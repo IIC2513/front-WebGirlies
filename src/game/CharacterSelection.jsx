@@ -1,10 +1,14 @@
 import './CharacterSelection.css';
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Asegura la importación de useNavigate
+
 
 export function CharacterSelection() {
   const [characters, setCharacters] = useState([]);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/characters`)
@@ -19,11 +23,14 @@ export function CharacterSelection() {
   const handleCharacterClick = async (characterId) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/join`, {
-        userId: 2,
+        userId: 1,
         gameId: 1,
         characterId: characterId,
       });
       setMessage(response.data.message);
+      if (response.status === 200) {
+        navigate('/jugar');
+      }
     } catch (error) {
       console.log("Error al seleccionar el personaje:", error);
       setMessage(error.response.data.message);

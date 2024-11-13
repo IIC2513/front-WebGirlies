@@ -10,12 +10,14 @@ import Signup from '../profile/Signup'
 import AdminCheck from '../protected/AdminCheck'
 import UserCheck from '../protected/UserCheck'
 import LogoutButton from '../profile/Logout'
+import WaitingPage from '../game/WaitingPage'
 
 function Routing() {
     return (
         <>
         <BrowserRouter>
             <Routes>
+                <Route path={'/jugar'} element={<WaitingPage/>}/>
                 <Route path={'/board'} element={<Board/>}/>
                 <Route path={'/about'} element={<About/>}/>
                 <Route path={'/instructions'} element={<Instructions/>}/>
