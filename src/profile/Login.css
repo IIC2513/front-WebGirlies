@@ -1,11 +1,37 @@
+
+@font-face {
+  font-family: Muro;
+  src: url(../fonts/muro/Muro.otf);
+}
+
+.general {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 0%;
+  padding-bottom: 5%;
+  background: #CAEEEB;
+  background-size: cover;
+  margin: 0;
+  align-items: center;
+}
+
+.registro {
+  font-family: Muro;
+  font-size: 60px;
+  color: #06A196;
+  text-align: center; 
+  padding: 7%;
+  margin: 0 auto;
+
+}
+
 .Login {
     width: 500px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 15px;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-    background-color: #f0faff;
+    background-color: rgba(6, 161, 150, 0.5);
 
   }
 
@@ -27,7 +53,8 @@
   }
 
   .Login form input[type="submit"] {
-    background-color: #1e90ff;
+    background-color: #06A196;
+    font-family: Muro;
     color: white;
     padding: 10px 20px;
     border: none;

@@ -28,45 +28,49 @@ function Signup() {
     }
 
   return (
-    <div className="Login">
-      {msg.length > 0 && <div className="successMsg"> {msg} </div>}
+    <body className='general'>
+      <h3 className='registro'>Crear una cuenta</h3>
+      <div className="Login">
+        {msg.length > 0 && <div className="successMsg"> {msg} </div>}
 
-      {error && <div className="error">Hubo un error con el Registro, por favor trata nuevamente.</div>}
+        {error && <div className="error">Hubo un error con el Registro, por favor trata nuevamente.</div>}
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input 
-            type="text" 
-            name="username"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Email:
-          <input 
-            type="email" 
-            name="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password:
-          <input 
-            type="password" 
-            name="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+
+        <form onSubmit={handleSubmit}>
+          <label>
+            Username:
+            <input 
+              type="text" 
+              name="username"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Email:
+            <input 
+              type="email" 
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input 
+              type="password" 
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </body>
   );
 }
 
