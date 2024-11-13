@@ -20,6 +20,12 @@
 .cell-image {
     width: 100%;
     height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Color de fondo con transparencia */
+}
+
+.links li {
+    display: inline;
+    margin-right: 10px;
 }
 
 .place-image {

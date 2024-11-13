@@ -35,34 +35,37 @@ function Login() {
 
 
   return (
-    <div className="Login">
-      {msg.length > 0 && <div className="successMsg"> {msg} </div>}
+    <body className='general'>
+      <h3 className='registro'>Iniciar sesión</h3>
+      <div className="Login">
+        {msg.length > 0 && <div className="successMsg"> {msg} </div>}
 
-      {error && <div className="error">Hubo un error con el Login, por favor trata nuevamente.</div>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input 
-            type="email" 
-            name="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password:
-          <input 
-            type="password" 
-            name="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <input type="submit" value="Enviar" />
-      </form>
-    </div>
+        {error && <div className="error">Hubo un error con el Login, por favor trata nuevamente.</div>}
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email:
+            <input 
+              type="email" 
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Password:
+            <input 
+              type="password" 
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+    </body>
   );
 }
 
