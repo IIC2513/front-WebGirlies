@@ -1,11 +1,13 @@
 import './Board.css';
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useContext ,useState, useEffect } from "react";
 import axios from 'axios';
+import { AuthContext } from '../auth/AuthContext';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
 
 export function Board() {
+  const { token } = useContext(AuthContext);
   const [cells, setCells] = useState([]);
   const [places, setPlaces] = useState([]);
   
