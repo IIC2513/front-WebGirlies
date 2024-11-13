@@ -5,13 +5,11 @@ import axios from 'axios';
 export function CharacterSelection() {
   const [characters, setCharacters] = useState([]);
   const [message, setMessage] = useState("");
-  console.log("entre a character selection")
 
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/characters`)
       .then((response) => {
         setCharacters(response.data);
-        console.log("Personajes obtenidos:", response.data);
       })
       .catch((error) => {
         console.log("Error al obtener los personajes:", error);
@@ -19,14 +17,12 @@ export function CharacterSelection() {
   }, []);
 
   const handleCharacterClick = async (characterId) => {
-    console.log(characterId)
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/join`, {
         userId: 2,
         gameId: 1,
         characterId: characterId,
       });
-      console.log("Personaje seleccionado:", response.data);
       setMessage(response.data.message);
     } catch (error) {
       console.log("Error al seleccionar el personaje:", error);
