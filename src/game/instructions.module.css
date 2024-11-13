@@ -5,21 +5,32 @@
 }
 
 
+.headerInstructions {
+    backdrop-filter: blur(4px);
+    text-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.73);
+}
 
 nav ul {
+    position: sticky;
     list-style-type: none;
-    padding: 0;
+    display: flex;
+    justify-content: center; /* Centramos los elementos */
 }
 
 .links li {
-    display: inline;
-    margin-right: 10px;
+    display: inline-flex;
 }
 
 .links a {
     font-family: Muro;
     color: white;
     text-decoration: none;
+    padding: 0px 20px;
+    transition: font-size 0.3s, color 0.2s;
 }
 
 .links a:hover {
@@ -32,11 +43,26 @@ nav ul {
     background-color: #06A196;
     border-radius: 5px;
     padding: 7px;
+    margin: 5px;
+    text-shadow: 1px 1px 4px black;
 }
 
 #login:hover {
-    font-size: larger;
-    color: white;
+    background-color: #93f0e9;
+    text-shadow:none;
+}
+
+#signup {
+    background-color: #61c8c0;
+    border-radius: 5px;
+    padding: 7px;
+    margin: 5px;
+    text-shadow: 1px 1px 4px black;
+}
+
+#signup:hover {
+    background-color: #93f0e9;
+    text-shadow:none;
 }
 
 
@@ -52,12 +78,16 @@ nav ul {
 }
 
 
-.main {
+.mainInstructions {
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 30px;
 }
 
-img {
-    width: 40%;
+.imgtablero {
+    max-width: 40%;
+    height: auto; /* Mantiene las proporciones */
     padding: 7%;
 }
 
@@ -66,6 +96,7 @@ img {
     font-family:Muro;
     font-size: 60px;
     padding-top: 15%;
+    padding-bottom: 5%;
     color: #06A196;
     text-align: center;
     margin: 0 auto;
@@ -73,12 +104,16 @@ img {
 
 .subtitle {
     color: #06A196;
-    padding-left: 5%;
 }
 
 .description {
     color: black;
     text-align: justify;
-    margin-right: 4%;
-    padding-left: 5%;
 }
+
+.description_container {
+    align-items: center;
+    padding: 5%;
+    padding-right: 1%;
+    padding-top: 1%;
+  }
