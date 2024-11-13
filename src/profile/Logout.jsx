@@ -15,7 +15,7 @@ const LogoutButton = () => {
     <>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}
         <button onClick={handleLogout}>
-        Cerrar sesión
+            Log out
         </button>
     </>
   );
