@@ -42,10 +42,12 @@ Comenzamos el diseño utilizando los típicos archivos .css para dar estilo a ca
 
 ## Cómo probar nuestros avances
 
-Básicamente, lo que esta implementado de momento destaca las funcionalidades básicas de un juego. De momento, funciona con un solo tablero y un solo personaje (que pertenece al primero en registrarse), para demostrar dos aspectos; el movimiento con el dado y la asignación aleatoria de cartas a las salas específicas. Para esto, se deben seguir los siguientes pasos, con el front y back corriendo:
+Básicamente, lo que esta implementado de momento destaca las funcionalidades básicas de un juego. De momento, funciona con un solo tablero y un solo personaje (que pertenece al primero en registrarse), para demostrar dos aspectos; el movimiento con el dado y la asignación aleatoria de cartas a las salas específicas. Para esto, se deben seguir los siguientes pasos una vez ya ejecutado el servidor del [Backend](https://github.com/IIC2513/back-WebGirlies#):
 
-1. Se debe registrar y luego iniciar sesión. (Puede ser por la página o por la documentación)
-2. Luego, por medio de la documentación en Postman, se crea un tablero con el ownerId = 1, que corresponde al usuario del punto anterior.
-3. Se debe acceder a la ruta "/character" quedando como: http://localhost:5173/character para poder seleccionar el avatar con el que se quiere jugar
-4. Una vez hecho esto, se debe ir a la sección "Play" donde se verá el tablero con el jugador seleccionado en el medio. Aquí se pueden tirar los dados y, luego de esto, seleccionar la celda a la que uno se quiere mover. Donde, si el número lo permite, la imagen del personaje se trasladará, de lo contrario, se quedará donde está esperando que se seleccione una celda correcta
+
+1. Ejecutar `yarn dev`
+2. Se debe registrar (Puede ser por la página o por la documentación en Postman) y luego iniciar sesión en la página.
+3. Luego, por medio de la documentación en Postman en **Post new game**, se crea un tablero con el ownerId = 1, que corresponde al usuario del punto anterior.
+4. Se debe acceder a la ruta "/character" quedando como: http://localhost:5173/character para poder seleccionar el avatar con el que se quiere jugar
+5. Una vez hecho esto, se debe ir a la sección "Play" donde se verá el tablero con el jugador seleccionado en el medio. Aquí se pueden tirar los dados y, luego de esto, seleccionar la celda a la que uno se quiere mover. Donde, si el número lo permite, la imagen del personaje se trasladará, de lo contrario, se quedará donde está esperando que se seleccione una celda correcta
 
