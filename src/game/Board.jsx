@@ -2,6 +2,8 @@ import './Board.css';
 import React, { createContext, useContext ,useState, useEffect } from "react";
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
+import LogoutButton from '../profile/Logout';
+import tablero from '../assets/images/Tablero__final.png';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -28,34 +30,48 @@ export function Board() {
   }, []);
 
 return (
-  <GameContext.Provider value={{ cells, setCells, places }}>
-    <h1 className="title">Tablero</h1>
-    <div className="board">
-      {cells.map(cell => (
-        <div key={`${cell.x}-${cell.y}`} className="board-cell">
-          <img
-            src={cell.image}
-            alt={`Cell ${cell.x}, ${cell.y}`}
-            className="cell-image"
-          />
-          {places
-            .filter(place => place.doorX === cell.x && place.doorY === cell.y)
-            .map((place, index) => (
+  <div className='BodyBoard'>
+    <header className="headerBoard">
+        <nav>
+        <ul>
+            <div className="links">
+            <li><a href='/'>Start</a></li>
+            <li><a href='/about'>About us</a></li>
+            <li><a href='/instructions'>How to play</a></li>
+            <li><a href='/board'>Play</a></li>
+
+            {/* Mostrar Login y Sign Up solo si no hay token */}
+            {!token ? (
+                <>
+                <li id="login"><a href='/login' >Login</a></li>
+                <li id="signup"><a href='/signup'>Sign up</a></li>
+                </>
+            ) : (
+                // Mostrar Logout si hay un token (usuario logueado)
+                <li><LogoutButton /></li>
+            )}
+            </div>
+        </ul>
+        </nav>
+    </header>
+    <main>
+    <GameContext.Provider value={{ cells, setCells, places }}>
+      <div className="board-container">
+        <img src={tablero} alt="Tablero Marco" className="board-frame" />
+        <div className="board">
+          {cells.map(cell => (
+            <div key={`${cell.x}-${cell.y}`} className="board-cell">
               <img
-                key={index}
-                src={place.image}
-                alt={place.name}
-                className="place-image"
-                style={{
-                  position: "absolute",
-                  left: `${place.doorX}%`, 
-                  top: `${place.doorY}%`,
-                }}
+                src={cell.image}
+                alt={`Cell ${cell.x}, ${cell.y}`}
+                className="cell-image"
               />
+            </div>
           ))}
         </div>
-      ))}
-    </div>
-  </GameContext.Provider>
+      </div>
+    </GameContext.Provider>
+    </main>
+  </div>
   );
 }
