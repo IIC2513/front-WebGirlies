@@ -87,107 +87,119 @@ export function Board() {
       });
   }, []);
 
-return (
-  <div className='BodyBoard'>
-    <header className="headerBoard">
+  return (
+    <div className='BodyBoard'>
+      <header className="headerBoard">
         <nav>
-        <ul>
+          <ul>
             <div className="links">
-            <li><a href='/'>Start</a></li>
-            <li><a href='/about'>About us</a></li>
-            <li><a href='/instructions'>How to play</a></li>
-            <li><a href='/board'>Play</a></li>
-
-            {/* Mostrar Login y Sign Up solo si no hay token */}
-            {!token ? (
+              <li><a href='/'>Start</a></li>
+              <li><a href='/about'>About us</a></li>
+              <li><a href='/instructions'>How to play</a></li>
+              <li><a href='/board'>Play</a></li>
+  
+              {/* Mostrar Login y Sign Up solo si no hay token */}
+              {!token ? (
                 <>
-                <li id="login"><a href='/login' >Login</a></li>
-                <li id="signup"><a href='/signup'>Sign up</a></li>
+                  <li id="login"><a href='/login'>Login</a></li>
+                  <li id="signup"><a href='/signup'>Sign up</a></li>
                 </>
-            ) : (
+              ) : (
                 // Mostrar Logout si hay un token (usuario logueado)
                 <li><LogoutButton /></li>
-            )}
+              )}
             </div>
-        </ul>
+          </ul>
         </nav>
-    </header>
-    <main>
-
-    <GameContext.Provider value={{ cells, setCells, places, character }}>
-      <button onClick={rollDice}>Tirar Dado</button>
+      </header>
   
-      {diceValue !== null && (
-        <div>
-          <h2>Resultado del Dado: {diceValue}</h2>
-        </div>
-      )}
-
-      <div className="board">
-        {cells.map(cell => (
-          <div
-            key={`${cell.x}-${cell.y}`}
-            className="board-cell"
-            onClick={() => handleCellClick(cell)}
-            style={{
-              gridColumn: cell.x + 1,
-              gridRow: cell.y + 1,
-            }}
-          >
-            <img
-              src={cell.image}
-              alt={`Cell ${cell.x}, ${cell.y}`}
-              className="cell-image"
-            />
+      <main>
+        <GameContext.Provider value={{ cells, setCells, places, character }}>
+          <button onClick={rollDice}>Tirar Dado</button>
   
-            {places
-              .filter(place => place.doorX === cell.x && place.doorY === cell.y)
-              .map((place, index) => (
-                <React.Fragment key={index}>
-                  <img
-                    src={place.image}
-                    alt={place.name}
-                    className="place-image"
-                    style={{
-                      position: "absolute",
-                      zIndex: 1,
-                      left: `${place.doorX}%`,
-                      top: `${place.doorY}%`,
-                    }}
-                  />
+          {diceValue !== null && (
+            <div>
+              <h2>Resultado del Dado: {diceValue}</h2>
+            </div>
+          )}
   
-                  {/* Agrega las cartas dentro del lugar */}
-                  {cards
-                    .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
-                    .map((card, cardIndex) => (
+          <div className="board">
+            {cells.map(cell => (
+              <div
+                key={`${cell.x}-${cell.y}`}
+                className="board-cell"
+                onClick={() => handleCellClick(cell)}
+                style={{
+                  gridColumn: cell.x + 1,
+                  gridRow: cell.y + 1,
+                }}
+              >
+                <img
+                  src={cell.image}
+                  alt={`Cell ${cell.x}, ${cell.y}`}
+                  className="cell-image"
+                />
+  
+                {places
+                  .filter(place => place.doorX === cell.x && place.doorY === cell.y)
+                  .map((place, index) => (
+                    <React.Fragment key={index}>
+                      {/* Imagen del lugar */}
                       <img
-                        key={cardIndex}
-                        src={card.cardInside.image}
-                        alt={card.name}
-                        className="card-image"
+                        src={place.image}
+                        alt={place.name}
+                        className="place-image"
                         style={{
                           position: "absolute",
-                          zIndex: 2,  // Ajusta zIndex para que las cartas estén sobre el lugar
+                          zIndex: 1,
+                          left: `${place.doorX}%`,
+                          top: `${place.doorY}%`,
+                          transform: "translate(-50%, -50%)", // Centra el lugar
                         }}
                       />
-                    ))}
-                </React.Fragment>
-              ))}
   
-            {character.positionX === cell.x && character.positionY === cell.y && (
-
-              <img
-                src={cell.image}
-                alt={`Cell ${cell.x}, ${cell.y}`}
-                className="cell-image"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </GameContext.Provider>
-    </main>
-  </div>
+                      {/* Agregar las cartas dentro del lugar */}
+                      {cards
+                        .filter(card => card.placeId === place.placeId) // Asociar la carta con el lugar
+                        .map((card, cardIndex) => (
+                          <img
+                            key={cardIndex}
+                            src={card.cardInside.image}
+                            alt={card.name}
+                            className="card-image"
+                            style={{
+                              position: "absolute",
+                              zIndex: 2,  // Ajuste para que las cartas estén sobre el lugar
+                              left: `${place.doorX + 5}%`,  // Desplazamiento para cartas dentro del lugar
+                              top: `${place.doorY + 5}%`,   // Desplazamiento para cartas dentro del lugar
+                              transform: "translate(-50%, -50%)", // Centra las cartas
+                            }}
+                          />
+                        ))}
+                    </React.Fragment>
+                  ))}
+  
+                {/* Mostrar el personaje si está en la celda */}
+                {character.positionX === cell.x && character.positionY === cell.y && (
+                  <img
+                    src={character.avatar}  // Asumo que el personaje tiene un avatar
+                    alt={character.name}
+                    className="character-avatar"
+                    style={{
+                      position: "absolute",
+                      zIndex: 10,  // Asegura que el personaje esté sobre todo lo demás
+                      left: `${cell.x}%`,
+                      top: `${cell.y}%`,
+                      transform: "translate(-50%, -50%)", // Centra el personaje
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </GameContext.Provider>
+      </main>
+    </div>
   );
 }  
      
