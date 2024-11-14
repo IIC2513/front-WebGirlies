@@ -74,16 +74,16 @@ export function Board() {
       .then((response) => {
         const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
         setCells(sortedCells);
-        console.log(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
+        console.log(response.data["cards"][0].cardInside.image);
+
         setCharacter(response.data["character"]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
   return (
     <GameContext.Provider value={{ cells, setCells, places, character }}>
       <h1 className="title">Tablero</h1>
@@ -101,7 +101,7 @@ export function Board() {
             className="board-cell"
             onClick={() => handleCellClick(cell)}
             style={{
-              gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
+              gridColumn: cell.x + 1,
               gridRow: cell.y + 1,
             }}
           >
@@ -114,21 +114,39 @@ export function Board() {
                 zIndex: 1,
               }}
             />
+  
             {places
               .filter(place => place.doorX === cell.x && place.doorY === cell.y)
               .map((place, index) => (
-                <img
-                  key={index}
-                  src={place.image}
-                  alt={place.name}
-                  className="place-image"
-                  style={{
-                    position: "absolute",
-                    zIndex: 1,
-                    left: `${place.doorX}%`,
-                    top: `${place.doorY}%`,
-                  }}
-                />
+                <React.Fragment key={index}>
+                  <img
+                    src={place.image}
+                    alt={place.name}
+                    className="place-image"
+                    style={{
+                      position: "absolute",
+                      zIndex: 1,
+                      left: `${place.doorX}%`,
+                      top: `${place.doorY}%`,
+                    }}
+                  />
+  
+                  {/* Agrega las cartas dentro del lugar */}
+                  {cards
+                    .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
+                    .map((card, cardIndex) => (
+                      <img
+                        key={cardIndex}
+                        src={card.cardInside.image}
+                        alt={card.name}
+                        className="card-image"
+                        style={{
+                          position: "absolute",
+                          zIndex: 2,  // Ajusta zIndex para que las cartas estén sobre el lugar
+                        }}
+                      />
+                    ))}
+                </React.Fragment>
               ))}
   
             {character.positionX === cell.x && character.positionY === cell.y && (
@@ -149,5 +167,5 @@ export function Board() {
       </div>
     </GameContext.Provider>
   );
-  }
+}  
      
