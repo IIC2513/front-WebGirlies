@@ -23,7 +23,7 @@ export function CharacterSelection() {
   const handleCharacterClick = async (characterId) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/join`, {
-        userId: 2,
+        userId: 1,
         gameId: 1,
         characterId: characterId,
       });
