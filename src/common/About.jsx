@@ -34,7 +34,6 @@ function About() {
             </ul>
             </nav>
         </header>
-        
         <main className='Mainabout'>
             <h1 className="title-about">About us</h1>
             <p className="description">
