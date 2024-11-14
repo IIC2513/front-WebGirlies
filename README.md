@@ -51,3 +51,7 @@ Básicamente, lo que esta implementado de momento destaca las funcionalidades b�
 4. Se debe acceder a la ruta "/character" quedando como: http://localhost:5173/character para poder seleccionar el avatar con el que se quiere jugar
 5. Una vez hecho esto, se debe ir a la sección "Play" donde se verá el tablero con el jugador seleccionado en el medio. Aquí se pueden tirar los dados y, luego de esto, seleccionar la celda a la que uno se quiere mover. Donde, si el número lo permite, la imagen del personaje se trasladará, de lo contrario, se quedará donde está esperando que se seleccione una celda correcta
 
+## Asegúrate de configurar las variables de entorno con la información de la base de datos en un archivo .env:
+```bash
+VITE_BACKEND_URL="http://localhost:3000"
+```
