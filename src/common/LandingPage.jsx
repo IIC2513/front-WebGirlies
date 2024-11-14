@@ -31,11 +31,11 @@ function LandingPage() {
           </ul>
         </nav>
       </header>
-      <div className={styles.landing}>
+      <div className={styles.MainLanding}>
         <h1 className={styles.title}>Murder in the hospital</h1>
         <div className={styles.description}>
           <p>
-            Juego policial que gira en torno a resolver un asesinato. Habrá un impostor/asesino que los jugadores deberán descubrir. Los jugadores tendrán que reunir pistas e intentar resolver el crimen, descubriendo tanto lugar, como asesino y arma, pero el impostor intentará desviar la atención para que no lo descubran.
+          Police game that revolves around solving a murder. There will be an impostor/murderer that players must discover. Players will have to gather clues and try to solve the crime, discovering both the location, the murderer and the weapon, but the impostor will try to divert attention so that he is not discovered.
           </p>
         </div>
       </div>

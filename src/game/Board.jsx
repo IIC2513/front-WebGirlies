@@ -2,6 +2,8 @@ import './Board.css';
 import React, { createContext, useContext ,useState, useEffect } from "react";
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
+import LogoutButton from '../profile/Logout';
+import tablero from '../assets/images/Tablero__final.png';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -84,9 +86,35 @@ export function Board() {
         console.log(error);
       });
   }, []);
-  return (
+
+return (
+  <div className='BodyBoard'>
+    <header className="headerBoard">
+        <nav>
+        <ul>
+            <div className="links">
+            <li><a href='/'>Start</a></li>
+            <li><a href='/about'>About us</a></li>
+            <li><a href='/instructions'>How to play</a></li>
+            <li><a href='/board'>Play</a></li>
+
+            {/* Mostrar Login y Sign Up solo si no hay token */}
+            {!token ? (
+                <>
+                <li id="login"><a href='/login' >Login</a></li>
+                <li id="signup"><a href='/signup'>Sign up</a></li>
+                </>
+            ) : (
+                // Mostrar Logout si hay un token (usuario logueado)
+                <li><LogoutButton /></li>
+            )}
+            </div>
+        </ul>
+        </nav>
+    </header>
+    <main>
+
     <GameContext.Provider value={{ cells, setCells, places, character }}>
-      <h1 className="title">Tablero</h1>
       <button onClick={rollDice}>Tirar Dado</button>
   
       {diceValue !== null && (
@@ -94,6 +122,7 @@ export function Board() {
           <h2>Resultado del Dado: {diceValue}</h2>
         </div>
       )}
+
       <div className="board">
         {cells.map(cell => (
           <div
@@ -109,10 +138,6 @@ export function Board() {
               src={cell.image}
               alt={`Cell ${cell.x}, ${cell.y}`}
               className="cell-image"
-              style={{
-                position: 'absolute',
-                zIndex: 1,
-              }}
             />
   
             {places
@@ -150,22 +175,19 @@ export function Board() {
               ))}
   
             {character.positionX === cell.x && character.positionY === cell.y && (
+
               <img
-                src={character["Character"].avatar}
-                alt={character.name}
-                className="character-avatar"
-                style={{
-                  position: "absolute",
-                  left: `${cell.x}%`,
-                  top: `${cell.y}%`,
-                  zIndex: 10,
-                }}
+                src={cell.image}
+                alt={`Cell ${cell.x}, ${cell.y}`}
+                className="cell-image"
               />
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
     </GameContext.Provider>
+    </main>
+  </div>
   );
 }  
      
