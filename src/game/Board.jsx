@@ -23,7 +23,7 @@ export function Board() {
         targetX,
         targetY,
       });
-      if (response.data.success) {
+      if (response) {
         // Actualizar posición del personaje
         setCharacter(prev => ({
           ...prev,
@@ -72,7 +72,9 @@ export function Board() {
       params: { boardId: 1 }  // Pasando boardId como parámetro
     })
       .then((response) => {
-        setCells(response.data["boards"]["0"].cells);
+        const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
+        setCells(sortedCells);
+        console.log(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacter(response.data["character"]);
@@ -85,23 +87,31 @@ export function Board() {
   return (
     <GameContext.Provider value={{ cells, setCells, places, character }}>
       <h1 className="title">Tablero</h1>
-      <button onClick={rollDice}>Tirar Dado</button>  {/* Botón para tirar el dado */}
-      
+      <button onClick={rollDice}>Tirar Dado</button>
+  
       {diceValue !== null && (
         <div>
-          <h2>Resultado del Dado: {diceValue}</h2>  {/* Muestra el resultado del dado */}
+          <h2>Resultado del Dado: {diceValue}</h2>
         </div>
       )}
       <div className="board">
         {cells.map(cell => (
-          <div key={`${cell.x}-${cell.y}`} className="board-cell" onClick={() => handleCellClick(cell)} style={{ position: 'relative' } }>
+          <div
+            key={`${cell.x}-${cell.y}`}
+            className="board-cell"
+            onClick={() => handleCellClick(cell)}
+            style={{
+              gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
+              gridRow: cell.y + 1,
+            }}
+          >
             <img
               src={cell.image}
               alt={`Cell ${cell.x}, ${cell.y}`}
               className="cell-image"
               style={{
                 position: 'absolute',
-                zIndex: 1, // Asegúrate de que las celdas estén debajo del personaje
+                zIndex: 1,
               }}
             />
             {places
@@ -114,7 +124,7 @@ export function Board() {
                   className="place-image"
                   style={{
                     position: "absolute",
-                    zIndex: 1,  // Asegúrate de que las imágenes de los lugares estén debajo del personaje
+                    zIndex: 1,
                     left: `${place.doorX}%`,
                     top: `${place.doorY}%`,
                   }}
@@ -128,9 +138,9 @@ export function Board() {
                 className="character-avatar"
                 style={{
                   position: "absolute",
-                  left: `${cell.x}%`, // Ajusta la posición según tus necesidades
-                  top: `${cell.y}%`,  // Ajusta la posición según tus necesidades
-                  zIndex: 10,         // Este valor garantiza que el personaje quede encima de todos los demás elementos
+                  left: `${cell.x}%`,
+                  top: `${cell.y}%`,
+                  zIndex: 10,
                 }}
               />
             )}
@@ -139,4 +149,5 @@ export function Board() {
       </div>
     </GameContext.Provider>
   );
-  }  
+  }
+     
