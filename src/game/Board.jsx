@@ -13,6 +13,39 @@ export function Board() {
   const [cards, setCards] = useState([]);
   const [character, setCharacter] = useState([]);
   const [diceValue, setDiceValue] = useState([]); 
+  const [selectedCell, setSelectedCell] = useState([]);
+
+  const moveCharacter = async (targetX, targetY) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/move`, {
+        userId: 1,
+        gameId: 1,
+        targetX,
+        targetY,
+      });
+      if (response.data.success) {
+        // Actualizar posición del personaje
+        setCharacter(prev => ({
+          ...prev,
+          positionX: targetX,
+          positionY: targetY
+        }));
+        setDiceValue(0); // Resetear el valor del dado
+      } else {
+        console.error("Movimiento no permitido:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error al mover el personaje:", error);
+    }
+  };
+  
+  // Evento de clic en la celda
+  const handleCellClick = (cell) => {
+    if (diceValue > 0) { // Solo permitir movimiento si el dado fue tirado
+      setSelectedCell(cell);
+      moveCharacter(cell.x, cell.y);
+    }
+  };
 
   const rollDice = async () => {
     try {
@@ -39,12 +72,10 @@ export function Board() {
       params: { boardId: 1 }  // Pasando boardId como parámetro
     })
       .then((response) => {
-        console.log(response.data["cards"]);
         setCells(response.data["boards"]["0"].cells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacter(response.data["character"]);
-        console.log(character["Character"].avatar);
       })
       .catch((error) => {
         console.log(error);
@@ -63,7 +94,7 @@ export function Board() {
       )}
       <div className="board">
         {cells.map(cell => (
-          <div key={`${cell.x}-${cell.y}`} className="board-cell" style={{ position: 'relative' }}>
+          <div key={`${cell.x}-${cell.y}`} className="board-cell" onClick={() => handleCellClick(cell)} style={{ position: 'relative' } }>
             <img
               src={cell.image}
               alt={`Cell ${cell.x}, ${cell.y}`}
