@@ -38,5 +38,9 @@ Las fonts también las basamos en el mockup de la entrega 0. Usamos 2:
 
 ### Dificultades encontradas
 
-Comenzamos el diseño utilizando los típicos archivos .css para dar estilo a cada página, sin embargo, al pasar de trabajar con archivos .html a .jsx nos encontramos con que las vistas de desarmaban. Luego de investigar nos dimos cuenta de que los archivos .css estaban interfiriendo páginas a las que no estaban asignados.
-para solucionarlo cambiamos de .css a .module.css en los archivos de estilo de las páginas ue se habían visto afectadas.
+Comenzamos el diseño utilizando los típicos archivos .css para dar estilo a cada página. Sin embargo, al pasar de trabajar con archivos .html a .jsx, nos encontramos con que las vistas se desarmaban. Luego de investigar, nos dimos cuenta de que los archivos .css estaban interfiriendo en páginas a las que no estaban asignados, por lo que, para solucionarlo, cambiamos de .css a .module.css en los archivos de estilo de las páginas que se habían visto afectadas.
+
+## Cómo probar nuestros avances
+
+Básicamente, lo que esta implementado de momento destaca las funcionalidades básicas de un juego. De momento, funciona con un solo tablero y un solo personaje (que pertenece al primero en registrarse), para demostrar dos aspectos; el movimiento con el dado y la asignación aleatoria de cartas a las salas específicas. Para esto, se deben seguir los siguientes pasos, con el front y back corriendo:
+
