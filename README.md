@@ -1,6 +1,6 @@
-# MURDER IN THE HOSPITAL
+# MURDER IN THE HOSPITAL 🥼🏥
 
-## Idiomas y Herramientas
+## Lenguajes y Herramientas
 
 ### HTML
 
