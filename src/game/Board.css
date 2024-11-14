@@ -67,8 +67,6 @@ nav ul {
     margin: 0;
     padding-top: 5%;
     padding-bottom: 5%;
-    width: 100vw; /* Asegura que el contenedor tenga el ancho completo de la ventana */
-    height: 100vw;
 }
 
 .board {
@@ -99,18 +97,6 @@ nav ul {
     margin-right: 10px;
 }
 
-.place-image {
-    width: 20px; /* Ajusta el tamaño según sea necesario */
-    height: 20px;
-}
-
-.place-image{
-    position: absolute;
-    transform: translate(50%, -90%);
-    width: 30px;
-    height: 30px;
-}
-
 .board-container {
     display: flex;
     justify-content: center;
@@ -129,10 +115,28 @@ nav ul {
     z-index: 1; /* Marco detrás del tablero */
     pointer-events: none; /* Esto evita que el marco intercepte clics */
   }
-  main {
+  .AllBoard {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5%;
   }
   
+  .MainBoard{
+    margin-top: 3%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .resultado{
+    padding: 5px;
+    margin: 5px;
+  }
+
+  .character-board{
+    max-width: 20px;
+  }
+
+  .card-image{
+    max-width: 30px;
+    border: 5px solid rgb(0, 208, 255);
+  }

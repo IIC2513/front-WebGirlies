@@ -89,7 +89,7 @@ export function Board() {
 return (
   <div className='BodyBoard'>
     <header className="headerBoard">
-        <nav>
+      <nav>
         <ul>
             <div className="links">
             <li><a href='/'>Start</a></li>
@@ -109,53 +109,81 @@ return (
             )}
             </div>
         </ul>
-        </nav>
+      </nav>
     </header>
-    <main>
-    <GameContext.Provider value={{ cells, setCells, places, character }}>
-      <button onClick={rollDice}>Tirar Dado</button>
-  
-      {diceValue !== null && (
-        <div>
-          <h2>Resultado del Dado: {diceValue}</h2>
-        </div>
-      )}
-      <div className="board-container">
-        <img src={tablero} alt="Tablero Marco" className="board-frame" />
-        <div className="board">
-          {cells.map(cell => (
-            <div
-              key={`${cell.x}-${cell.y}`}
-              className="board-cell"
-              onClick={() => handleCellClick(cell)}
-              style={{
-                gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
-                gridRow: cell.y + 1,
-              }}
-            >
-              {character.positionX === cell.x && character.positionY === cell.y && (
-                <img
-                  src={character["Character"].avatar}
-                  alt={character.name}
-                  className="character-avatar"
-                  style={{
-                    position: "absolute",
-                    left: `${cell.x}%`,
-                    top: `${cell.y}%`,
-                    zIndex: 10,
-                  }}
-                />
-              )}
-              <img
-                src={cell.image}
-                alt={`Cell ${cell.x}, ${cell.y}`}
-                className="cell-image"
-              />
+    <main className='MainBoard'>
+      <div>
+        <button onClick={rollDice}>Tirar Dado</button>
+          {diceValue !== null && (
+            <div>
+              <h2 className='resultado'>Resultado del Dado: {diceValue}</h2>
             </div>
-          ))}
-        </div>
+          )}
       </div>
-    </GameContext.Provider>
+      <div className='AllBoard'>
+        <GameContext.Provider value={{ cells, setCells, places, character }}>
+          <div className="board-container">
+            <img src={tablero} alt="Tablero Marco" className="board-frame" />
+            <div className="board">
+              {cells.map(cell => (
+                <div
+                  key={`${cell.x}-${cell.y}`}
+                  className="board-cell"
+                  onClick={() => handleCellClick(cell)}
+                  style={{
+                    gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
+                    gridRow: cell.y + 1,
+                  }}
+                >
+                  {character.positionX === cell.x && character.positionY === cell.y && (
+                    <img
+                      src={character["Character"].avatar}
+                      alt={character.name}
+                      className="character-board"
+                      style={{
+                        position: "absolute",
+                        left: `${cell.x}%`,
+                        bottom: `${cell.y}%`,
+                        zIndex: 10,
+                      }}
+                    />
+                  )}
+                  <img
+                    src={cell.image}
+                    alt={`Cell ${cell.x}, ${cell.y}`}
+                    className="cell-image"
+                  />
+                  {/* Imágenes de los lugares dentro de la celda */}
+                {places
+                  .filter(place => place.doorX === cell.x && place.doorY === cell.y)
+                  .map((place, index) => (
+                    <React.Fragment key={index}>
+                      {/* Agrega las cartas dentro del lugar */}
+                      {cards
+                        .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
+                        .map((card, cardIndex) => (
+                          <img
+                            key={cardIndex}
+                            src={card.cardInside.image}
+                            alt={card.name}
+                            className="card-image"
+                            style={{
+                              position: "absolute",
+                              zIndex: 3,  // Asegura que las cartas estén sobre el lugar
+                              left: "50%",
+                              top: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          />
+                        ))}
+                    </React.Fragment>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </GameContext.Provider>
+      </div>
     </main>
   </div>
   );

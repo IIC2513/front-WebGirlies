@@ -59,6 +59,7 @@ export function CharacterSelection() {
           </ul>
           </nav>
       </header>
+      {message.length > 0 && <div className="message_alet"> {message} </div>}
       <div className="character-grid">
         {characters.map((character, index) => (
           <div key={index} className="character-card"

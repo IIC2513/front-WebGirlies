@@ -13,7 +13,7 @@
   background-size: cover;
   align-items: center;
   margin: 0;
-  padding-top: 10%;
+  padding-top: 7%;
   padding-bottom: 10%;
   width: 100vw; /* Asegura que el contenedor tenga el ancho completo de la ventana */
   height: 100vh;
@@ -65,9 +65,9 @@
     margin: 5px 0;
   }
 
-  .message {
-    margin-top: 20px;
+  .message_alet {
     padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     background-color: #f4f4f4;
     color: #333;
