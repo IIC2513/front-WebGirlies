@@ -12,6 +12,26 @@ export function Board() {
   const [places, setPlaces] = useState([]);
   const [cards, setCards] = useState([]);
   const [character, setCharacter] = useState([]);
+  const [diceValue, setDiceValue] = useState([]); 
+
+  const rollDice = async () => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/dice`, {
+            params: {  // Usa 'params' para incluir los datos en la URL de la solicitud
+              userId: 1,
+              gameId: 1,
+            },
+          });
+        if (response) {
+            setDiceValue(response.data.diceRoll);  // Actualiza el estado con el valor del dado
+             
+        } else {
+            console.error('Error al tirar el dado:', response.data.details);
+        }
+    } catch (error) {
+        console.error('Error en la solicitud:', error.details);
+    }
+  };
   
 
   useEffect(() => {
@@ -34,6 +54,13 @@ export function Board() {
   return (
     <GameContext.Provider value={{ cells, setCells, places, character }}>
       <h1 className="title">Tablero</h1>
+      <button onClick={rollDice}>Tirar Dado</button>  {/* Botón para tirar el dado */}
+      
+      {diceValue !== null && (
+        <div>
+          <h2>Resultado del Dado: {diceValue}</h2>  {/* Muestra el resultado del dado */}
+        </div>
+      )}
       <div className="board">
         {cells.map(cell => (
           <div key={`${cell.x}-${cell.y}`} className="board-cell" style={{ position: 'relative' }}>
