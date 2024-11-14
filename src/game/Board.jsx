@@ -76,9 +76,10 @@ export function Board() {
       .then((response) => {
         const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
         setCells(sortedCells);
-        console.log(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
+        console.log(response.data["cards"][0].cardInside.image);
+
         setCharacter(response.data["character"]);
       })
       .catch((error) => {
@@ -112,6 +113,7 @@ return (
         </nav>
     </header>
     <main>
+
     <GameContext.Provider value={{ cells, setCells, places, character }}>
       <button onClick={rollDice}>Tirar Dado</button>
   
@@ -120,32 +122,60 @@ return (
           <h2>Resultado del Dado: {diceValue}</h2>
         </div>
       )}
-      <div className="board-container">
-        <img src={tablero} alt="Tablero Marco" className="board-frame" />
-        <div className="board">
-          {cells.map(cell => (
-            <div
-              key={`${cell.x}-${cell.y}`}
-              className="board-cell"
-              onClick={() => handleCellClick(cell)}
-              style={{
-                gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
-                gridRow: cell.y + 1,
-              }}
-            >
-              {character.positionX === cell.x && character.positionY === cell.y && (
-                <img
-                  src={character["Character"].avatar}
-                  alt={character.name}
-                  className="character-avatar"
-                  style={{
-                    position: "absolute",
-                    left: `${cell.x}%`,
-                    top: `${cell.y}%`,
-                    zIndex: 10,
-                  }}
-                />
-              )}
+
+      <div className="board">
+        {cells.map(cell => (
+          <div
+            key={`${cell.x}-${cell.y}`}
+            className="board-cell"
+            onClick={() => handleCellClick(cell)}
+            style={{
+              gridColumn: cell.x + 1,
+              gridRow: cell.y + 1,
+            }}
+          >
+            <img
+              src={cell.image}
+              alt={`Cell ${cell.x}, ${cell.y}`}
+              className="cell-image"
+            />
+  
+            {places
+              .filter(place => place.doorX === cell.x && place.doorY === cell.y)
+              .map((place, index) => (
+                <React.Fragment key={index}>
+                  <img
+                    src={place.image}
+                    alt={place.name}
+                    className="place-image"
+                    style={{
+                      position: "absolute",
+                      zIndex: 1,
+                      left: `${place.doorX}%`,
+                      top: `${place.doorY}%`,
+                    }}
+                  />
+  
+                  {/* Agrega las cartas dentro del lugar */}
+                  {cards
+                    .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
+                    .map((card, cardIndex) => (
+                      <img
+                        key={cardIndex}
+                        src={card.cardInside.image}
+                        alt={card.name}
+                        className="card-image"
+                        style={{
+                          position: "absolute",
+                          zIndex: 2,  // Ajusta zIndex para que las cartas estén sobre el lugar
+                        }}
+                      />
+                    ))}
+                </React.Fragment>
+              ))}
+  
+            {character.positionX === cell.x && character.positionY === cell.y && (
+
               <img
                 src={cell.image}
                 alt={`Cell ${cell.x}, ${cell.y}`}
@@ -159,5 +189,5 @@ return (
     </main>
   </div>
   );
-  }
+}  
      
