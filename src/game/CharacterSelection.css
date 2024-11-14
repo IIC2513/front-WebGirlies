@@ -1,0 +1,88 @@
+.headerCharacter {
+  backdrop-filter: blur(4px);
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.841);
+}
+
+.Bodycharacter-selection {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #CAEEEB;
+  background-size: cover;
+  align-items: center;
+  margin: 0;
+  padding-top: 7%;
+  padding-bottom: 10%;
+  width: 100vw; /* Asegura que el contenedor tenga el ancho completo de la ventana */
+  height: 100vh;
+}
+
+.character-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre las tarjetas */
+    justify-content: center; /* Centra las tarjetas horizontalmente */
+    padding-inline: 80px;
+  }
+  
+  .character-card {
+    display: flex;
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff; /* Fondo blanco para cada tarjeta */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de elevación */
+    text-align: center;
+    transition: transform 0.2s; /* Efecto de escala al pasar el cursor */
+  }
+  
+  .character-card:hover {
+    transform: scale(1.03); /* Aumenta la escala en hover */
+  }
+  
+  .character-avatar {
+    width: auto;
+    max-height: 150px;
+    padding: 20px;
+  }
+
+  .character-description{
+    text-align: justify;
+    padding: 10px;
+  }
+  
+  .character-card h2 {
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .character-card p {
+    font-size: 0.9em;
+    color: #555;
+    margin: 5px 0;
+  }
+
+  .message_alet {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .message.success {
+    background-color: #d4edda; /* Verde claro para mensajes exitosos */
+    color: #155724;
+  }
+  
+  .message.error {
+    background-color: #f8d7da; /* Rojo claro para mensajes de error */
+    color: #721c24;
+  }
+  
+  

@@ -1,31 +1,48 @@
-import styles from '../assets/styles/landing.module.css'
+import styles from './Landing.module.css';
+import LogoutButton from '../profile/Logout';
+import { useContext } from 'react';
+import { AuthContext } from '../auth/AuthContext'; 
 
 function LandingPage() {
+  const { token } = useContext(AuthContext);
 
   return (
-  <body className={styles.landing}>
-    <header>
-      <div className={styles.links}></div>
-      <nav>
-        <ul>
-          <div class="links">
-            <li><a href='/'>Inicio</a></li>
-            <li><a href='/about'>Nosotros</a></li>
-            <li><a href='/instructions'>Como Jugar</a></li>
-            <li><a href='/board'>Ir a Jugar</a></li>
-            <li><a href="login.html" id="login">Iniciar Sesión</a></li>
-          </div>
-        </ul>
-      </nav>
-    </header>
-    
-    <h1 className={styles.title}>ASESINATO EN EL HOSPITAL</h1>
-    <p className={styles.description}>El juego es policial y gira en torno a resolver un asesinato. 
-        Habrá un impostor (o asesino) que los jugadores deberán descubrir. Los jugadores 
-        tendrán que reunir pistas e intentar resolver el crimen, descubriendo tanto lugar, 
-        como asesino y arma, pero el impostor intentará desviar la atención para que no lo descubran.</p>
-  </body>
-  )
+    <div>
+      <header className={styles.headerLan}>
+        <nav>
+          <ul>
+            <div className={styles.links}>
+              <li><a href='/'>Start</a></li>
+              <li><a href='/about'>About us</a></li>
+              <li><a href='/instructions'>How to play</a></li>
+              <li><a href='/board'>Play</a></li>
+
+              {/* Mostrar Login y Sign Up solo si no hay token */}
+              {!token ? (
+                <>
+                  <li id={styles.login}><a href='/login' >Login</a></li>
+                  <li id={styles.signup}><a href='/signup'>Sign up</a></li>
+                </>
+              ) : (
+                // Mostrar Logout si hay un token (usuario logueado)
+                <li><LogoutButton /></li>
+              )}
+            </div>
+          </ul>
+        </nav>
+      </header>
+      <div className={styles.MainLanding}>
+        <h1 className={styles.title}>Murder in the hospital</h1>
+        <div className={styles.description}>
+          <p>
+          Police game that revolves around solving a murder. There will be an impostor/murderer that players must discover. Players will have to gather clues and try to solve the crime, discovering both the location, the murderer and the weapon, but the impostor will try to divert attention so that he is not discovered.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default LandingPage
+export default LandingPage;
+
+

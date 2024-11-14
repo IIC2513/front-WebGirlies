@@ -1,0 +1,121 @@
+
+@font-face {
+  font-family: Muro;
+  src: url(../fonts/muro/Muro.otf);
+}
+
+.headerLogin {
+  backdrop-filter: blur(4px);
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.73);
+}
+
+.MainLogin{
+  padding-top: 8%;
+  padding-bottom: 10%;
+  text-align: center;
+}
+
+.general {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #CAEEEB;
+  background-size: cover;
+  margin: 0;
+  align-items: center;
+}
+
+.registro {
+  font-family: Muro;
+  font-size: 60px;
+  color: #06A196;
+  text-align: center; 
+  padding-bottom: 2%;
+  margin: 0 auto;
+}
+
+
+button{
+  font-family: Muro;
+  color: black;
+  background-color: #06A196;
+}
+
+.Login {
+  width: 600px;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  background-color: rgba(6, 161, 150, 0.5);
+  overflow: hidden; /* Para mantener los bordes redondeados en la imagen */
+}
+
+.login-image {
+  width: 100%; /* La imagen ocupa todo el ancho del div */
+  height: auto; /* Mantiene las proporciones */
+  display: block; /* Elimina el espacio extra debajo de la imagen */
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.login-form {
+  padding: 30px; 
+  padding-inline: 15%;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.login-form input[type="submit"] {
+  padding: 10px;
+  padding-inline: 30%;
+  background-color: #06A196;
+  font-family: Muro;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-form input[type="submit"]:hover {
+  background-color: #048678;
+}
+
+
+  .error {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ff4d4d; /* red */
+    border-radius: 5px;
+    color: #ff4d4d; /* red */
+    background-color: #ffe6e6; /* light red */
+    text-align: center;
+  }
+
+  .successMsg {
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #0ea500; /* green */
+    border-radius: 5px;
+    color: #0ea500; /* green */
+    background-color: #e9ffe6; /* light green */
+    text-align: center;
+  }

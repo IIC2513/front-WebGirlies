@@ -4,7 +4,13 @@
     src: url(../fonts/muro/Muro.otf);
 }
 
-.headerAbout {
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #CAEEEB;
+}
+
+.headerLan {
     backdrop-filter: blur(4px);
     text-align: center;
     position: fixed;
@@ -14,6 +20,7 @@
 }
 
 nav ul {
+    padding: 0;
     position: sticky;
     list-style-type: none;
     display: flex;
@@ -64,65 +71,55 @@ nav ul {
     text-shadow:none;
 }
 
-
-.BodyAbout {
+.MainLanding {
+    background: url(../assets/images/background.jpeg) no-repeat center center;
+    background-size: cover; /* Hace que la imagen cubra todo el ancho y alto */
+    background-position: center center; /* Centra la imagen */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #CAEEEB;
-    background-size: cover;
-    align-items: center;
     margin: 0;
-    padding-top: 2%;
-    padding-bottom: 5%;
+    padding: 0;
     width: 100vw; /* Asegura que el contenedor tenga el ancho completo de la ventana */
     height: 100vh;
+    display: flex;
+    flex-direction: column; /* Permite que los elementos se apilen verticalmente */
+    justify-content: space-between; 
 }
 
-.Mainabout{
-    padding-top: 6%;
-    text-align: center;
-}
-
-.title-about {
+.title {
+    padding-top: 100px;
     font-family: Muro;
-    font-size: 60px;
-    color: #06A196;
-    text-align: center; 
-    margin: auto;
+    color: white;
+    font-size: 80px;
+    text-align: center;
+    text-shadow: 5px 5px 5px black;
+
 }
 
 .description {
     text-align: center;
-    color: black;
-    padding: 3%;
-}
+    background: linear-gradient(to top, black, transparent); /* Degradado de negro a transparente */
+    padding: 7%;
+    padding-inline: 15%;
+    color: white;
+    margin-top: auto; /* Hace que la descripción se quede en la parte inferior */
+  }
 
-  .creators-container {
-    display: flex;
-    justify-content: center;
-    gap: 80px;
-    margin-top: 20px;
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 5px 15px;
+    font-size: 1em;
+    font-family: Muro;
+    color: white;
+    font-weight: 500;
+    background-color: #0ba296;
+    cursor: pointer;
+    transition: border-color 0.25s;
   }
-  
-  .creator {
-    text-align: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    max-width: 200px;
+  button:hover {
+    border-color: #98e5db;
   }
-  
-  .creator-photo {
-    width: 100%;
-    max-width: 180px;
-    height: auto;
-    border-radius: 40px;
-    padding: 6px;
-    border: 5px solid white;
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
   }
-  
-  .creator-caption {
-    margin-top: 8px;
-    font-size: 0.9em;
-    color: #555;
-  }
-  
