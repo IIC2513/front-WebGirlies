@@ -4,9 +4,11 @@ import axios from 'axios';
 import './Login.css';
 import pasillo from './../assets/images/pasillo-oscuro-hospital-salida-emergencia-luz-encima.jpg';
 import LogoutButton from '../profile/Logout';
+import { SocketContext } from '../sockets/SocketContext';
 
 function Login() {
   const { token, setToken } = useContext(AuthContext);
+  const {connectSocket} = useContext(SocketContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -27,6 +29,7 @@ function Login() {
         localStorage.setItem('token', access_token);
         setToken(access_token);
         console.log("Se seteo el token: ", token);
+        connectSocket(response.data.user_id); //no se si se llama asi o no, talvez falta un SetUserId(response.user_id) antes
       }).catch((error) => {
         console.error('An error occurred while trying to login:', error);
         setError(true);// aquí puede haber más lógica para tratar los errores
