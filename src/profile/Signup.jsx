@@ -4,6 +4,8 @@ import axios from 'axios';
 import './Login.css'; 
 import room from './../assets/images/habitacion_signup.jpg';
 import LogoutButton from '../profile/Logout';
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../common/Navbar';
 
 function Signup() {
   const { token } = useContext(AuthContext);
@@ -14,6 +16,7 @@ function Signup() {
   const [name, setName] = useState(""); // Campo para name
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +31,12 @@ function Signup() {
       });
       console.log('Registro exitoso! Ahora puedes volver y loguearte');
       setError(false);
-      setMsg('Successful registration! Now you can go back and log in');
+      setMsg('Successful registration! Now you can log in');
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
     } catch (error) {
       console.error('Ocurrió un error:', error);
       setError(true); // aquí puede haber más lógica para tratar los errores
@@ -37,28 +45,7 @@ function Signup() {
 
   return (
     <div className='general'>
-      <header className="headerLogin">
-        <nav>
-          <ul>
-            <div className="links">
-              <li><a href='/'>Start</a></li>
-              <li><a href='/about'>About us</a></li>
-              <li><a href='/instructions'>How to play</a></li>
-              <li><a href='/board'>Play</a></li>
-
-              {/* Mostrar Login y Sign Up solo si no hay token */}
-              {!token ? (
-                <>
-                  <li id="login"><a href='/login' >Login</a></li>
-                  <li id="signup"><a href='/signup'>Sign up</a></li>
-                </>
-              ) : (
-                <li><LogoutButton /></li>
-              )}
-            </div>
-          </ul>
-        </nav>
-      </header>
+      <Navbar />
       <main className='MainLogin'>
         <h3 className='registro'>Sign in</h3>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}

@@ -1,0 +1,29 @@
+@font-face {
+    font-family: Muro;
+    src: url(../fonts/muro/Muro.otf);
+}
+
+body {
+    margin: 0;
+    background-color: #CAEEEB;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 5px 15px;
+    font-size: 1em;
+    font-family: Muro;
+    color: white;
+    font-weight: 500;
+    background-color: #0ba296;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+  button:hover {
+    border-color: #98e5db;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }

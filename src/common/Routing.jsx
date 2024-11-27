@@ -9,7 +9,8 @@ import Login from '../profile/Login'
 import Signup from '../profile/Signup'
 import AdminCheck from '../protected/AdminCheck'
 import UserCheck from '../protected/UserCheck'
-import LogoutButton from '../profile/Logout'
+import Play from '../game/Play';
+
 
 function Routing() {
     return (
@@ -26,6 +27,7 @@ function Routing() {
                 <Route path={"/usercheck"} element={<UserCheck />}/>
                 <Route path={''} element={<LandingPage/>}/>
                 <Route path={'/character'} element={<CharacterSelection/>}/>
+                <Route path={"/play"} element={<Play />} />
             </Routes>
         </BrowserRouter>
         </>

@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext'; 
 import axios from 'axios';
-import LogoutButton from '../profile/Logout';
+import Navbar from '../common/Navbar';
 
 export function CharacterSelection() {
   const { token } = useContext(AuthContext);
   const [characters, setCharacters] = useState([]);
+  const [selectedCharacterId, setSelectedCharacterId] = useState(null); // Estado para el personaje seleccionado
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -20,14 +21,21 @@ export function CharacterSelection() {
       });
   }, []);
 
-  const handleCharacterClick = async (characterId) => {
+  const handleCharacterClick = (characterId) => {
+    setSelectedCharacterId(characterId); // Actualiza el personaje seleccionado
+  };
+
+  const handleConfirmSelection = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/join`, {
-        userId: 1,
-        gameId: 1,
-        characterId: characterId,
-      });
-      setMessage(response.data.message);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/games/join`,
+        {
+          userId: 1,
+          gameId: 1,
+          characterId: selectedCharacterId, // Usa el ID del personaje seleccionado
+        }
+      );
+      setMessage(response.data.message); // Muestra el mensaje de éxito
     } catch (error) {
       console.log("Error al seleccionar el personaje:", error);
       setMessage(error.response.data.message);
@@ -36,37 +44,42 @@ export function CharacterSelection() {
 
   return (
     <div className="Bodycharacter-selection">
-      <header className="headerCharacter">
-          <nav>
-          <ul>
-              <div className="links">
-              <li><a href='/'>Start</a></li>
-              <li><a href='/about'>About us</a></li>
-              <li><a href='/instructions'>How to play</a></li>
-              <li><a href='/board'>Play</a></li>
-
-              {/* Mostrar Login y Sign Up solo si no hay token */}
-              {!token ? (
-                  <>
-                  <li id="login"><a href='/login' >Login</a></li>
-                  <li id="signup"><a href='/signup'>Sign up</a></li>
-                  </>
-              ) : (
-                  // Mostrar Logout si hay un token (usuario logueado)
-                  <li><LogoutButton /></li>
-              )}
-              </div>
-          </ul>
-          </nav>
-      </header>
-      {message.length > 0 && <div className="message_alet"> {message} </div>}
+      <Navbar />
+      <div id ='conteiner-selectbutton'>
+        <button
+          className="confirm-button"
+          onClick={handleConfirmSelection}
+          disabled={!selectedCharacterId} // Deshabilita si no hay selección
+        >
+          Select
+        </button>
+      </div>
+      {message.length > 0 && (
+        <div
+          className={`message ${
+            message.toLowerCase().includes("éxito") || message.toLowerCase().includes("success")
+              ? "success"
+              : "error"
+          }`}
+        >
+          {message}
+        </div>
+      )}
       <div className="character-grid">
-        {characters.map((character, index) => (
-          <div key={index} className="character-card"
-          onClick={() => handleCharacterClick(character.characterId)} // Evento onClick para enviar la solicitud POST
+        {characters.map((character) => (
+          <div
+            key={character.characterId}
+            className={`character-card ${
+              selectedCharacterId === character.characterId ? "selected" : ""
+            }`} // Aplica clase "selected" si está seleccionado
+            onClick={() => handleCharacterClick(character.characterId)}
           >
-            <img src={character.avatar} alt={`${character.name} avatar`} className="character-avatar" />
-            <div className='character-description'>
+            <img
+              src={character.avatar}
+              alt={`${character.name} avatar`}
+              className="character-avatar"
+            />
+            <div className="character-description">
               <h2>{character.name}</h2>
               <p>Edad: {character.age}</p>
               <p>Objeto distintivo: {character.distinctiveItem}</p>
