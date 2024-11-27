@@ -1,0 +1,33 @@
+.BodyPlay{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #CAEEEB;
+    background-size: cover;
+    align-items: center;
+    margin: 0;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    height: 100vh;
+}
+
+.play-main{
+    padding-top: 6%;
+    text-align: center;
+}
+
+  
+  .alert {
+    text-align: center;
+  }
+  
+  .play-actions {
+    text-align: center;
+  }
+  
+  .play-actions button,
+  .alert button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

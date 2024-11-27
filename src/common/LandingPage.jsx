@@ -2,35 +2,14 @@ import styles from './Landing.module.css';
 import LogoutButton from '../profile/Logout';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext'; 
+import Navbar from '../common/Navbar';
 
 function LandingPage() {
   const { token } = useContext(AuthContext);
 
   return (
     <div>
-      <header className={styles.headerLan}>
-        <nav>
-          <ul>
-            <div className={styles.links}>
-              <li><a href='/'>Start</a></li>
-              <li><a href='/about'>About us</a></li>
-              <li><a href='/instructions'>How to play</a></li>
-              <li><a href='/board'>Play</a></li>
-
-              {/* Mostrar Login y Sign Up solo si no hay token */}
-              {!token ? (
-                <>
-                  <li id={styles.login}><a href='/login' >Login</a></li>
-                  <li id={styles.signup}><a href='/signup'>Sign up</a></li>
-                </>
-              ) : (
-                // Mostrar Logout si hay un token (usuario logueado)
-                <li><LogoutButton /></li>
-              )}
-            </div>
-          </ul>
-        </nav>
-      </header>
+      <Navbar />
       <div className={styles.MainLanding}>
         <h1 className={styles.title}>Murder in the hospital</h1>
         <div className={styles.description}>

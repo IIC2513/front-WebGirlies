@@ -1,39 +1,17 @@
-import '../assets/styles/about.css';
-import LogoutButton from '../profile/Logout';
+import './about.css';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';
 import creator1Image from '../assets/images/XavieraJorquera.jpeg';
 import creator2Image from '../assets/images/MatildeGalarce.jpeg';
-import creator3Image from '../assets/images/Asael.png';
+import creator3Image from '../assets/images/Asael.jpeg';
+import Navbar from '../common/Navbar';
 
 function About() {
     const { token } = useContext(AuthContext);
 
     return (
     <div className='BodyAbout'>
-        <header className="headerAbout">
-            <nav>
-            <ul>
-                <div className="links">
-                <li><a href='/'>Start</a></li>
-                <li><a href='/about'>About us</a></li>
-                <li><a href='/instructions'>How to play</a></li>
-                <li><a href='/board'>Play</a></li>
-
-                {/* Mostrar Login y Sign Up solo si no hay token */}
-                {!token ? (
-                    <>
-                    <li id="login"><a href='/login' >Login</a></li>
-                    <li id="signup"><a href='/signup'>Sign up</a></li>
-                    </>
-                ) : (
-                    // Mostrar Logout si hay un token (usuario logueado)
-                    <li><LogoutButton /></li>
-                )}
-                </div>
-            </ul>
-            </nav>
-        </header>
+        <Navbar />
         <main className='Mainabout'>
             <h1 className="title-about">About us</h1>
             <p className="description">
