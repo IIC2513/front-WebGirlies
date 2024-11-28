@@ -7,7 +7,7 @@ import LogoutButton from '../profile/Logout';
 import { SocketContext } from '../sockets/SocketContext';
 
 function Login() {
-  const { token, setToken } = useContext(AuthContext);
+  const { token, setToken , setUserId} = useContext(AuthContext);
   const {connectSocket} = useContext(SocketContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +29,11 @@ function Login() {
         localStorage.setItem('token', access_token);
         setToken(access_token);
         console.log("Se seteo el token: ", token);
-        connectSocket(response.data.user_id); //no se si se llama asi o no, talvez falta un SetUserId(response.user_id) antes
+
+        const user_id = response.data.user_id;
+        setUserId(user_id);
+        connectSocket(user_id); //no se si se llama asi o no, talvez falta un SetUserId(response.user_id) antes
+        console.log("ID:", user_id);
       }).catch((error) => {
         console.error('An error occurred while trying to login:', error);
         setError(true);// aquí puede haber más lógica para tratar los errores
