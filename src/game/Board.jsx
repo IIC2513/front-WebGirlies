@@ -5,6 +5,7 @@ import { AuthContext } from '../auth/AuthContext';
 import tablero from '../assets/images/Tablero__final.png';
 import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
+import DiceRoller from './DiceRoller';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -110,14 +111,15 @@ return (
   <div className='BodyBoard'>
     <Navbar />
     <main className='MainBoard'>
-      <div>
-        <button onClick={rollDice}>Tirar Dado</button>
-          {diceValue !== null && (
-            <div>
-              <h2 className='resultado'>Resultado del Dado: {diceValue}</h2>
-            </div>
-          )}
-      </div>
+      <div className='contenedor-board-dashboard'>
+        <div className='contenedor-dashboard'>
+          <div className='contenedor-dado'>
+            {diceValue !== null && (
+              <DiceRoller diceValue={diceValue} />
+            )}
+            <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+          </div>
+        </div>
       <div className='AllBoard'>
         <GameContext.Provider value={{ cells, setCells, places, characters }}>
           <div className="board-container">
@@ -182,8 +184,8 @@ return (
                 </div>
               ))}
             </div>
-          </div>
-        </GameContext.Provider>
+          </GameContext.Provider>
+        </div>
       </div>
     </main>
   </div>

@@ -6,9 +6,11 @@ import pasillo from './../assets/images/pasillo-oscuro-hospital-salida-emergenci
 import LogoutButton from '../profile/Logout';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
+import { SocketContext } from '../sockets/SocketContext';
 
 function Login() {
-  const { token, setToken } = useContext(AuthContext);
+  const { token, setToken , setUserId} = useContext(AuthContext);
+  const {connectSocket} = useContext(SocketContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -31,6 +33,11 @@ function Login() {
         localStorage.setItem('token', access_token);
         setToken(access_token);
         console.log("Se seteo el token: ", token);
+
+        const user_id = response.data.user_id;
+        setUserId(user_id);
+        connectSocket(user_id); //no se si se llama asi o no, talvez falta un SetUserId(response.user_id) antes
+        console.log("ID:", user_id);
 
         setTimeout(() => {
           navigate('/');
