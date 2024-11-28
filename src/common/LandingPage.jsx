@@ -12,8 +12,6 @@ function LandingPage() {
   const navigate = useNavigate(); // Hook para redirigir
 
 
-
-
   const handleCreateGame = async () => {
     console.log("Token:", token); // Aquí tienes el token
     const payloadBase64 = token.split('.')[1];
@@ -46,7 +44,7 @@ function LandingPage() {
         <h1 className={styles.title}>Murder in the Hospital</h1>
         <div className={styles.description}>
           <div className={styles.buttonContainer}>
-            <Link to="/character" className={styles.button}>
+            <Link to="/allGames" className={styles.button}>
               Join Game
             </Link>
             <button className={styles.button} onClick={handleCreateGame}>

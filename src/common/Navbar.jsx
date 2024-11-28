@@ -16,6 +16,7 @@ const Navbar = () => {
             <li><a href="/instructions">How to play</a></li>
             <li><a href="/play">Play</a></li>
             <li><a href='/myGames'>My Games</a></li>
+            <li><a href="/allGames">All Games</a></li>
             {!token ? (
               <>
                 <li id="login"><a href="/login">Login</a></li>

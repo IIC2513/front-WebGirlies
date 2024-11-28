@@ -14,7 +14,7 @@ export function Board() {
   const [cells, setCells] = useState([]);
   const [places, setPlaces] = useState([]);
   const [cards, setCards] = useState([]);
-  const [character, setCharacter] = useState([]);
+  const [characters, setCharacters] = useState([]);
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
@@ -35,14 +35,18 @@ export function Board() {
         targetX,
         targetY,
       });
-      if (response) {
-        // Actualizar posición del personaje
-        setCharacter(prev => ({
-          ...prev,
-          positionX: targetX,
-          positionY: targetY
-        }));
+      console.log("Respuesta del movimiento:", response.data.data);
+  
+      if (response && response.data) {
+        // Actualiza el personaje con la nueva posición
+        console.log("characters:", characters);
+        setCharacters(prev => prev.map(character =>
+          character.characterId === response.data.characterId
+            ? { ...character, positionX: response.data.data.x, positionY: response.data.data.y }
+            : character
+        ));
         setDiceValue(0); // Resetear el valor del dado
+
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -50,6 +54,7 @@ export function Board() {
       console.error("Error al mover el personaje:", error);
     }
   };
+    
   
   // Evento de clic en la celda
   const handleCellClick = (cell) => {
@@ -81,23 +86,25 @@ export function Board() {
 
   useEffect(() => {
     console.log("Obteniendo datos del tablero...");
-    console.log("gameId:", boardId);
-    console.log("userId:", userId);
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
-      params: { boardId: boardId, userId: userId }  // Pasando boardId como parámetro
+      params: { boardId: boardId, userId: userId }
     })
       .then((response) => {
         const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
         setCells(sortedCells);
-        console.log(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
-        setCharacter(response.data["character"]);
+        setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [boardId, userId]);  // Depende de boardId y userId para recargar cuando cambien
+  
+  useEffect(() => {
+    console.log("Updated characters:", characters);
+  }, [characters]);  // Este useEffect se ejecutará cada vez que 'characters' cambie
+  
 
 return (
   <div className='BodyBoard'>
@@ -112,38 +119,41 @@ return (
           )}
       </div>
       <div className='AllBoard'>
-        <GameContext.Provider value={{ cells, setCells, places, character }}>
+        <GameContext.Provider value={{ cells, setCells, places, characters }}>
           <div className="board-container">
             <img src={tablero} alt="Tablero Marco" className="board-frame" />
             <div className="board">
-              {cells.map(cell => (
-                <div
-                  key={`${cell.x}-${cell.y}`}
-                  className="board-cell"
-                  onClick={() => handleCellClick(cell)}
-                  style={{
-                    gridColumn: cell.x + 1,  // Añade +1 porque las posiciones de grid comienzan en 1
-                    gridRow: cell.y + 1,
-                  }}
-                >
-                  {character.positionX === cell.x && character.positionY === cell.y && (
+            {cells.map(cell => (
+              <div
+                key={`${cell.x}-${cell.y}`}
+                className="board-cell"
+                onClick={() => handleCellClick(cell)}
+                style={{
+                  gridColumn: cell.x + 1, // Añade +1 porque las posiciones de grid comienzan en 1
+                  gridRow: cell.y + 1,
+                }}
+              >
+                {characters
+                  .filter(character => character.positionX === cell.x && character.positionY === cell.y)
+                  .map(character => (
                     <img
-                      src={character["Character"].avatar}
-                      alt={character.name}
-                      className="character-board"
-                      style={{
-                        position: "absolute",
-                        left: `${cell.x}%`,
-                        bottom: `${cell.y}%`,
-                        zIndex: 10,
-                      }}
-                    />
-                  )}
-                  <img
-                    src={cell.image}
-                    alt={`Cell ${cell.x}, ${cell.y}`}
-                    className="cell-image"
-                  />
+                        key={character.characterId}
+                        src={character["Character"].avatar}
+                        alt={character.name}
+                        className="character-board"
+                        style={{
+                          position: "absolute",
+                          left: `${(character.positionX * 100) / cells.length}%`,  // Ajusta en función del número de celdas
+                          bottom: `${(character.positionY * 100) / cells.length}%`,  // Ajusta en función del número de celdas
+                          zIndex: 10,
+                        }}
+                      />
+                  ))}
+                <img
+                  src={cell.image}
+                  alt={`Cell ${cell.x}, ${cell.y}`}
+                  className="cell-image"
+                />
                   {/* Imágenes de los lugares dentro de la celda */}
                 {places
                   .filter(place => place.doorX === cell.x && place.doorY === cell.y)
