@@ -11,18 +11,17 @@ function LandingPage() {
   const { token } = useContext(AuthContext);
   const navigate = useNavigate(); // Hook para redirigir
 
-  console.log("Token:", token); // Aquí tienes el token
-  const payloadBase64 = token.split('.')[1];
-  const payload = JSON.parse(atob(payloadBase64));
-  const userId =  payload.sub || null;
-  console.log("userId:", userId);
-
 
   const handleCreateGame = async () => {
+    console.log("Token:", token); // Aquí tienes el token
+    const payloadBase64 = token.split('.')[1];
+    const payload = JSON.parse(atob(payloadBase64));
+    const userId =  payload.sub || null;
+    console.log("userId:", userId);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/games/create`,
-        { userId: userId }, // Ajusta según los datos necesarios para crear el juego
+        { ownerId: userId }, // Ajusta según los datos necesarios para crear el juego
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +44,7 @@ function LandingPage() {
         <h1 className={styles.title}>Murder in the Hospital</h1>
         <div className={styles.description}>
           <div className={styles.buttonContainer}>
-            <Link to="/character" className={styles.button}>
+            <Link to="/allGames" className={styles.button}>
               Join Game
             </Link>
             <button className={styles.button} onClick={handleCreateGame}>

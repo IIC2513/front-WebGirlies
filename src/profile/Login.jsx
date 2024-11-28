@@ -40,8 +40,8 @@ function Login() {
         console.log("ID:", user_id);
 
         setTimeout(() => {
-          navigate('/play');
-        }, 2000);
+          navigate('/');
+        }, 500);
 
       }).catch((error) => {
         console.error('An error occurred while trying to login:', error);

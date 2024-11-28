@@ -35,7 +35,7 @@ function Signup() {
       
       setTimeout(() => {
         navigate('/login');
-      }, 2000);
+      }, 900);
 
     } catch (error) {
       console.error('Ocurrió un error:', error);

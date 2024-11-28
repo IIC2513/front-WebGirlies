@@ -11,6 +11,7 @@ import AdminCheck from '../protected/AdminCheck'
 import UserCheck from '../protected/UserCheck'
 import Play from '../game/Play';
 import MyGames from './MyGames'
+import AllGames from './AllGames'
 
 
 function Routing() {
@@ -18,7 +19,7 @@ function Routing() {
         <>
         <BrowserRouter>
             <Routes>
-                <Route path={'/board'} element={<Board/>}/>
+                <Route path={'/board/:boardId'} element={<Board/>}/>
                 <Route path={'/about'} element={<About/>}/>
                 <Route path={'/instructions'} element={<Instructions/>}/>
                 <Route path={'/welcome'} element={<UserWelcome/>}/>
@@ -30,6 +31,7 @@ function Routing() {
                 <Route path={'/character'} element={<CharacterSelection/>}/>
                 <Route path={"/play"} element={<Play/>} />
                 <Route path={"/myGames"} element={<MyGames/>} />
+                <Route path={"/allGames"} element={<AllGames/>} />
             </Routes>
         </BrowserRouter>
         </>
