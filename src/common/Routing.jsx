@@ -18,7 +18,7 @@ function Routing() {
         <>
         <BrowserRouter>
             <Routes>
-                <Route path={'/board'} element={<Board/>}/>
+                <Route path={'/board/:boardId'} element={<Board/>}/>
                 <Route path={'/about'} element={<About/>}/>
                 <Route path={'/instructions'} element={<Instructions/>}/>
                 <Route path={'/welcome'} element={<UserWelcome/>}/>

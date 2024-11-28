@@ -5,12 +5,14 @@ import { AuthContext } from '../auth/AuthContext';
 import axios from 'axios';
 import Navbar from '../common/Navbar';
 import { useParams, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function CharacterSelection() {
   const { token } = useContext(AuthContext);
   const [characters, setCharacters] = useState([]);
   const [selectedCharacterId, setSelectedCharacterId] = useState(null);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // Hook para redirigir
 
   // Obtener la ubicación actual de la URL
   const location = useLocation();
@@ -61,6 +63,11 @@ export function CharacterSelection() {
         }
       );
       setMessage(response.data.message);
+
+      setTimeout(() => {
+        navigate(`/myGames`);
+      }, 500);
+
     } catch (error) {
       console.log("Error al seleccionar el personaje:", error);
       setMessage(error.response?.data?.message || "Error desconocido");

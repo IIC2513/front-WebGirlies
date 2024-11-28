@@ -11,18 +11,19 @@ function LandingPage() {
   const { token } = useContext(AuthContext);
   const navigate = useNavigate(); // Hook para redirigir
 
-  console.log("Token:", token); // Aquí tienes el token
-  const payloadBase64 = token.split('.')[1];
-  const payload = JSON.parse(atob(payloadBase64));
-  const userId =  payload.sub || null;
-  console.log("userId:", userId);
+
 
 
   const handleCreateGame = async () => {
+    console.log("Token:", token); // Aquí tienes el token
+    const payloadBase64 = token.split('.')[1];
+    const payload = JSON.parse(atob(payloadBase64));
+    const userId =  payload.sub || null;
+    console.log("userId:", userId);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/games/create`,
-        { userId: userId }, // Ajusta según los datos necesarios para crear el juego
+        { ownerId: userId }, // Ajusta según los datos necesarios para crear el juego
         {
           headers: {
             Authorization: `Bearer ${token}`,

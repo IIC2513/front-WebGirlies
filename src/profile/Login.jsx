@@ -33,8 +33,8 @@ function Login() {
         console.log("Se seteo el token: ", token);
 
         setTimeout(() => {
-          navigate('/play');
-        }, 2000);
+          navigate('/');
+        }, 500);
 
       }).catch((error) => {
         console.error('An error occurred while trying to login:', error);

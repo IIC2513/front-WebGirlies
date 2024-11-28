@@ -22,11 +22,9 @@ export function MyGames() {
     const fetchMyGames = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        console.log(import.meta.env.VITE_BACKEND_URL);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`);
+        console.log(response)
         console.log("Juegos:", response.data);
         setGames(response.data.games);
       } catch (err) {
@@ -62,9 +60,14 @@ export function MyGames() {
                 <p>Tablero ID: {game.boardId}</p>
                 <p>Solución ID: {game.solutionId}</p>
                 <button
-                  onClick={() => navigate(`/game/${game.gameId}`)}  // Redirigir a una página de detalles del juego
+                  onClick={() => navigate(`/game/${game.gameId}`)} // Redirige a detalles del juego
                 >
                   Ver detalles
+                </button>
+                <button
+                  onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
+                >
+                  Ver Tablero
                 </button>
               </div>
             </li>

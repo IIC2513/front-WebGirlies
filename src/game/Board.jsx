@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import tablero from '../assets/images/Tablero__final.png';
 import Navbar from '../common/Navbar';
+import { useParams } from 'react-router-dom';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -16,12 +17,21 @@ export function Board() {
   const [character, setCharacter] = useState([]);
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
+  const {boardId} = useParams();
+
+  console.log("gameId:", boardId);
+  
+
+  const payloadBase64 = token.split('.')[1];
+  const payload = JSON.parse(atob(payloadBase64));
+  const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
+  console.log("userId:", userId);  
 
   const moveCharacter = async (targetX, targetY) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/move`, {
-        userId: 1,
-        gameId: 1,
+        userId: userId,
+        gameId: boardId,
         targetX,
         targetY,
       });
@@ -53,8 +63,8 @@ export function Board() {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/dice`, {
             params: {  // Usa 'params' para incluir los datos en la URL de la solicitud
-              userId: 1,
-              gameId: 1,
+              userId: userId,
+              gameId: boardId,
             },
           });
         if (response) {
@@ -70,8 +80,11 @@ export function Board() {
   
 
   useEffect(() => {
+    console.log("Obteniendo datos del tablero...");
+    console.log("gameId:", boardId);
+    console.log("userId:", userId);
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
-      params: { boardId: 1 }  // Pasando boardId como parámetro
+      params: { boardId: boardId, userId: userId }  // Pasando boardId como parámetro
     })
       .then((response) => {
         const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
