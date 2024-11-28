@@ -120,3 +120,49 @@
     max-width: 30px;
     border: 5px solid rgb(0, 208, 255);
   }
+
+
+  .character-turn-order-horizontal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 0;
+    background-color: #f4f4f4;
+    border-bottom: 2px solid #ccc;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  
+  .character-item-horizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .character-avatar-horizontal {
+    width: 60px;
+    height: 150px;
+    margin-bottom: 5px;
+    border: 2px solid #000;
+    transition: filter 0.3s ease; /* Transición suave */
+  }
+  
+  .character-item-horizontal.inactive .character-avatar-horizontal {
+    filter: grayscale(100%); /* Aplica blanco y negro */
+    opacity: 0.5; /* Opcional: hace más tenue la imagen */
+  }
+  
+  .character-item-horizontal p {
+    font-size: 12px;
+    text-align: center;
+    margin: 0;
+    color: #333; /* Texto en gris oscuro */
+  }
+  
+  .character-item-horizontal.inactive p {
+    color: #aaa; /* Texto más claro para personajes inactivos */
+  }
+  
+  
