@@ -19,12 +19,35 @@ export function Board() {
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
-  
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState('');
+  const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
 
+  const handlePopup = () => {
+    console.log('Popup toggled');
+    setShowPopup(!showPopup); // Alternar visibilidad del popup
+    setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
+  };
+  
+
+  const handleNoteChange = (event) => {
+    setNote(event.target.value); // Actualiza el contenido de la nota
+  };
+  
+  const saveNote = async () => {
+    try {
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
+        notes: note, // Envía la nueva nota al backend
+      });
+      console.log('Nota guardada:', response.data);
+      setShowPopup(false); // Cierra el popup después de guardar
+    } catch (error) {
+      console.error('Error al guardar la nota:', error);
+    }
+  };  
 
   const changeTurn = () => {
     setCharacters(prev =>
@@ -35,6 +58,15 @@ export function Board() {
     );
   };
   
+  const fetchNote = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
+      console.log('Nota obtenida:', response.data);
+      setNote(response.data); // Actualiza el estado con la nota obtenida
+    } catch (error) {
+      console.error('Error al obtener la nota:', error);
+    }
+  };
 
   const moveCharacter = async (targetX, targetY) => {
     try {
@@ -113,6 +145,13 @@ export function Board() {
   useEffect(() => {
     console.log("Updated characters:", characters);
   }, [characters]);  // Este useEffect se ejecutará cada vez que 'characters' cambie
+
+  useEffect(() => {
+    // Llama a la función para obtener las notas al cargar la página
+    fetchNote();
+    console.log("Obteniendo notas...");
+    console.log("notes:", note);
+  }, [boardId, userId]);
   
 
 return (
@@ -138,13 +177,36 @@ return (
           ))}
       </div>
 
-    <div className='contenedor-board-dashboard'>
-      <div className='contenedor-dashboard'>
-        <div className='contenedor-dado'>
-          {diceValue !== null && <DiceRoller diceValue={diceValue} />}
-          <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
-        </div>
-      </div>
+      <div className='contenedor-board-dashboard'>
+        <div className='contenedor-dashboard'>
+          <div className='contenedor-dado'>
+            {diceValue !== null && <DiceRoller diceValue={diceValue} />}
+            <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+
+            {/* Botón para mostrar/ocultar el popup */}
+            <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
+  Notas
+</button>
+
+
+            {/* Popup que se muestra al lado del dado */}
+            {showPopup && (
+                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <div className="popup-content">
+                    <button className="close-button" onClick={handlePopup}>X</button>
+                    <textarea
+                      value={note}
+                      onChange={handleNoteChange}
+                      placeholder="Escribe tus notas aquí..."
+                      rows={5}
+                      style={{ width: '100%' }}
+                    />
+                    <button onClick={saveNote}>Guardar Nota</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
       <div className='AllBoard'>
         <GameContext.Provider value={{ cells, setCells, places, characters }}>
