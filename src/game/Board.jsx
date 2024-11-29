@@ -21,10 +21,12 @@ export function Board() {
   const {boardId} = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
+  const [myCharacter, setMyCharacter] = useState(null);
   const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
+  console.log("userId:", userId);
 
   const handlePopup = () => {
     console.log('Popup toggled');
@@ -62,7 +64,7 @@ export function Board() {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
       console.log('Nota obtenida:', response.data);
-      setNote(response.data); // Actualiza el estado con la nota obtenida
+      setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
     }
@@ -82,6 +84,7 @@ export function Board() {
       if (response && response.data) {
         // Actualiza el personaje con la nueva posición
         console.log("characters:", characters);
+
         setCharacters(prev => prev.map(character =>
           character.characterId === response.data.characterId
             ? { ...character, positionX: response.data.data.x, positionY: response.data.data.y }
@@ -136,6 +139,7 @@ export function Board() {
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
+        console.log("CHARACTERS",characters)
       })
       .catch((error) => {
         console.log(error);
@@ -172,7 +176,10 @@ return (
                 alt={character.name}
                 className="character-avatar-horizontal"
               />
-              <p>{character.name}</p>
+              <p>{character.role}</p>
+              <p>{character.Character.name}</p>
+              <p>{character.User.username}</p>
+
             </div>
           ))}
       </div>
