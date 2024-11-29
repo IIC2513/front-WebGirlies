@@ -19,14 +19,54 @@ export function Board() {
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
-
-  console.log("gameId:", boardId);
-  
-
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState('');
+  const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
-  console.log("userId:", userId);  
+
+  const handlePopup = () => {
+    console.log('Popup toggled');
+    setShowPopup(!showPopup); // Alternar visibilidad del popup
+    setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
+  };
+  
+
+  const handleNoteChange = (event) => {
+    setNote(event.target.value); // Actualiza el contenido de la nota
+  };
+  
+  const saveNote = async () => {
+    try {
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
+        notes: note, // Envía la nueva nota al backend
+      });
+      console.log('Nota guardada:', response.data);
+      setShowPopup(false); // Cierra el popup después de guardar
+    } catch (error) {
+      console.error('Error al guardar la nota:', error);
+    }
+  };  
+
+  const changeTurn = () => {
+    setCharacters(prev =>
+      prev.map((character, index) => ({
+        ...character,
+        turn: index === (prev.findIndex(c => c.turn) + 1) % prev.length, // Asignar el turno al siguiente personaje
+      }))
+    );
+  };
+  
+  const fetchNote = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
+      console.log('Nota obtenida:', response.data);
+      setNote(response.data); // Actualiza el estado con la nota obtenida
+    } catch (error) {
+      console.error('Error al obtener la nota:', error);
+    }
+  };
 
   const moveCharacter = async (targetX, targetY) => {
     try {
@@ -36,6 +76,7 @@ export function Board() {
         targetX,
         targetY,
       });
+
       console.log("Respuesta del movimiento:", response.data.data);
   
       if (response && response.data) {
@@ -47,7 +88,7 @@ export function Board() {
             : character
         ));
         setDiceValue(0); // Resetear el valor del dado
-
+        changeTurn(); // Cambiar el turno
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -56,7 +97,6 @@ export function Board() {
     }
   };
     
-  
   // Evento de clic en la celda
   const handleCellClick = (cell) => {
     if (diceValue > 0) { // Solo permitir movimiento si el dado fue tirado
@@ -105,33 +145,81 @@ export function Board() {
   useEffect(() => {
     console.log("Updated characters:", characters);
   }, [characters]);  // Este useEffect se ejecutará cada vez que 'characters' cambie
+
+  useEffect(() => {
+    // Llama a la función para obtener las notas al cargar la página
+    fetchNote();
+    console.log("Obteniendo notas...");
+    console.log("notes:", note);
+  }, [boardId, userId]);
   
 
 return (
   <div className='BodyBoard'>
-    <Navbar />
-    <main className='MainBoard'>
+  <Navbar />
+  <main className='MainBoard'>
+    {/* Contenedor horizontal para los personajes */}
+    <div className="character-turn-order-horizontal">
+        {characters
+          .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
+          .map(character => (
+            <div
+              key={character.characterId}
+              className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
+            >
+              <img
+                src={character["Character"].avatar}
+                alt={character.name}
+                className="character-avatar-horizontal"
+              />
+              <p>{character.name}</p>
+            </div>
+          ))}
+      </div>
+
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
           <div className='contenedor-dado'>
-            {diceValue !== null && (
-              <DiceRoller diceValue={diceValue} />
-            )}
+            {diceValue !== null && <DiceRoller diceValue={diceValue} />}
             <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+
+            {/* Botón para mostrar/ocultar el popup */}
+            <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
+  Notas
+</button>
+
+
+            {/* Popup que se muestra al lado del dado */}
+            {showPopup && (
+                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <div className="popup-content">
+                    <button className="close-button" onClick={handlePopup}>X</button>
+                    <textarea
+                      value={note}
+                      onChange={handleNoteChange}
+                      placeholder="Escribe tus notas aquí..."
+                      rows={5}
+                      style={{ width: '100%' }}
+                    />
+                    <button onClick={saveNote}>Guardar Nota</button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className='AllBoard'>
-          <GameContext.Provider value={{ cells, setCells, places, characters }}>
-            <div className="board-container">
-              <img src={tablero} alt="Tablero Marco" className="board-frame" />
-              <div className="board">
+
+      <div className='AllBoard'>
+        <GameContext.Provider value={{ cells, setCells, places, characters }}>
+          <div className="board-container">
+            <img src={tablero} alt="Tablero Marco" className="board-frame" />
+            <div className="board">
               {cells.map(cell => (
                 <div
                   key={`${cell.x}-${cell.y}`}
                   className="board-cell"
                   onClick={() => handleCellClick(cell)}
                   style={{
-                    gridColumn: cell.x + 1, // Añade +1 porque las posiciones de grid comienzan en 1
+                    gridColumn: cell.x + 1,
                     gridRow: cell.y + 1,
                   }}
                 >
@@ -139,57 +227,58 @@ return (
                     .filter(character => character.positionX === cell.x && character.positionY === cell.y)
                     .map(character => (
                       <img
-                          key={character.characterId}
-                          src={character["Character"].avatar}
-                          alt={character.name}
-                          className="character-board"
-                          style={{
-                            position: "absolute",
-                            left: `${(character.positionX * 100) / cells.length}%`,  // Ajusta en función del número de celdas
-                            bottom: `${(character.positionY * 100) / cells.length}%`,  // Ajusta en función del número de celdas
-                            zIndex: 10,
-                          }}
-                        />
+                        key={character.characterId}
+                        src={character["Character"].avatar}
+                        alt={character.name}
+                        className="character-board"
+                        style={{
+                          position: "absolute",
+                          left: `${(character.positionX * 100) / cells.length}%`,
+                          bottom: `${(character.positionY * 100) / cells.length}%`,
+                          zIndex: 10,
+                        }}
+                      />
                     ))}
                   <img
                     src={cell.image}
                     alt={`Cell ${cell.x}, ${cell.y}`}
                     className="cell-image"
                   />
-                    {/* Imágenes de los lugares dentro de la celda */}
-                  {places
-                    .filter(place => place.doorX === cell.x && place.doorY === cell.y)
-                    .map((place, index) => (
-                      <React.Fragment key={index}>
-                        {/* Agrega las cartas dentro del lugar */}
-                        {cards
-                          .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
-                          .map((card, cardIndex) => (
-                            <img
-                              key={cardIndex}
-                              src={card.cardInside.image}
-                              alt={card.name}
-                              className="card-image"
-                              style={{
-                                position: "absolute",
-                                zIndex: 3,  // Asegura que las cartas estén sobre el lugar
-                                left: "50%",
-                                top: "50%",
-                                transform: "translate(-50%, -50%)",
-                              }}
-                            />
-                          ))}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                ))}
-              </div>
+                {places
+                  .filter(place => place.doorX === cell.x && place.doorY === cell.y)
+                  .map((place, index) => (
+                    <React.Fragment key={index}>
+                      {/* Agrega las cartas dentro del lugar */}
+                      {cards
+                        .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
+                        .map((card, cardIndex) => (
+                          <img
+                            key={cardIndex}
+                            src={card.cardInside.image}
+                            alt={card.name}
+                            className="card-image"
+                            style={{
+                              position: "absolute",
+                              zIndex: 3,  // Asegura que las cartas estén sobre el lugar
+                              left: "50%",
+                              top: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          />
+                        ))}
+                    </React.Fragment>
+                  ))}
+                </div>
+              ))}
             </div>
-          </GameContext.Provider>
-        </div>
+          </div>
+        </GameContext.Provider>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
+</div>
+
+
   );
   }
      

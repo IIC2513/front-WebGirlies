@@ -61,15 +61,24 @@ export function MyGames() {
                 <p>Tablero ID: {game.boardId}</p>
                 <p>Solución ID: {game.solutionId}</p>
                 <button
-                  onClick={() => navigate(`/game/${game.gameId}`)} // Redirige a detalles del juego
-                >
-                  Ver detalles
-                </button>
-                <button
                   onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
                 >
                   Ver Tablero
                 </button>
+                <button onClick={() => axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/start`, {
+                        gameId: game.gameId,
+                        userId: userId,
+                      })
+                      .then(response => {
+                        console.log("Juego iniciado:", response.data);
+                      })
+                      .catch(error => {
+                        console.error("Error al iniciar el juego:", error);
+                      })
+                    }
+                  >
+                    Iniciar Juego
+                  </button>
               </div>
             </li>
           ))}
