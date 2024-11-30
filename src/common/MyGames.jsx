@@ -26,9 +26,9 @@ export function MyGames() {
         setLoading(true);
         console.log(import.meta.env.VITE_BACKEND_URL);
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`);
-        console.log(response)
-        console.log("Games:", response.data);
+        console.log(response.data.games)
         setGames(response.data.games);
+        console.log("Juegos:", games);
       } catch (err) {
         setError(response.message);
       } finally {
