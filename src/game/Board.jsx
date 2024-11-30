@@ -22,6 +22,7 @@ export function Board() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [myCharacter, setMyCharacter] = useState(null);
+  const [isInAPlace, setIsInAPlace] = useState(false);
   const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
@@ -33,6 +34,8 @@ export function Board() {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
   };
+
+  
   
 
   const handleNoteChange = (event) => {
@@ -70,6 +73,7 @@ export function Board() {
     }
   };
 
+  
   const moveCharacter = async (targetX, targetY) => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/move`, {
@@ -79,7 +83,9 @@ export function Board() {
         targetY,
       });
 
-      console.log("Respuesta del movimiento:", response.data.data);
+      console.log("Respuesta del movimiento:", response);
+      console.log("Personajes:", characters);
+      console.log("esta en la pieza:", response.data.atAPlace);
   
       if (response && response.data) {
         // Actualiza el personaje con la nueva posición
@@ -92,6 +98,7 @@ export function Board() {
         ));
         setDiceValue(0); // Resetear el valor del dado
         changeTurn(); // Cambiar el turno
+        setIsInAPlace(response.data.atAPlace);
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -139,7 +146,15 @@ export function Board() {
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
-        console.log("CHARACTERS",characters)
+        console.log("CHARACTERS", response.data["character"][0].User.userId);
+        console.log("CHARACTERS", typeof response.data["character"][0].User.userId);
+        console.log(typeof userId);
+        const numericUserId = Number(userId); // Realiza esta conversión al inicio
+        const me = response.data["character"].find(
+          character => character.User.userId === numericUserId
+        );
+        setMyCharacter(me);
+        console.log("Mi personaje:", myCharacter.role);
       })
       .catch((error) => {
         console.log(error);
@@ -176,7 +191,6 @@ return (
                 alt={character.name}
                 className="character-avatar-horizontal"
               />
-              <p>{character.role}</p>
               <p>{character.Character.name}</p>
               <p>{character.User.username}</p>
 
@@ -187,14 +201,14 @@ return (
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
           <div className='contenedor-dado'>
+            <h2>{myCharacter.role}</h2>
             {diceValue !== null && <DiceRoller diceValue={diceValue} />}
             <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
 
             {/* Botón para mostrar/ocultar el popup */}
             <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
-  Notas
-</button>
-
+              Notas
+            </button>
 
             {/* Popup que se muestra al lado del dado */}
             {showPopup && (
