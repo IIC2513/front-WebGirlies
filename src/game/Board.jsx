@@ -22,7 +22,10 @@ export function Board() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [myCharacter, setMyCharacter] = useState(null);
+  const [myRole, setMyRole] = useState('');
+  const [myCards, setMyCards] = useState([]);
   const [isInAPlace, setIsInAPlace] = useState(false);
+  const [abilities, setAbilities] = useState([]);
   const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
@@ -34,7 +37,6 @@ export function Board() {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
   };
-
 
   const handleNoteChange = (event) => {
     setNote(event.target.value); // Actualiza el contenido de la nota
@@ -88,6 +90,7 @@ export function Board() {
       if (response && response.data) {
         // Actualiza el personaje con la nueva posición
         console.log("characters:", characters);
+        
 
         setCharacters(prev => prev.map(character =>
           character.characterId === response.data.characterId
@@ -140,19 +143,21 @@ export function Board() {
     })
       .then((response) => {
         const sortedCells = response.data["boards"]["0"].cells.sort((a, b) => a.id - b.id);
+        const numericUserId = Number(userId); // Realiza esta conversión al inicio
+        const myCharacters = response.data.character.find(
+          character => character.User.userId === numericUserId
+        );
+        console.log("INFO RECIBIDA",response.data)
+        setMyCharacter(myCharacters);
+        setMyRole(myCharacters.role);
+        console.log("Mi personaje:", myCharacters);
         setCells(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
-        console.log("CHARACTERS", response.data["character"][0].User.userId);
-        console.log("CHARACTERS", typeof response.data["character"][0].User.userId);
-        console.log(typeof userId);
-        const numericUserId = Number(userId); // Realiza esta conversión al inicio
-        const me = response.data["character"].find(
-          character => character.User.userId === numericUserId
-        );
-        setMyCharacter(me);
-        console.log("Mi personaje:", myCharacter.role);
+        setAbilities(response.data.abilities);
+        setMyCards(response.data["MyCards"]);
+        console.log("Mis cartas:", response.data["MyCards"]);
       })
       .catch((error) => {
         console.log(error);
@@ -198,11 +203,10 @@ return (
 
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
+          <h2>Role: {myRole}</h2>
           <div className='contenedor-dado'>
-            <h2>{myCharacter.role}</h2>
             {diceValue !== null && <DiceRoller diceValue={diceValue} />}
             <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
-
             {/* Botón para mostrar/ocultar el popup */}
             <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
               Notas
@@ -224,7 +228,22 @@ return (
                   </div>
                 </div>
               )}
+              <div>
+                <button>
+                  Acusse
+                </button>
+              </div>
             </div>
+            <div>
+                <h2>Mis cartas</h2>
+                <ul>
+                  {myCards.map(card => (
+                    <li key={card.id}>
+                      <p>{card["Card"].description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
           </div>
 
       <div className='AllBoard'>
