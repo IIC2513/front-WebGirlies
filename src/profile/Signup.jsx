@@ -29,7 +29,7 @@ function Signup() {
         avatar,
         name
       });
-      console.log('Registro exitoso! Ahora puedes volver y loguearte');
+      console.log('Successful registration! Now you can log in');
       setError(false);
       setMsg('Successful registration! Now you can log in');
       
@@ -38,7 +38,7 @@ function Signup() {
       }, 900);
 
     } catch (error) {
-      console.error('Ocurrió un error:', error);
+      console.error('Error:', error);
       setError(true); // aquí puede haber más lógica para tratar los errores
     }
   }
@@ -49,7 +49,7 @@ function Signup() {
       <main className='MainLogin'>
         <h3 className='registro'>Sign in</h3>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}
-        {error && <div className="error">There was an error with the Registry, please try again.</div>}
+        {error && <div className="error">There was an error with the registry, please try again.</div>}
         <div className="Login">
           <img src={room} alt="Room" className="login-image" />
           <form onSubmit={handleSubmit} className="login-form">
