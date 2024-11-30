@@ -6,6 +6,7 @@ import tablero from '../assets/images/Tablero__final.png';
 import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
+import Dashboard from "./Dashboard";
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -193,7 +194,6 @@ return (
                 />
                 <p>{character.Character.name}</p>
                 <p id="username-board">{character.User.username}</p>
-
               </div>
             ))}
         </div>

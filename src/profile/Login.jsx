@@ -36,7 +36,7 @@ function Login() {
 
         const user_id = response.data.user_id;
         setUserId(user_id);
-        connectSocket(user_id); //no se si se llama asi o no, talvez falta un SetUserId(response.user_id) antes
+        connectSocket(user_id); 
         console.log("ID:", user_id);
 
         setTimeout(() => {

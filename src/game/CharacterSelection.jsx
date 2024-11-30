@@ -39,7 +39,7 @@ export function CharacterSelection() {
         setCharacters(response.data);
       })
       .catch((error) => {
-        console.log("Error al obtener los personajes:", error);
+        console.log("Error fetching characters:", error);
       });
   }, [token]);
 
@@ -75,8 +75,8 @@ export function CharacterSelection() {
       setMessage(response.data.message);
 
     } catch (error) {
-      console.log("Error al seleccionar el personaje:", error);
-      setMessage(error.response?.data?.message || "Error desconocido");
+      console.log("Error selecting character:", error);
+      setMessage(error.response?.data?.message || "Unknown error");
     }
   };
 
