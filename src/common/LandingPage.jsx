@@ -25,7 +25,6 @@ function LandingPage() {
       handleShowModal(); // Mostrar popup de login si no está autenticado
       return;
     }
-
     console.log("Token:", token);
     const payloadBase64 = token.split('.')[1];
     const payload = JSON.parse(atob(payloadBase64));
@@ -42,7 +41,9 @@ function LandingPage() {
         }
       );
       console.log("Juego creado:", response.data);
-      const gameId = response.data.gameId; 
+
+      const gameId = response.data.boardId; 
+
       navigate(`/character?gameId=${gameId}`); // Redirige con el gameId como parámetro
     } catch (error) {
       console.log("Error al crear el juego:", error);
