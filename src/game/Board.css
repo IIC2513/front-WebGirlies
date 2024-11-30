@@ -12,7 +12,7 @@
   display: flex;
   align-items:start;
   justify-content:space-around; 
-  padding: 1%;
+  padding: 2%;
 }
 
 .contenedor-dado {
@@ -24,7 +24,7 @@
 }
 
 .contenedor-dashboard {
-  min-width: 35%;
+  max-width: 35%;
   padding: 20px;
   background-color: #f4f4f484;
   border-radius: 10px; 
@@ -124,15 +124,11 @@
 
   .character-turn-order-horizontal {
     display: flex;
+    width: 100%;
     justify-content: center;
-    align-items: center;
-    gap: 20px;
+    align-items: top;
+    gap: 8px;
     padding: 10px 0;
-    background-color: #f4f4f4;
-    border-bottom: 2px solid #ccc;
-    position: sticky;
-    top: 0;
-    z-index: 100;
   }
   
   .character-item-horizontal {
@@ -142,11 +138,15 @@
   }
   
   .character-avatar-horizontal {
-    width: 60px;
-    height: 150px;
+    width: 60px; /* Ancho del círculo */
+    height: 60px; /* Altura igual para círculo perfecto */
     margin-bottom: 5px;
-    border: 2px solid #000;
-    transition: filter 0.3s ease; /* Transición suave */
+    padding: 0;
+    margin: 0;
+    border: 2px solid rgb(0, 164, 156); /* Borde opcional */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Ajusta la imagen al contenedor circular */
+    object-position: top; /* Muestra la parte superior de la imagen */
   }
   
   .character-item-horizontal.inactive .character-avatar-horizontal {
@@ -155,6 +155,7 @@
   }
   
   .character-item-horizontal p {
+    max-width: 55px;
     font-size: 12px;
     text-align: center;
     margin: 0;
@@ -211,4 +212,8 @@
   background-color: #45a049;
 }
 
+#username-board{
+  font-weight: 700;
+  font-size: 15px;
+}
   

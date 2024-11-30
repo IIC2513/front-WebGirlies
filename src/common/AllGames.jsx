@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';  // Asegúrate de que tu contexto esté bien configurado
 import { useNavigate } from 'react-router-dom';  // Para redirigir si es necesario
 import Navbar from '../common/Navbar';
+import './AllGames.css';
 
 
 // AQUI AGREGARIA EL TEMA DE QUE CUANTAS PERSONAS HAY UNIDAS A UN JUEGO (QUE NO SALGAN LAS COMPLETAS)
@@ -54,35 +55,39 @@ export function AllGames() {
   }
 
   return (
-    <div>
+    <div className='BodyGames'>
       <Navbar />
-      <h1>All Games</h1>
-      {games.length === 0 ? (
-        <p>No hay juegos creados.</p>
-      ) : (
-        <ul>
-          {games.map((game) => (
-            <li key={game.gameId}>
-              <div>
-                <h3>Juego ID: {game.gameId}</h3>
-                <p>Tablero ID: {game.boardId}</p>
-                <p>Solución ID: {game.solutionId}</p>
-                <p>Participantes: {game.playerCount}</p>
-                <button
-                  onClick={() => navigate(`/character?gameId=${game.gameId}`)} // Redirige a detalles del juego
-                >
-                  Unirme
-                </button>
-                <button
-                  onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
-                >
-                  Ver Tablero
-                </button>
+      <main className="games-main">
+        <h1 className='titulo-games'>All Games</h1>
+        {games.length === 0 ? (
+          <p>No hay juegos creados.</p>
+        ) : (
+          <div className="cards-container">
+            {games.map((game) => (
+              <div className="card" key={game.gameId}>
+                <div>
+                  <h2 className='nombre-game'>Game {game.gameId}</h2>
+                  <p>Participants: {game.playerCount}</p>
+                  <div className="button-container">
+                    <button
+                      className="card-button"
+                      onClick={() => navigate(`/character?gameId=${game.gameId}`)} // Redirige a detalles del juego
+                    >
+                      Unirme
+                    </button>
+                    <button
+                      className="card-button"
+                      onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
+                    >
+                      Ver Tablero
+                    </button>
+                  </div>
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }

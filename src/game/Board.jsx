@@ -175,57 +175,55 @@ return (
   <div className='BodyBoard'>
   <Navbar />
   <main className='MainBoard'>
-    {/* Contenedor horizontal para los personajes */}
-    <div className="character-turn-order-horizontal">
-        {characters
-          .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
-          .map(character => (
-            <div
-              key={character.characterId}
-              className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
-            >
-              <img
-                src={character["Character"].avatar}
-                alt={character.name}
-                className="character-avatar-horizontal"
-              />
-              <p>{character.Character.name}</p>
-              <p>{character.User.username}</p>
+    <div className='contenedor-board-dashboard'>
+      <div className='contenedor-dashboard'>
+        {/* Contenedor horizontal para los personajes */}
+        <div className="character-turn-order-horizontal">
+          {characters
+            .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
+            .map(character => (
+              <div
+                key={character.characterId}
+                className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
+              >
+                <img
+                  src={character["Character"].avatar}
+                  alt={character.name}
+                  className="character-avatar-horizontal"
+                />
+                <p>{character.Character.name}</p>
+                <p id="username-board">{character.User.username}</p>
 
-            </div>
-          ))}
-      </div>
+              </div>
+            ))}
+        </div>
+        <div className='contenedor-dado'>
+          {diceValue !== null && <DiceRoller diceValue={diceValue} />}
+          <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
 
-      <div className='contenedor-board-dashboard'>
-        <div className='contenedor-dashboard'>
-          <div className='contenedor-dado'>
-            <h2>{myCharacter.role}</h2>
-            {diceValue !== null && <DiceRoller diceValue={diceValue} />}
-            <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+          {/* Botón para mostrar/ocultar el popup */}
+          <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
+            Notas
+          </button>
 
-            {/* Botón para mostrar/ocultar el popup */}
-            <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
-              Notas
-            </button>
-
-            {/* Popup que se muestra al lado del dado */}
-            {showPopup && (
-                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div className="popup-content">
-                    <button className="close-button" onClick={handlePopup}>X</button>
-                    <textarea
-                      value={note}
-                      onChange={handleNoteChange}
-                      placeholder="Escribe tus notas aquí..."
-                      rows={5}
-                      style={{ width: '100%' }}
-                    />
-                    <button onClick={saveNote}>Guardar Nota</button>
-                  </div>
+          {/* Popup que se muestra al lado del dado */}
+          {showPopup && (
+              <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <div className="popup-content">
+                  <button className="close-button" onClick={handlePopup}>X</button>
+                  <textarea
+                    value={note}
+                    onChange={handleNoteChange}
+                    placeholder="Escribe tus notas aquí..."
+                    rows={5}
+                    style={{ width: '100%' }}
+                  />
+                  <button onClick={saveNote}>Guardar Nota</button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
+      </div>
 
       <div className='AllBoard'>
         <GameContext.Provider value={{ cells, setCells, places, characters }}>
