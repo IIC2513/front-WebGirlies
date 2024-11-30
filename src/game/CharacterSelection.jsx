@@ -39,7 +39,7 @@ export function CharacterSelection() {
         setCharacters(response.data);
       })
       .catch((error) => {
-        console.log("Error al obtener los personajes:", error);
+        console.log("Error fetching characters:", error);
       });
   }, [token]);
 
@@ -62,15 +62,21 @@ export function CharacterSelection() {
           },
         }
       );
+
+      // Condición para no redirigir si el mensaje contiene "already" o "error"
+      if (response.data.message.toLowerCase().includes("already") || response.data.message.toLowerCase().includes("error")) {
+        console.log("No se redirige debido a un mensaje de advertencia o error.");
+      } else {
+        setTimeout(() => {
+          navigate(`/myGames`);
+        }, 500);
+      }
+
       setMessage(response.data.message);
 
-      setTimeout(() => {
-        navigate(`/myGames`);
-      }, 500);
-
     } catch (error) {
-      console.log("Error al seleccionar el personaje:", error);
-      setMessage(error.response?.data?.message || "Error desconocido");
+      console.log("Error selecting character:", error);
+      setMessage(error.response?.data?.message || "Unknown error");
     }
   };
 

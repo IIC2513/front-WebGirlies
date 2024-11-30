@@ -11,7 +11,7 @@ const LogoutButton = () => {
 
   const handleLogout = () => {
     logout();
-    setMsg("Has hecho logout con éxito!");
+    setMsg("Log out succesfull!");
     navigate("/");
   }
 

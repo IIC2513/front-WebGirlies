@@ -7,7 +7,7 @@ import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
-
+import Dashboard from "./Dashboard";
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -239,52 +239,62 @@ return (
   <div className='BodyBoard'>
   <Navbar />
   <main className='MainBoard'>
-    {/* Contenedor horizontal para los personajes */}
-    <div className="character-turn-order-horizontal">
-        {characters
-          .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
-          .map(character => (
-            <div
-              key={character.characterId}
-              className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
-            >
-              <img
-                src={character["Character"].avatar}
-                alt={character.name}
-                className="character-avatar-horizontal"
-              />
-              <p>{character.Character.name}</p>
-              <p>{character.User.username}</p>
-
-            </div>
-          ))}
-      </div>
-
-      <div className='contenedor-board-dashboard'>
-        <div className='contenedor-dashboard'>
-          <h2>Role: {myRole}</h2>
-          <div className='contenedor-dado'>
-            {diceValue !== null && <DiceRoller diceValue={diceValue} />}
-            <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
-            {/* Botón para mostrar/ocultar el popup */}
-            <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
-              Notas
-            </button>
-
-            {/* Popup que se muestra al lado del dado */}
-            {showPopup && (
-                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div className="popup-content">
-                    <button className="close-button" onClick={handlePopup}>X</button>
-                    <textarea
-                      value={note}
-                      onChange={handleNoteChange}
-                      placeholder="Escribe tus notas aquí..."
-                      rows={5}
-                      style={{ width: '100%' }}
-                    />
-                    <button onClick={saveNote}>Guardar Nota</button>
-                  </div>
+    <div className='contenedor-board-dashboard'>
+      <div className='contenedor-dashboard'>
+        <h2>Role: {myRole}</h2>
+        {/* Contenedor horizontal para los personajes */}
+        <div className="character-turn-order-horizontal">
+          {characters
+            .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
+            .map(character => (
+              <div
+                key={character.characterId}
+                className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
+              >
+                <img
+                  src={character["Character"].avatar}
+                  alt={character.name}
+                  className="character-avatar-horizontal"
+                />
+                <p>{character.Character.name}</p>
+                <p id="username-board">{character.User.username}</p>
+              </div>
+            ))}
+        </div>
+        <div className='contenedor-dado'>
+          <div className="contenedor-mi-personaje">
+            {myCharacter && (
+              <div className="mi-personaje">
+                <img 
+                  src={myCharacter.Character.avatar} 
+                  alt={myCharacter.Character.name} 
+                  className="mi-personaje-avatar" 
+                />
+                <p className="mi-personaje-nombre">Your character</p>
+              </div>
+            )}
+          </div>
+          <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+          {diceValue !== null && <DiceRoller diceValue={diceValue} />}
+        </div>
+        <div>
+          {/* Botón para mostrar/ocultar el popup */}
+          <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
+            Notas
+          </button>
+          {/* Popup que se muestra al lado del dado */}
+          {showPopup && (
+              <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <div className="popup-content">
+                  <button className="close-button" onClick={handlePopup}>x</button>
+                  <textarea
+                    value={note}
+                    onChange={handleNoteChange}
+                    placeholder="Escribe tus notas aquí..."
+                    rows={5}
+                    className='text-notas'
+                  />
+                  <button onClick={saveNote}>Guardar Nota</button>
                 </div>
               )}
               <div>
@@ -374,7 +384,7 @@ return (
                 </ul>
               </div>
           </div>
-
+      </div>
       <div className='AllBoard'>
         <GameContext.Provider value={{ cells, setCells, places, characters }}>
           <div className="board-container">
@@ -444,8 +454,6 @@ return (
     </div>
   </main>
 </div>
-
-
   );
   }
      

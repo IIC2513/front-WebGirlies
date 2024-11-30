@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext';  // Asegúrate de que tu contexto esté bien configurado
 import { useNavigate } from 'react-router-dom';  // Para redirigir si es necesario
 import Navbar from './Navbar';
+import './AllGames.css';
 
 export function MyGames() {
   const { token } = useContext(AuthContext);
@@ -47,42 +48,64 @@ export function MyGames() {
   }
 
   return (
-    <div>
+    <div className='BodyGames'>
       <Navbar />
-      <h1>Your Games</h1>
-      {games.length === 0 ? (
-        <p>No tienes juegos creados.</p>
-      ) : (
-        <ul>
-          {games.map((game) => (
-            <li key={game.gameId}>
-              <div>
-                <h3>Juego ID: {game.gameId}</h3>
-                <p>Tablero ID: {game.gameId}</p>
-                <button
-                  onClick={() => navigate(`/board/${game.gameId}`)} // Redirige a la página del tablero
-                >
-                  Ver Tablero
-                </button>
-                <button onClick={() => axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/start`, {
-                        gameId: game.gameId,
-                        userId: userId,
-                      })
-                      .then(response => {
-                        console.log("Juego iniciado:", response.data);
-                      })
-                      .catch(error => {
-                        console.error("Error al iniciar el juego:", error);
-                      })
-                    }
-                  >
-                    Iniciar Juego
-                  </button>
+      <main className="games-main">
+        <h1 className='titulo-games'>Your Games</h1>
+        {games.length === 0 ? (
+          <p>No tienes juegos creados.</p>
+        ) : (
+          <div className="cards-container">
+            {games.map((game) => (
+              <div className="card" key={game.gameId}>
+                <h2 className='nombre-game'>Game {game.gameId}</h2>
+                <div className="button-container">
+                  {/* Mostrar "Start game" solo si el juego no está iniciado */}
+                  {game.status === 0 && (
+                    <button
+                      className="card-button"
+                      id="start"
+                      onClick={() =>
+                        axios
+                          .post(`${import.meta.env.VITE_BACKEND_URL}/games/start`, {
+                            gameId: game.gameId,
+                            userId: userId,
+                          })
+                          .then((response) => {
+                            console.log("Juego iniciado:", response.data);
+                            // Actualizar estado del juego en la UI tras iniciar el juego
+                            setGames((prevGames) =>
+                              prevGames.map((g) =>
+                                g.gameId === game.gameId ? { ...g, status: 1 } : g
+                              )
+                            );
+                          })
+                          .catch((error) => {
+                            console.error("Error al iniciar el juego:", error);
+                          })
+                      }
+                    >
+                      Start game
+                    </button>
+                  )}
+
+                  {/* Mostrar "Go to board" solo si el juego está iniciado */}
+                  {game.status === 1 && (
+                    <button
+                      className="card-button"
+                      id="board"
+                      onClick={() => navigate(`/board/${game.boardId}`)}
+                    >
+                      Go to board
+                    </button>
+                  )}
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </div>
+
+        )}
+      </main>
     </div>
   );
 }

@@ -46,8 +46,8 @@ function LandingPage() {
 
       navigate(`/character?gameId=${gameId}`); // Redirige con el gameId como parámetro
     } catch (error) {
-      console.log("Error al crear el juego:", error);
-      alert("Error al crear el juego");
+      console.log("Error starting new game:", error);
+      alert("Error starting new game");
     }
   };
 
