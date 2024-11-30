@@ -62,11 +62,17 @@ export function CharacterSelection() {
           },
         }
       );
-      setMessage(response.data.message);
 
-      setTimeout(() => {
-        navigate(`/myGames`);
-      }, 500);
+      // Condición para no redirigir si el mensaje contiene "already" o "error"
+      if (response.data.message.toLowerCase().includes("already") || response.data.message.toLowerCase().includes("error")) {
+        console.log("No se redirige debido a un mensaje de advertencia o error.");
+      } else {
+        setTimeout(() => {
+          navigate(`/myGames`);
+        }, 500);
+      }
+
+      setMessage(response.data.message);
 
     } catch (error) {
       console.log("Error selecting character:", error);

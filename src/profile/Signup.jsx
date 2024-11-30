@@ -47,7 +47,7 @@ function Signup() {
     <div className='general'>
       <Navbar />
       <main className='MainLogin'>
-        <h3 className='registro'>Sign in</h3>
+        <h3 className='registro'>Sign up</h3>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}
         {error && <div className="error">There was an error with the registry, please try again.</div>}
         <div className="Login">
