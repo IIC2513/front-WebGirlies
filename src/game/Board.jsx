@@ -35,8 +35,6 @@ export function Board() {
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
   };
 
-  
-  
 
   const handleNoteChange = (event) => {
     setNote(event.target.value); // Actualiza el contenido de la nota
