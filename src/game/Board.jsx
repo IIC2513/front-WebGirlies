@@ -1,11 +1,13 @@
 import './Board.css';
 import React, { createContext, useContext ,useState, useEffect } from "react";
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import tablero from '../assets/images/Tablero__final.png';
 import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -30,10 +32,20 @@ export function Board() {
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
-  console.log("userId:", userId);
+  const [accusation, setAccusation] = useState({
+    characterId: null,
+    weaponId: null,
+    placeId: null,
+  });
+  const [showAccusePopup, setShowAccusePopup] = useState(false);
+  const [accuseResult, setAccuseResult] = useState(null);
+  const [allCharacters, setAllCharacters] = useState([]);
+  const [allWeapons, setAllWeapons] = useState([]);
+  const [allPlaces, setAllPlaces] = useState([]);
+  
+  const navigate = useNavigate(); // Hook para redirigir
 
   const handlePopup = () => {
-    console.log('Popup toggled');
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
   };
@@ -41,6 +53,26 @@ export function Board() {
   const handleNoteChange = (event) => {
     setNote(event.target.value); // Actualiza el contenido de la nota
   };
+
+  const handleAccuse = () => {
+    setShowAccusePopup(true); // Mostrar el popup de acusación
+  };
+  
+  const sendAccusation = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/accuse`, {
+        userId,
+        gameId: boardId,
+        accusation,
+      });
+      setAccuseResult(response.data); // Mostrar el resultado devuelto por el backend
+      setShowAccusePopup(false); // Cierra el popup de selección
+    } catch (error) {
+      console.error('Error al enviar la acusación:', error);
+      setAccuseResult({ message: 'Error al enviar la acusación.' });
+    }
+  };
+
   
   const saveNote = async () => {
     try {
@@ -66,12 +98,35 @@ export function Board() {
   const fetchNote = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
-      console.log('Nota obtenida:', response.data);
       setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
     }
   };
+
+  const fetchAllData = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/getData`);
+      console.log("Datos obtenidos de /games/getData:", response.data);
+  
+      // Actualiza los estados con los datos obtenidos
+      setAllWeapons(response.data.weapons);
+      
+      console.log("Armas:", allWeapons);
+      setAllCharacters(response.data.characters);
+      console.log("Personajes:", allCharacters);
+      setAllPlaces(response.data.places);
+      console.log("Lugares:", allPlaces);
+    } catch (error) {
+      console.error("Error al obtener datos de /games/getData:", error);
+    }
+  };
+  
+  useEffect(() => {
+    // Llama a la función para obtener los datos al cargar el componente
+    fetchAllData();
+  }, []); // Solo se ejecuta una vez al montar el componente
+  
 
   
   const moveCharacter = async (targetX, targetY) => {
@@ -82,14 +137,9 @@ export function Board() {
         targetX,
         targetY,
       });
-
-      console.log("Respuesta del movimiento:", response);
-      console.log("Personajes:", characters);
-      console.log("esta en la pieza:", response.data.atAPlace);
   
       if (response && response.data) {
         // Actualiza el personaje con la nueva posición
-        console.log("characters:", characters);
         
 
         setCharacters(prev => prev.map(character =>
@@ -138,6 +188,7 @@ export function Board() {
 
   useEffect(() => {
     console.log("Obteniendo datos del tablero...");
+    fetchAllData();
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
       params: { boardId: boardId, userId: userId }
     })
@@ -147,32 +198,24 @@ export function Board() {
         const myCharacters = response.data.character.find(
           character => character.User.userId === numericUserId
         );
-        console.log("INFO RECIBIDA",response.data)
         setMyCharacter(myCharacters);
         setMyRole(myCharacters.role);
-        console.log("Mi personaje:", myCharacters);
         setCells(sortedCells);
         setPlaces(response.data["places"]);
         setCards(response.data["cards"]);
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
         setAbilities(response.data.abilities);
         setMyCards(response.data["MyCards"]);
-        console.log("Mis cartas:", response.data["MyCards"]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [boardId, userId]);  // Depende de boardId y userId para recargar cuando cambien
   
-  useEffect(() => {
-    console.log("Updated characters:", characters);
-  }, [characters]);  // Este useEffect se ejecutará cada vez que 'characters' cambie
 
   useEffect(() => {
     // Llama a la función para obtener las notas al cargar la página
     fetchNote();
-    console.log("Obteniendo notas...");
-    console.log("notes:", note);
   }, [boardId, userId]);
   
 
@@ -229,9 +272,76 @@ return (
                 </div>
               )}
               <div>
-                <button>
+                <button onClick={handleAccuse}>
                   Acusse
                 </button>
+                {showAccusePopup && (
+                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <div className="popup-content">
+                    <button className="close-button" onClick={() => setShowAccusePopup(false)}>X</button>
+                    <h3>Realizar acusación</h3>
+                    <div>
+                      <h4>Selecciona un personaje</h4>
+                      {allCharacters.map((character) => (
+                        <label key={character.characterId}>
+                          <input
+                            type="radio"
+                            name="character"
+                            value={character.characterId}
+                            onChange={() =>
+                              setAccusation((prev) => ({ ...prev, characterId: character.characterId }))
+                            }
+                          />
+                          {character.card.description}
+                        </label>
+                      ))}
+                    </div>
+                    <div>
+                      <h4>Selecciona un arma</h4>
+                      {allWeapons
+                        .map((weapon) => (
+                          <label key={weapon.cardId}>
+                            <input
+                              type="radio"
+                              name="weapon"
+                              value={weapon.cardId}
+                              onChange={() =>
+                                setAccusation((prev) => ({ ...prev, weaponId: weapon.cardId }))
+                              }
+                            />
+                            {weapon.card.description}
+                          </label>
+                        ))}
+                    </div>
+                    <div>
+                      <h4>Selecciona un lugar</h4>
+                      {allPlaces.map((place) => (
+                        <label key={place.placeId}>
+                          <input
+                            type="radio"
+                            name="place"
+                            value={place.placeId}
+                            onChange={() =>
+                              setAccusation((prev) => ({ ...prev, placeId: place.placeId }))
+                            }
+                          />
+                          {place.card.description}
+                        </label>
+                      ))}
+                    </div>
+                    <button onClick={sendAccusation}>Enviar Acusación</button>
+                  </div>
+                </div>
+              )}
+              {accuseResult && (
+                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <div className="popup-content">
+                    <button className="close-button" onClick={() => setAccuseResult(null)}>X</button>
+                    <h3>Resultado de la acusación</h3>
+                    <p>{accuseResult.message}</p>
+                  </div>
+                </div>
+              )}
               </div>
             </div>
             <div>
