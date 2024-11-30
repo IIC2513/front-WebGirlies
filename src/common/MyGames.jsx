@@ -25,9 +25,9 @@ export function MyGames() {
         setLoading(true);
         console.log(import.meta.env.VITE_BACKEND_URL);
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`);
-        console.log(response)
-        console.log("Juegos:", response.data);
+        console.log(response.data.games)
         setGames(response.data.games);
+        console.log("Juegos:", games);
       } catch (err) {
         setError(response.message);
       } finally {
@@ -58,10 +58,9 @@ export function MyGames() {
             <li key={game.gameId}>
               <div>
                 <h3>Juego ID: {game.gameId}</h3>
-                <p>Tablero ID: {game.boardId}</p>
-                <p>Solución ID: {game.solutionId}</p>
+                <p>Tablero ID: {game.gameId}</p>
                 <button
-                  onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
+                  onClick={() => navigate(`/board/${game.gameId}`)} // Redirige a la página del tablero
                 >
                   Ver Tablero
                 </button>

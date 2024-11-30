@@ -21,6 +21,8 @@ export function Board() {
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
+  console.log("boardId:", boardId);
+
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [myCharacter, setMyCharacter] = useState(null);
@@ -31,33 +33,40 @@ export function Board() {
   const [note, setNote] = useState(''); // Inicializa el estado para las notas
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
-  const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
-  const [accusation, setAccusation] = useState({
-    characterId: null,
-    weaponId: null,
-    placeId: null,
-  });
+  const [userId, setUserId] = useState(payload.sub);
+  const [accusation, setAccusation] = useState({ haracterId: null, weaponId: null, placeId: null});
   const [showAccusePopup, setShowAccusePopup] = useState(false);
+  const [gameId, setGameId] = useState(null);
   const [accuseResult, setAccuseResult] = useState(null);
   const [allCharacters, setAllCharacters] = useState([]);
   const [allWeapons, setAllWeapons] = useState([]);
   const [allPlaces, setAllPlaces] = useState([]);
-  
-  const navigate = useNavigate(); // Hook para redirigir
+
+  console.log("boardId:", boardId);
+
+  const handleCard = async () => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/getClue`, {
+        userId: userId, 
+        gameId: boardId,
+      });
+      console.log(`Éxito: ${response.data.message}`);
+    } catch (error) {
+      console.error('Error al hacer la solicitud:', error);
+      console.log('Hubo un problema al conectar con el servidor.');
+    }
+  };
 
   const handlePopup = () => {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
   };
-
   const handleNoteChange = (event) => {
     setNote(event.target.value); // Actualiza el contenido de la nota
   };
-
   const handleAccuse = () => {
     setShowAccusePopup(true); // Mostrar el popup de acusación
   };
-  
   const sendAccusation = async () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/accuse`, {
@@ -65,6 +74,7 @@ export function Board() {
         gameId: boardId,
         accusation,
       });
+      setGameId(boardId)
       setAccuseResult(response.data); // Mostrar el resultado devuelto por el backend
       setShowAccusePopup(false); // Cierra el popup de selección
     } catch (error) {
@@ -72,8 +82,6 @@ export function Board() {
       setAccuseResult({ message: 'Error al enviar la acusación.' });
     }
   };
-
-  
   const saveNote = async () => {
     try {
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
@@ -85,7 +93,6 @@ export function Board() {
       console.error('Error al guardar la nota:', error);
     }
   };  
-
   const changeTurn = () => {
     setCharacters(prev =>
       prev.map((character, index) => ({
@@ -94,24 +101,19 @@ export function Board() {
       }))
     );
   };
-  
   const fetchNote = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${gameId}/${userId}`);
       setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
     }
   };
-
   const fetchAllData = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/getData`);
       console.log("Datos obtenidos de /games/getData:", response.data);
-  
-      // Actualiza los estados con los datos obtenidos
       setAllWeapons(response.data.weapons);
-      
       console.log("Armas:", allWeapons);
       setAllCharacters(response.data.characters);
       console.log("Personajes:", allCharacters);
@@ -123,10 +125,25 @@ export function Board() {
   };
   
   useEffect(() => {
-    // Llama a la función para obtener los datos al cargar el componente
     fetchAllData();
   }, []); // Solo se ejecuta una vez al montar el componente
+
+  useEffect(() => {
+    const initializeData = () => {
+      setCells([]);
+      setPlaces([]);
+      setCards([]);
+      setCharacters([]);
+      setAbilities([]);
+      setUserId(payload.sub);
+      setAllCharacters([]);
+      setAllWeapons([]);
+      setAllPlaces([]);
+      setGameId(boardId);
+    };
   
+    initializeData();
+  }, []);
 
   
   const moveCharacter = async (targetX, targetY) => {
@@ -140,7 +157,6 @@ export function Board() {
   
       if (response && response.data) {
         // Actualiza el personaje con la nueva posición
-        
 
         setCharacters(prev => prev.map(character =>
           character.characterId === response.data.characterId
@@ -345,6 +361,9 @@ return (
               </div>
             </div>
             <div>
+            <button onClick={handleCard}>
+                  Recoger carta
+                </button>
                 <h2>Mis cartas</h2>
                 <ul>
                   {myCards.map(card => (
