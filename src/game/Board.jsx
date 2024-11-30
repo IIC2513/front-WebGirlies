@@ -6,6 +6,7 @@ import tablero from '../assets/images/Tablero__final.png';
 import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
+import Dashboard from "./Dashboard";
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -198,6 +199,9 @@ return (
 
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
+          
+          {/* Dashboard */}
+          <Dashboard gameId={boardId} /> 
           <div className='contenedor-dado'>
             <h2>{myCharacter.role}</h2>
             {diceValue !== null && <DiceRoller diceValue={diceValue} />}
@@ -216,11 +220,11 @@ return (
                     <textarea
                       value={note}
                       onChange={handleNoteChange}
-                      placeholder="Escribe tus notas aquí..."
+                      placeholder="Write your notes here..."
                       rows={5}
                       style={{ width: '100%' }}
                     />
-                    <button onClick={saveNote}>Guardar Nota</button>
+                    <button onClick={saveNote}>Save Note</button>
                   </div>
                 </div>
               )}

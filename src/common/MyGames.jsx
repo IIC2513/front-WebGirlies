@@ -26,7 +26,7 @@ export function MyGames() {
         console.log(import.meta.env.VITE_BACKEND_URL);
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`);
         console.log(response)
-        console.log("Juegos:", response.data);
+        console.log("Games:", response.data);
         setGames(response.data.games);
       } catch (err) {
         setError(response.message);
@@ -51,7 +51,7 @@ export function MyGames() {
       <Navbar />
       <h1>Your Games</h1>
       {games.length === 0 ? (
-        <p>No tienes juegos creados.</p>
+        <p>You have no started games</p>
       ) : (
         <ul>
           {games.map((game) => (
@@ -70,14 +70,14 @@ export function MyGames() {
                         userId: userId,
                       })
                       .then(response => {
-                        console.log("Juego iniciado:", response.data);
+                        console.log("Started game:", response.data);
                       })
                       .catch(error => {
-                        console.error("Error al iniciar el juego:", error);
+                        console.error("Error starting game:", error);
                       })
                     }
                   >
-                    Iniciar Juego
+                    Start Game
                   </button>
               </div>
             </li>

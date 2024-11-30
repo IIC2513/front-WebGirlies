@@ -22,7 +22,7 @@ const Play = () => {
       );
 
       if (response.status === 201 || response.status === 200) {
-        console.log('Game created successfully');
+        console.log('Game successfully created');
         navigate('/character'); // Redirige a la selección de personaje
       }
     } catch (error) {
@@ -37,13 +37,13 @@ const Play = () => {
       <main className="play-main">
         {!token ? (
           <div className="alert">
-            <h2>Para jugar, inicia sesión</h2>
-            <button onClick={() => navigate('/login')}>Iniciar sesión</button>
+            <h2>In order to play, you have to log in</h2>
+            <button onClick={() => navigate('/login')}>Log in</button>
           </div>
         ) : (
           <div className="play-actions">
-            <h2>¡Bienvenido! Estás listo para jugar</h2>
-            <button onClick={handleCreateGame}>Crear partida</button>
+            <h2>Welcome! You're all set to start playing</h2>
+            <button onClick={handleCreateGame}>Create game</button>
           </div>
         )}
       </main>

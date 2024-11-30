@@ -58,7 +58,7 @@ export function AllGames() {
       <Navbar />
       <h1>All Games</h1>
       {games.length === 0 ? (
-        <p>No hay juegos creados.</p>
+        <p>No started games</p>
       ) : (
         <ul>
           {games.map((game) => (
