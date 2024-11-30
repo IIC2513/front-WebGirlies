@@ -14,16 +14,17 @@ const Navbar = () => {
             <li><a href="/">Start</a></li>
             <li><a href="/about">About us</a></li>
             <li><a href="/instructions">How to play</a></li>
-            <li><a href="/play">Play</a></li>
-            <li><a href='/myGames'>My Games</a></li>
-            <li><a href="/allGames">All Games</a></li>
             {!token ? (
               <>
                 <li id="login"><a href="/login">Login</a></li>
                 <li id="signup"><a href="/signup">Sign up</a></li>
               </>
             ) : (
-              <li><LogoutButton /></li>
+              <>
+                <li><a href='/myGames'>My Games</a></li>
+                <li><a href="/allGames">All Games</a></li>
+                <li><LogoutButton /></li>
+              </>
             )}
           </div>
         </ul>
