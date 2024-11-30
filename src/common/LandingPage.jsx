@@ -1,27 +1,40 @@
 import styles from './Landing.module.css';
-import LogoutButton from '../profile/Logout';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../auth/AuthContext'; 
 import Navbar from '../common/Navbar';
-import { Link, useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import axios from 'axios';
-
 
 function LandingPage() {
   const { token } = useContext(AuthContext);
   const navigate = useNavigate(); // Hook para redirigir
+  const [showModal, setShowModal] = useState(false);
 
+  // Función para mostrar el modal de alerta
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const handleCreateGame = async () => {
-    console.log("Token:", token); // Aquí tienes el token
+    // Verificamos si hay token
+    if (!token) {
+      handleShowModal(); // Mostrar popup de login si no está autenticado
+      return;
+    }
+
+    console.log("Token:", token);
     const payloadBase64 = token.split('.')[1];
     const payload = JSON.parse(atob(payloadBase64));
-    const userId =  payload.sub || null;
+    const userId = payload.sub || null;
     console.log("userId:", userId);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/games/create`,
-        { ownerId: userId }, // Ajusta según los datos necesarios para crear el juego
+        { ownerId: userId }, 
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,12 +42,20 @@ function LandingPage() {
         }
       );
       console.log("Juego creado:", response.data);
-      const gameId = response.data.gameId; // Suponiendo que el backend devuelve gameId
+      const gameId = response.data.gameId; 
       navigate(`/character?gameId=${gameId}`); // Redirige con el gameId como parámetro
     } catch (error) {
       console.log("Error al crear el juego:", error);
       alert("Error al crear el juego");
     }
+  };
+
+  const handleJoinGame = () => {
+    if (!token) {
+      handleShowModal(); // Mostrar popup de login si no está autenticado
+      return;
+    }
+    navigate("/allGames");
   };
 
   return (
@@ -44,10 +65,10 @@ function LandingPage() {
         <h1 className={styles.title}>Murder in the Hospital</h1>
         <div className={styles.description}>
           <div className={styles.buttonContainer}>
-            <Link to="/allGames" className={styles.button}>
-              Join Game
-            </Link>
-            <button className={styles.button} onClick={handleCreateGame}>
+            <button className={styles.buttonGame} onClick={handleJoinGame}>
+              Join a Game
+            </button>
+            <button className={styles.buttonGame} onClick={handleCreateGame}>
               Create a Game
             </button>
           </div>
@@ -56,11 +77,19 @@ function LandingPage() {
           </p>
         </div>
       </div>
+
+      {/* Modal de alerta si el usuario no está autenticado */}
+      {showModal && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <p>You need to log in first.</p>
+            <button onClick={() => navigate("/login")}>Go to Login</button>
+            <button onClick={handleCloseModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default LandingPage;
-
-
-

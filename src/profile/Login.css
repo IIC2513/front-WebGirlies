@@ -112,3 +112,16 @@
     background-color: #e9ffe6; /* light green */
     text-align: center;
   }
+
+  #logout-button {
+    background-color: #06A196;
+    border-radius: 5px;
+    padding: 7px;
+    margin: 5px;
+    text-shadow: 1px 1px 4px black;
+}
+
+#logout-button:hover {
+    background-color: #93f0e9;
+    text-shadow:none;
+}

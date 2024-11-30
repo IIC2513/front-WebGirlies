@@ -89,9 +89,9 @@ export function CharacterSelection() {
       {message.length > 0 && (
         <div
           className={`message ${
-            message.toLowerCase().includes("éxito") || message.toLowerCase().includes("success")
-              ? "success"
-              : "error"
+            message.toLowerCase().includes("already") || message.toLowerCase().includes("error")
+              ? "error"
+              : "success"
           }`}
         >
           {message}

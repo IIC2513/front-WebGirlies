@@ -18,7 +18,7 @@ const LogoutButton = () => {
   return (
     <>
       {msg.length > 0 && <div className="successMsg"> {msg} </div>}
-      <button onClick={handleLogout}>
+      <button id="logout-button" onClick={handleLogout}>
           Log out
       </button>
     </>
