@@ -21,8 +21,6 @@ export function Board() {
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
-  console.log("boardId:", boardId);
-
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [myCharacter, setMyCharacter] = useState(null);
@@ -42,7 +40,6 @@ export function Board() {
   const [allWeapons, setAllWeapons] = useState([]);
   const [allPlaces, setAllPlaces] = useState([]);
 
-  console.log("boardId:", boardId);
 
   const handleCard = async () => {
     try {
@@ -51,23 +48,27 @@ export function Board() {
         gameId: boardId,
       });
       console.log(`Éxito: ${response.data.message}`);
-      
+  
       // Agregar la carta al estado de `myCards`
       console.log("Cartas antes:", myCards);
       console.log("Carta recogida:", response.data.card);
-      fetchAllData();
-      setMyCards(prevCards => [...prevCards, response.data.card]);
-      console.log("Cartas actuales:", myCards);
+  
+      // Aquí actualizas las cartas y no necesitas recargar la página
+      setMyCards(prevCards => {
+        const updatedCards = [...prevCards, response.data.card];
+        console.log("Cartas actuales:", updatedCards); // Muestra las cartas después de la actualización
+        return updatedCards;
+      });
   
       // Mostrar un mensaje o notificación de éxito
-      console.log(`¡Has recogido una carta: ${response}!`);
+      console.log(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
       alert(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
       alert('Hubo un problema al recoger la carta.');
     }
   };
-  
+    
   const handlePopup = () => {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
@@ -79,7 +80,6 @@ export function Board() {
     setShowAccusePopup(true); // Mostrar el popup de acusación
   };
   const sendAccusation = async () => {
-    console.log('Enviando acusación:', accusation);
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/accuse`, {
         userId,
@@ -87,7 +87,6 @@ export function Board() {
         accusation,
       });
       setGameId(boardId)
-      console.log('Resultado de la acusación:', response.data);
       setAccuseResult(response.data); // Mostrar el resultado devuelto por el backend
       setShowAccusePopup(false); // Cierra el popup de selección
     } catch (error) {
@@ -100,7 +99,6 @@ export function Board() {
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
         notes: note, // Envía la nueva nota al backend
       });
-      console.log('Nota guardada:', response.data);
       setShowPopup(false); // Cierra el popup después de guardar
     } catch (error) {
       console.error('Error al guardar la nota:', error);
@@ -114,24 +112,23 @@ export function Board() {
       }))
     );
   };
+
   const fetchNote = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${gameId}/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
       setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
     }
   };
+
+  
   const fetchAllData = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/getData`);
-      console.log("Datos obtenidos de /games/getData:", response.data);
       setAllWeapons(response.data.weapons);
-      console.log("Armas:", allWeapons);
       setAllCharacters(response.data.characters);
-      console.log("Personajes:", allCharacters);
       setAllPlaces(response.data.places);
-      console.log("Lugares:", allPlaces);
     } catch (error) {
       console.error("Error al obtener datos de /games/getData:", error);
     }
@@ -179,7 +176,6 @@ export function Board() {
         setDiceValue(0); // Resetear el valor del dado
         changeTurn(); // Cambiar el turno
         setIsInAPlace(response.data.isInAPlace); // Actualiza el estado de isInAPlace
-        console.log("Personaje movido:", isInAPlace);
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -217,7 +213,6 @@ export function Board() {
   
 
   useEffect(() => {
-    console.log("Obteniendo datos del tablero...");
     fetchAllData();
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
       params: { boardId: boardId, userId: userId }
@@ -256,7 +251,6 @@ return (
     <main className='MainBoard'>
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
-          <h2>Role: {myRole}</h2>
           {/* Contenedor horizontal para los personajes */}
           <div className="character-turn-order-horizontal">
             {characters
@@ -386,13 +380,12 @@ return (
               </div>
             )}
           </div>
-          
           <div>
-          {isInAPlace !== null && (
-  <button onClick={handleCard} className="collect-card-button">
-    Recoger carta
-  </button>
-)}
+          {isInAPlace  && (
+              <button onClick={handleCard} className="collect-card-button">
+                Recoger carta
+              </button>
+            )}
             <h2>Mis cartas</h2>
             <ul>
               {myCards.map(card => (
