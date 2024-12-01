@@ -90,6 +90,13 @@
     color: #ec8600;
     font-weight: 100;
   }
+
+  #no-active-turn{
+    font-family: Muro;
+    font-size: 18px;
+    color: #4db552;
+    font-weight: 100;
+  }
   
   /* Botones dentro de las tarjetas */
   .card-button {

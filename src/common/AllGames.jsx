@@ -146,7 +146,12 @@ export function AllGames() {
                         />
                       </div>
                     )}
-                    <p id="turnos">
+                    <p 
+                    id={
+                      game.currentTurnUserId
+                        ? "turnos"
+                        : "no-active-turn"
+                    }>
                       Current Turn:{" "}
                       {game.currentTurnUserId
                         ? game.currentTurnUserId == userId
