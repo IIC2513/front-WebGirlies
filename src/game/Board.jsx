@@ -79,6 +79,7 @@ export function Board() {
     setShowAccusePopup(true); // Mostrar el popup de acusación
   };
   const sendAccusation = async () => {
+    console.log('Enviando acusación:', accusation);
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/accuse`, {
         userId,
@@ -86,6 +87,7 @@ export function Board() {
         accusation,
       });
       setGameId(boardId)
+      console.log('Resultado de la acusación:', response.data);
       setAccuseResult(response.data); // Mostrar el resultado devuelto por el backend
       setShowAccusePopup(false); // Cierra el popup de selección
     } catch (error) {
@@ -314,7 +316,7 @@ return (
           </div>
           <div>
             <button onClick={handleAccuse}>
-              Acusse
+              Accuse
             </button>
             {showAccusePopup && (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -324,16 +326,16 @@ return (
                   <div>
                     <h4>Selecciona un personaje</h4>
                     {allCharacters.map((character) => (
-                      <label key={character.characterId}>
+                      <label key={character.Card.cardId}>
                         <input
                           type="radio"
                           name="character"
-                          value={character.characterId}
+                          value={character.id}
                           onChange={() =>
-                            setAccusation((prev) => ({ ...prev, characterId: character.characterId }))
+                            setAccusation((prev) => ({ ...prev, characterId: character.Card.cardId }))
                           }
                         />
-                        {character.card.description}
+                        {character.Card.description}
                       </label>
                     ))}
                   </div>
@@ -341,32 +343,32 @@ return (
                     <h4>Selecciona un arma</h4>
                     {allWeapons
                       .map((weapon) => (
-                        <label key={weapon.cardId}>
+                        <label key={weapon.id}>
                           <input
                             type="radio"
                             name="weapon"
-                            value={weapon.cardId}
+                            value={weapon.Card.cardId}
                             onChange={() =>
-                              setAccusation((prev) => ({ ...prev, weaponId: weapon.cardId }))
+                              setAccusation((prev) => ({ ...prev, weaponId: weapon.Card.cardId }))
                             }
                           />
-                          {weapon.card.description}
+                          {weapon.Card.description}
                         </label>
                       ))}
                   </div>
                   <div>
                     <h4>Selecciona un lugar</h4>
                     {allPlaces.map((place) => (
-                      <label key={place.placeId}>
+                      <label key={place.id}>
                         <input
                           type="radio"
                           name="place"
-                          value={place.placeId}
+                          value={place.Card.placeId}
                           onChange={() =>
-                            setAccusation((prev) => ({ ...prev, placeId: place.placeId }))
+                            setAccusation((prev) => ({ ...prev, placeId: place.Card.cardId }))
                           }
                         />
-                        {place.card.description}
+                        {place.Card.description}
                       </label>
                     ))}
                   </div>
