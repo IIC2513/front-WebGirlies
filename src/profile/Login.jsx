@@ -13,40 +13,45 @@ function Login() {
   const {connectSocket} = useContext(SocketContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(""); //prueba
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
-        email: email,
-        password: password
-      }).then((response) => {
-        console.log('Login successful');
-        setError(false);
-        setMsg("Login successful!");
-
-        // Recibimos el token y lo procesamos
-        const access_token = response.data.access_token;
-        localStorage.setItem('token', access_token);
-        setToken(access_token);
-        console.log("Se seteo el token: ", token);
-
-        const user_id = response.data.user_id;
-        setUserId(user_id);
-        connectSocket(user_id); 
-        console.log("ID:", user_id);
-
-        setTimeout(() => {
-          navigate('/');
-        }, 500);
-
-      }).catch((error) => {
-        console.error('An error occurred while trying to login:', error);
-        setError(true);// aquí puede haber más lógica para tratar los errores
-      })
+  
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+        email,
+        password
+      });
+  
+      console.log('Login successful');
+      setError(""); // Limpiar errores anteriores
+      setMsg("Login successful!");
+  
+      const access_token = response.data.access_token;
+      localStorage.setItem('token', access_token);
+      setToken(access_token);
+  
+      const user_id = response.data.user_id;
+      setUserId(user_id);
+      connectSocket(user_id);
+  
+      setTimeout(() => {
+        navigate('/');
+      }, 500);
+  
+    } catch (err) {
+      console.error('An error occurred while trying to login:', err);
+  
+      // Capturar el mensaje del backend si existe
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
   };
 
   return (
@@ -55,7 +60,7 @@ function Login() {
       <main className='MainLogin'>
         <h3 className='registro'>Login</h3>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}
-        {error && <div className="error">There was an error with the login, please try again.</div>}
+        {error && <div className="error">{error}</div>}
         <div className="Login">
           <img src={pasillo} alt="Pasillo" className="login-image" />
           <form onSubmit={handleSubmit} className="login-form">

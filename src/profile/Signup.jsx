@@ -14,34 +14,41 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState(""); // Campo para avatar
   const [name, setName] = useState(""); // Campo para name
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(""); //prueba
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
         username,
         email,
         password,
         avatar,
         name
       });
+  
       console.log('Successful registration! Now you can log in');
-      setError(false);
+      setError(""); // Limpiar errores anteriores
       setMsg('Successful registration! Now you can log in');
       
       setTimeout(() => {
         navigate('/login');
       }, 900);
-
-    } catch (error) {
-      console.error('Error:', error);
-      setError(true); // aquí puede haber más lógica para tratar los errores
+  
+    } catch (err) {
+      console.error('Error:', err);
+  
+      // Capturar el mensaje del backend si existe
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
-  }
+  };
 
   return (
     <div className='general'>
@@ -49,7 +56,7 @@ function Signup() {
       <main className='MainLogin'>
         <h3 className='registro'>Sign up</h3>
         {msg.length > 0 && <div className="successMsg"> {msg} </div>}
-        {error && <div className="error">There was an error with the registry, please try again.</div>}
+        {error && <div className="error">{error}</div>}
         <div className="Login">
           <img src={room} alt="Room" className="login-image" />
           <form onSubmit={handleSubmit} className="login-form">
