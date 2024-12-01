@@ -21,8 +21,6 @@ export function Board() {
   const [diceValue, setDiceValue] = useState([]); 
   const [selectedCell, setSelectedCell] = useState([]);
   const {boardId} = useParams();
-  console.log("boardId:", boardId);
-
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [myCharacter, setMyCharacter] = useState(null);
@@ -42,7 +40,6 @@ export function Board() {
   const [allWeapons, setAllWeapons] = useState([]);
   const [allPlaces, setAllPlaces] = useState([]);
 
-  console.log("boardId:", boardId);
 
   const handleCard = async () => {
     try {
@@ -51,12 +48,27 @@ export function Board() {
         gameId: boardId,
       });
       console.log(`Éxito: ${response.data.message}`);
+  
+      // Agregar la carta al estado de `myCards`
+      console.log("Cartas antes:", myCards);
+      console.log("Carta recogida:", response.data.card);
+  
+      // Aquí actualizas las cartas y no necesitas recargar la página
+      setMyCards(prevCards => {
+        const updatedCards = [...prevCards, response.data.card];
+        console.log("Cartas actuales:", updatedCards); // Muestra las cartas después de la actualización
+        return updatedCards;
+      });
+  
+      // Mostrar un mensaje o notificación de éxito
+      console.log(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
+      alert(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
-      console.log('Hubo un problema al conectar con el servidor.');
+      alert('Hubo un problema al recoger la carta.');
     }
   };
-
+    
   const handlePopup = () => {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
@@ -87,7 +99,6 @@ export function Board() {
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
         notes: note, // Envía la nueva nota al backend
       });
-      console.log('Nota guardada:', response.data);
       setShowPopup(false); // Cierra el popup después de guardar
     } catch (error) {
       console.error('Error al guardar la nota:', error);
@@ -101,24 +112,23 @@ export function Board() {
       }))
     );
   };
+
   const fetchNote = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${gameId}/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
       setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
     }
   };
+
+  
   const fetchAllData = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/getData`);
-      console.log("Datos obtenidos de /games/getData:", response.data);
       setAllWeapons(response.data.weapons);
-      console.log("Armas:", allWeapons);
       setAllCharacters(response.data.characters);
-      console.log("Personajes:", allCharacters);
       setAllPlaces(response.data.places);
-      console.log("Lugares:", allPlaces);
     } catch (error) {
       console.error("Error al obtener datos de /games/getData:", error);
     }
@@ -165,7 +175,7 @@ export function Board() {
         ));
         setDiceValue(0); // Resetear el valor del dado
         changeTurn(); // Cambiar el turno
-        setIsInAPlace(response.data.atAPlace);
+        setIsInAPlace(response.data.isInAPlace); // Actualiza el estado de isInAPlace
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -203,7 +213,6 @@ export function Board() {
   
 
   useEffect(() => {
-    console.log("Obteniendo datos del tablero...");
     fetchAllData();
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
       params: { boardId: boardId, userId: userId }
@@ -222,6 +231,7 @@ export function Board() {
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
         setAbilities(response.data.abilities);
         setMyCards(response.data["MyCards"]);
+        console.log("MyCards al inicio:", myCards);
       })
       .catch((error) => {
         console.log(error);
@@ -241,7 +251,6 @@ return (
     <main className='MainBoard'>
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
-          <h2>Role: {myRole}</h2>
           {/* Contenedor horizontal para los personajes */}
           <div className="character-turn-order-horizontal">
             {characters
@@ -301,7 +310,7 @@ return (
           </div>
           <div>
             <button onClick={handleAccuse}>
-              Acusse
+              Accuse
             </button>
             {showAccusePopup && (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -311,16 +320,16 @@ return (
                   <div>
                     <h4>Selecciona un personaje</h4>
                     {allCharacters.map((character) => (
-                      <label key={character.characterId}>
+                      <label key={character.Card.cardId}>
                         <input
                           type="radio"
                           name="character"
-                          value={character.characterId}
+                          value={character.id}
                           onChange={() =>
-                            setAccusation((prev) => ({ ...prev, characterId: character.characterId }))
+                            setAccusation((prev) => ({ ...prev, characterId: character.Card.cardId }))
                           }
                         />
-                        {character.card.description}
+                        {character.Card.description}
                       </label>
                     ))}
                   </div>
@@ -328,32 +337,32 @@ return (
                     <h4>Selecciona un arma</h4>
                     {allWeapons
                       .map((weapon) => (
-                        <label key={weapon.cardId}>
+                        <label key={weapon.id}>
                           <input
                             type="radio"
                             name="weapon"
-                            value={weapon.cardId}
+                            value={weapon.Card.cardId}
                             onChange={() =>
-                              setAccusation((prev) => ({ ...prev, weaponId: weapon.cardId }))
+                              setAccusation((prev) => ({ ...prev, weaponId: weapon.Card.cardId }))
                             }
                           />
-                          {weapon.card.description}
+                          {weapon.Card.description}
                         </label>
                       ))}
                   </div>
                   <div>
                     <h4>Selecciona un lugar</h4>
                     {allPlaces.map((place) => (
-                      <label key={place.placeId}>
+                      <label key={place.id}>
                         <input
                           type="radio"
                           name="place"
-                          value={place.placeId}
+                          value={place.Card.placeId}
                           onChange={() =>
-                            setAccusation((prev) => ({ ...prev, placeId: place.placeId }))
+                            setAccusation((prev) => ({ ...prev, placeId: place.Card.cardId }))
                           }
                         />
-                        {place.card.description}
+                        {place.Card.description}
                       </label>
                     ))}
                   </div>
@@ -371,11 +380,12 @@ return (
               </div>
             )}
           </div>
-          
           <div>
-            <button onClick={handleCard}>
-              Recoger carta
-            </button>
+          {isInAPlace  && (
+              <button onClick={handleCard} className="collect-card-button">
+                Recoger carta
+              </button>
+            )}
             <h2>Mis cartas</h2>
             <ul>
               {myCards.map(card => (
