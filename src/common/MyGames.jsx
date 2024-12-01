@@ -9,6 +9,7 @@ import "./AllGames.css";
 export function MyGames() {
   const { token } = useContext(AuthContext);
   const [games, setGames] = useState([]);
+  const [usernames, setUsernames] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -17,7 +18,24 @@ export function MyGames() {
   const payloadBase64 = token.split(".")[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;
+  
+  // Función para obtener el nombre de usuario por ID
+  const fetchUsername = async (id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data.username;
+    } catch (err) {
+      console.error(`Error fetching username for ID ${id}:`, err);
+      return `Player ${id}`; // Fallback si hay error
+    }
+  };
 
+  // Fetch de juegos
   useEffect(() => {
     const fetchMyGames = async () => {
       try {
@@ -25,9 +43,30 @@ export function MyGames() {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`
         );
-        setGames(response.data.games);
+        const fetchedGames = Array.isArray(response.data.games)
+        ? response.data.games
+        : []; // Garantizar que sea un array
+
+        if (fetchedGames.length > 0) {
+          // Obtener nombres de usuarios para los IDs en currentTurnUserId
+          const usernamesMap = { ...usernames }; // Copia local de usernames
+          const usernamePromises = fetchedGames.map(async (game) => {
+            if (
+              game.currentTurnUserId &&
+              !usernamesMap[game.currentTurnUserId]
+            ) {
+              const username = await fetchUsername(game.currentTurnUserId);
+              usernamesMap[game.currentTurnUserId] = username;
+            }
+          });
+
+          await Promise.all(usernamePromises); // Esperar a que se resuelvan todas las promesas
+          setUsernames(usernamesMap); // Actualizar el estado con los nombres de usuario
+        }
+
+        setGames(fetchedGames); // Guardar los juegos
       } catch (err) {
-        setError(response.message);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -50,7 +89,7 @@ export function MyGames() {
       <main className="games-main">
         <h1 className="titulo-games">Your Games</h1>
         {games.length === 0 ? (
-          <p>No tienes juegos creados.</p>
+          <p>You don't have games created</p>
         ) : (
           <div className="cards-container">
             {games.map((game) => (
@@ -59,7 +98,7 @@ export function MyGames() {
                 <p>Participants: {game.playerCount}</p>
                 {game.myCharacter && (
                   <div>
-                    <h3>Character: {game.myCharacter.name}</h3>
+                    <h3>Your character: {game.myCharacter.name}</h3>
                     <img
                       src={game.myCharacter.avatar}
                       alt={game.myCharacter.name}
@@ -67,12 +106,12 @@ export function MyGames() {
                     />
                   </div>
                 )}
-                <p>
+                <p id="turnos">
                   Current Turn:{" "}
                   {game.currentTurnUserId
-                    ? game.currentTurnUserId === userId
+                    ? game.currentTurnUserId == userId
                       ? "It's your turn!"
-                      : `Player ${game.currentTurnUserId}`
+                      : usernames[game.currentTurnUserId] || "Loading..."
                     : "No active turn"}
                 </p>
                 <div className="button-container">

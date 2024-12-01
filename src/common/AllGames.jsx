@@ -14,6 +14,7 @@ import './AllGames.css';
 export function AllGames() {
   const { token } = useContext(AuthContext);
   const [games, setGames] = useState([]);
+  const [usernames, setUsernames] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
@@ -23,6 +24,22 @@ export function AllGames() {
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
+
+  // Función para obtener el nombre de usuario por ID
+  const fetchUsername = async (id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data.username;
+    } catch (err) {
+      console.error(`Error fetching username for ID ${id}:`, err);
+      return `Player ${id}`; // Fallback si hay error
+    }
+  };
 
   useEffect(() => {
     // Función para obtener los juegos del usuario
@@ -34,9 +51,30 @@ export function AllGames() {
           params: { userId }});
         console.log(response)
         console.log("Juegos:", response.data);
-        setGames(response.data.games);
+
+        const fetchedGames = Array.isArray(response.data.games)
+        ? response.data.games
+        : []; // Garantizar que sea un array
+
+        if (fetchedGames.length > 0) {
+          // Obtener nombres de usuarios para los IDs en currentTurnUserId
+          const usernamesMap = { ...usernames }; // Copia local de usernames
+          const usernamePromises = fetchedGames.map(async (game) => {
+            if (
+              game.currentTurnUserId &&
+              !usernamesMap[game.currentTurnUserId]
+            ) {
+              const username = await fetchUsername(game.currentTurnUserId);
+              usernamesMap[game.currentTurnUserId] = username;
+            }
+          });
+
+          await Promise.all(usernamePromises); // Esperar a que se resuelvan todas las promesas
+          setUsernames(usernamesMap); // Actualizar el estado con los nombres de usuario
+        }
+        setGames(fetchedGames); // Guardar los juegos
       } catch (err) {
-        setError(response.message);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -59,45 +97,79 @@ export function AllGames() {
       <main className="games-main">
         <h1 className="titulo-games">All Games</h1>
         {games.length === 0 ? (
-          <p>No hay juegos creados.</p>
+          <p>No available games</p>
         ) : (
           <div className="cards-container">
             {games.map((game) => (
               <div className="card" key={game.gameId}>
                 <h2 className="nombre-game">Game {game.gameId}</h2>
                 <p>Participants: {game.playerCount}</p>
-                {game.status === 1 ? ( // Partida no iniciada
+                {game.status === 0 ? ( // Partida no iniciada
                   game.isUserPartOfGame ? ( // Soy parte de la partida
-                    <p>Ya estás unido, pero la partida aún no comienza.</p>
+                    <div>
+                      {game.myCharacter && (
+                        <div>
+                          <h3>Your character: {game.myCharacter.name}</h3>
+                          <img
+                            src={game.myCharacter.avatar}
+                            alt={`${game.myCharacter.name} Avatar`}
+                            className="character-avatar"
+                          />
+                          <p>You're already joined, but the game hasn't started yet</p>
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <div className="button-container">
-                      <button
-                        className="card-button"
-                        onClick={() => navigate(`/character?gameId=${game.gameId}`)}
-                      >
-                        Unirme
-                      </button>
+                      {game.playerCount < 6 ? (
+                        <button
+                          className="card-button"
+                          id="join-game"
+                          onClick={() => navigate(`/character?gameId=${game.gameId}`)}
+                        >
+                          Join Game
+                        </button>
+                      ) : (
+                        <h1 id='game-started'>This game is full</h1>
+                      )}
                     </div>
                   )
                 ) : game.isUserPartOfGame ? ( // Partida iniciada y soy parte
                   <div>
-                    <p>It's your turn: {game.isMyTurn ? 'Yes' : 'No'}</p>
-                    <p>Current turn belongs to User ID: {game.currentTurnUserId}</p>
                     {game.myCharacter && (
                       <div>
-                        <p>Your Character: {game.myCharacter.name}</p>
+                        <h3>Your character: {game.myCharacter.name}</h3>
                         <img
                           src={game.myCharacter.avatar}
                           alt={`${game.myCharacter.name} Avatar`}
                           className="character-avatar"
                         />
-                        <p>{game.myCharacter.description}</p>
                       </div>
                     )}
+                    <p id="turnos">
+                      Current Turn:{" "}
+                      {game.currentTurnUserId
+                        ? game.currentTurnUserId == userId
+                          ? "It's your turn!"
+                          : usernames[game.currentTurnUserId] || "Loading..."
+                        : "No active turn"}
+                    </p>
+                    <div className="button-container">
+                      {game.status === 1 && (
+                        <button
+                          className="card-button"
+                          id="board"
+                          onClick={() => navigate(`/board/${game.board.boardId}`)}
+                        >
+                          Go to board
+                        </button>
+                      )}
+                    </div>
                   </div>
                 ) : ( // Partida iniciada pero no soy parte
                   <div>
                     <p>Status: Started</p>
+                    <h1 id='game-started'>Game started</h1>
                   </div>
                 )}
               </div>

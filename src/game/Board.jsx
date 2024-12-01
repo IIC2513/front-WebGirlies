@@ -241,7 +241,6 @@ return (
     <main className='MainBoard'>
       <div className='contenedor-board-dashboard'>
         <div className='contenedor-dashboard'>
-          <h2>Role: {myRole}</h2>
           {/* Contenedor horizontal para los personajes */}
           <div className="character-turn-order-horizontal">
             {characters
@@ -270,7 +269,7 @@ return (
                     alt={myCharacter.Character.name} 
                     className="mi-personaje-avatar" 
                   />
-                  <p className="mi-personaje-nombre">Your character</p>
+                  <p className="mi-personaje-nombre">My Role {myRole}</p>
                 </div>
               )}
             </div>

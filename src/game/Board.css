@@ -122,6 +122,10 @@
     border: 5px solid rgb(0, 208, 255);
   }
 
+  .contenedor-dashboard h2{
+    font-family: Muro;
+    font-weight: 200;
+  }
 
   .character-turn-order-horizontal {
     display: flex;

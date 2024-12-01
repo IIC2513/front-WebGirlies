@@ -3,14 +3,11 @@ import { AuthContext } from '../auth/AuthContext';
 import axios from 'axios';
 import './Login.css';
 import pasillo from './../assets/images/pasillo-oscuro-hospital-salida-emergencia-luz-encima.jpg';
-import LogoutButton from '../profile/Logout';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
-import { SocketContext } from '../sockets/SocketContext';
 
 function Login() {
   const { token, setToken , setUserId} = useContext(AuthContext);
-  const {connectSocket} = useContext(SocketContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); //prueba
@@ -36,7 +33,6 @@ function Login() {
   
       const user_id = response.data.user_id;
       setUserId(user_id);
-      connectSocket(user_id);
   
       setTimeout(() => {
         navigate('/');
