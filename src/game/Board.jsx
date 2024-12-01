@@ -51,12 +51,23 @@ export function Board() {
         gameId: boardId,
       });
       console.log(`Éxito: ${response.data.message}`);
+      
+      // Agregar la carta al estado de `myCards`
+      console.log("Cartas antes:", myCards);
+      console.log("Carta recogida:", response.data.card);
+      fetchAllData();
+      setMyCards(prevCards => [...prevCards, response.data.card]);
+      console.log("Cartas actuales:", myCards);
+  
+      // Mostrar un mensaje o notificación de éxito
+      console.log(`¡Has recogido una carta: ${response}!`);
+      alert(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
-      console.log('Hubo un problema al conectar con el servidor.');
+      alert('Hubo un problema al recoger la carta.');
     }
   };
-
+  
   const handlePopup = () => {
     setShowPopup(!showPopup); // Alternar visibilidad del popup
     setPopupContent('Aquí puedes escribir o ver tus notas.'); // Cambia el contenido según lo necesites
@@ -165,7 +176,8 @@ export function Board() {
         ));
         setDiceValue(0); // Resetear el valor del dado
         changeTurn(); // Cambiar el turno
-        setIsInAPlace(response.data.atAPlace);
+        setIsInAPlace(response.data.isInAPlace); // Actualiza el estado de isInAPlace
+        console.log("Personaje movido:", isInAPlace);
       } else {
         console.error("Movimiento no permitido:", response.data.message);
       }
@@ -222,6 +234,7 @@ export function Board() {
         setCharacters(response.data["character"]); // Asegúrate de que aquí se está actualizando correctamente
         setAbilities(response.data.abilities);
         setMyCards(response.data["MyCards"]);
+        console.log("MyCards al inicio:", myCards);
       })
       .catch((error) => {
         console.log(error);
@@ -373,9 +386,11 @@ return (
           </div>
           
           <div>
-            <button onClick={handleCard}>
-              Recoger carta
-            </button>
+          {isInAPlace !== null && (
+  <button onClick={handleCard} className="collect-card-button">
+    Recoger carta
+  </button>
+)}
             <h2>Mis cartas</h2>
             <ul>
               {myCards.map(card => (
