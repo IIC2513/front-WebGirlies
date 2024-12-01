@@ -237,53 +237,53 @@ export function Board() {
 
 return (
   <div className='BodyBoard'>
-  <Navbar />
-  <main className='MainBoard'>
-    <div className='contenedor-board-dashboard'>
-      <div className='contenedor-dashboard'>
-        <h2>Role: {myRole}</h2>
-        {/* Contenedor horizontal para los personajes */}
-        <div className="character-turn-order-horizontal">
-          {characters
-            .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
-            .map(character => (
-              <div
-                key={character.characterId}
-                className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
-              >
-                <img
-                  src={character["Character"].avatar}
-                  alt={character.name}
-                  className="character-avatar-horizontal"
-                />
-                <p>{character.Character.name}</p>
-                <p id="username-board">{character.User.username}</p>
-              </div>
-            ))}
-        </div>
-        <div className='contenedor-dado'>
-          <div className="contenedor-mi-personaje">
-            {myCharacter && (
-              <div className="mi-personaje">
-                <img 
-                  src={myCharacter.Character.avatar} 
-                  alt={myCharacter.Character.name} 
-                  className="mi-personaje-avatar" 
-                />
-                <p className="mi-personaje-nombre">Your character</p>
-              </div>
-            )}
+    <Navbar />
+    <main className='MainBoard'>
+      <div className='contenedor-board-dashboard'>
+        <div className='contenedor-dashboard'>
+          <h2>Role: {myRole}</h2>
+          {/* Contenedor horizontal para los personajes */}
+          <div className="character-turn-order-horizontal">
+            {characters
+              .sort((a, b) => a.joinOrder - b.joinOrder) // Ordena los personajes por su orden de entrada
+              .map(character => (
+                <div
+                  key={character.characterId}
+                  className={`character-item-horizontal ${character.turn ? '' : 'inactive'}`} // Clase condicional
+                >
+                  <img
+                    src={character["Character"].avatar}
+                    alt={character.name}
+                    className="character-avatar-horizontal"
+                  />
+                  <p>{character.Character.name}</p>
+                  <p id="username-board">{character.User.username}</p>
+                </div>
+              ))}
           </div>
-          <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
-          {diceValue !== null && <DiceRoller diceValue={diceValue} />}
-        </div>
-        <div>
-          {/* Botón para mostrar/ocultar el popup */}
-          <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
-            Notas
-          </button>
-          {/* Popup que se muestra al lado del dado */}
-          {showPopup && (
+          <div className='contenedor-dado'>
+            <div className="contenedor-mi-personaje">
+              {myCharacter && (
+                <div className="mi-personaje">
+                  <img 
+                    src={myCharacter.Character.avatar} 
+                    alt={myCharacter.Character.name} 
+                    className="mi-personaje-avatar" 
+                  />
+                  <p className="mi-personaje-nombre">Your character</p>
+                </div>
+              )}
+            </div>
+            <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
+            {diceValue !== null && <DiceRoller diceValue={diceValue} />}
+          </div>
+          <div>
+            {/* Botón para mostrar/ocultar el popup */}
+            <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
+              Notas
+            </button>
+            {/* Popup que se muestra al lado del dado */}
+            {showPopup && (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <div className="popup-content">
                   <button className="close-button" onClick={handlePopup}>x</button>
@@ -296,164 +296,165 @@ return (
                   />
                   <button onClick={saveNote}>Guardar Nota</button>
                 </div>
-              )}
-              <div>
-                <button onClick={handleAccuse}>
-                  Acusse
-                </button>
-                {showAccusePopup && (
-                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div className="popup-content">
-                    <button className="close-button" onClick={() => setShowAccusePopup(false)}>X</button>
-                    <h3>Realizar acusación</h3>
-                    <div>
-                      <h4>Selecciona un personaje</h4>
-                      {allCharacters.map((character) => (
-                        <label key={character.characterId}>
-                          <input
-                            type="radio"
-                            name="character"
-                            value={character.characterId}
-                            onChange={() =>
-                              setAccusation((prev) => ({ ...prev, characterId: character.characterId }))
-                            }
-                          />
-                          {character.card.description}
-                        </label>
-                      ))}
-                    </div>
-                    <div>
-                      <h4>Selecciona un arma</h4>
-                      {allWeapons
-                        .map((weapon) => (
-                          <label key={weapon.cardId}>
-                            <input
-                              type="radio"
-                              name="weapon"
-                              value={weapon.cardId}
-                              onChange={() =>
-                                setAccusation((prev) => ({ ...prev, weaponId: weapon.cardId }))
-                              }
-                            />
-                            {weapon.card.description}
-                          </label>
-                        ))}
-                    </div>
-                    <div>
-                      <h4>Selecciona un lugar</h4>
-                      {allPlaces.map((place) => (
-                        <label key={place.placeId}>
-                          <input
-                            type="radio"
-                            name="place"
-                            value={place.placeId}
-                            onChange={() =>
-                              setAccusation((prev) => ({ ...prev, placeId: place.placeId }))
-                            }
-                          />
-                          {place.card.description}
-                        </label>
-                      ))}
-                    </div>
-                    <button onClick={sendAccusation}>Enviar Acusación</button>
-                  </div>
-                </div>
-              )}
-              {accuseResult && (
-                <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <div className="popup-content">
-                    <button className="close-button" onClick={() => setAccuseResult(null)}>X</button>
-                    <h3>Resultado de la acusación</h3>
-                    <p>{accuseResult.message}</p>
-                  </div>
-                </div>
-              )}
               </div>
-            </div>
-            <div>
-            <button onClick={handleCard}>
-                  Recoger carta
-                </button>
-                <h2>Mis cartas</h2>
-                <ul>
-                  {myCards.map(card => (
-                    <li key={card.id}>
-                      <p>{card["Card"].description}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            )}
           </div>
-      </div>
-      <div className='AllBoard'>
-        <GameContext.Provider value={{ cells, setCells, places, characters }}>
-          <div className="board-container">
-            <img src={tablero} alt="Tablero Marco" className="board-frame" />
-            <div className="board">
-              {cells.map(cell => (
-                <div
-                  key={`${cell.x}-${cell.y}`}
-                  className="board-cell"
-                  onClick={() => handleCellClick(cell)}
-                  style={{
-                    gridColumn: cell.x + 1,
-                    gridRow: cell.y + 1,
-                  }}
-                >
-                  {characters
-                    .filter(character => character.positionX === cell.x && character.positionY === cell.y)
-                    .map(character => (
-                      <img
-                        key={character.characterId}
-                        src={character["Character"].avatar}
-                        alt={character.name}
-                        className="character-board"
-                        style={{
-                          position: "absolute",
-                          left: `${(character.positionX * 100) / cells.length}%`,
-                          bottom: `${(character.positionY * 100) / cells.length}%`,
-                          zIndex: 10,
-                        }}
-                      />
+          <div>
+            <button onClick={handleAccuse}>
+              Acusse
+            </button>
+            {showAccusePopup && (
+              <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <div className="popup-content">
+                  <button className="close-button" onClick={() => setShowAccusePopup(false)}>X</button>
+                  <h3>Realizar acusación</h3>
+                  <div>
+                    <h4>Selecciona un personaje</h4>
+                    {allCharacters.map((character) => (
+                      <label key={character.characterId}>
+                        <input
+                          type="radio"
+                          name="character"
+                          value={character.characterId}
+                          onChange={() =>
+                            setAccusation((prev) => ({ ...prev, characterId: character.characterId }))
+                          }
+                        />
+                        {character.card.description}
+                      </label>
                     ))}
-                  <img
-                    src={cell.image}
-                    alt={`Cell ${cell.x}, ${cell.y}`}
-                    className="cell-image"
-                  />
-                {places
-                  .filter(place => place.doorX === cell.x && place.doorY === cell.y)
-                  .map((place, index) => (
-                    <React.Fragment key={index}>
-                      {/* Agrega las cartas dentro del lugar */}
-                      {cards
-                        .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
-                        .map((card, cardIndex) => (
-                          <img
-                            key={cardIndex}
-                            src={card.cardInside.image}
-                            alt={card.name}
-                            className="card-image"
-                            style={{
-                              position: "absolute",
-                              zIndex: 3,  // Asegura que las cartas estén sobre el lugar
-                              left: "50%",
-                              top: "50%",
-                              transform: "translate(-50%, -50%)",
-                            }}
+                  </div>
+                  <div>
+                    <h4>Selecciona un arma</h4>
+                    {allWeapons
+                      .map((weapon) => (
+                        <label key={weapon.cardId}>
+                          <input
+                            type="radio"
+                            name="weapon"
+                            value={weapon.cardId}
+                            onChange={() =>
+                              setAccusation((prev) => ({ ...prev, weaponId: weapon.cardId }))
+                            }
                           />
-                        ))}
-                    </React.Fragment>
-                  ))}
+                          {weapon.card.description}
+                        </label>
+                      ))}
+                  </div>
+                  <div>
+                    <h4>Selecciona un lugar</h4>
+                    {allPlaces.map((place) => (
+                      <label key={place.placeId}>
+                        <input
+                          type="radio"
+                          name="place"
+                          value={place.placeId}
+                          onChange={() =>
+                            setAccusation((prev) => ({ ...prev, placeId: place.placeId }))
+                          }
+                        />
+                        {place.card.description}
+                      </label>
+                    ))}
+                  </div>
+                  <button onClick={sendAccusation}>Enviar Acusación</button>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+            {accuseResult && (
+              <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                <div className="popup-content">
+                  <button className="close-button" onClick={() => setAccuseResult(null)}>X</button>
+                  <h3>Resultado de la acusación</h3>
+                  <p>{accuseResult.message}</p>
+                </div>
+              </div>
+            )}
           </div>
-        </GameContext.Provider>
+          
+          <div>
+            <button onClick={handleCard}>
+              Recoger carta
+            </button>
+            <h2>Mis cartas</h2>
+            <ul>
+              {myCards.map(card => (
+                <li key={card.id}>
+                  <p>{card["Card"].description}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className='AllBoard'>
+          <GameContext.Provider value={{ cells, setCells, places, characters }}>
+            <div className="board-container">
+              <img src={tablero} alt="Tablero Marco" className="board-frame" />
+              <div className="board">
+                {cells.map(cell => (
+                  <div
+                    key={`${cell.x}-${cell.y}`}
+                    className="board-cell"
+                    onClick={() => handleCellClick(cell)}
+                    style={{
+                      gridColumn: cell.x + 1,
+                      gridRow: cell.y + 1,
+                    }}
+                  >
+                    {characters
+                      .filter(character => character.positionX === cell.x && character.positionY === cell.y)
+                      .map(character => (
+                        <img
+                          key={character.characterId}
+                          src={character["Character"].avatar}
+                          alt={character.name}
+                          className="character-board"
+                          style={{
+                            position: "absolute",
+                            left: `${(character.positionX * 100) / cells.length}%`,
+                            bottom: `${(character.positionY * 100) / cells.length}%`,
+                            zIndex: 10,
+                          }}
+                        />
+                      ))}
+                    <img
+                      src={cell.image}
+                      alt={`Cell ${cell.x}, ${cell.y}`}
+                      className="cell-image"
+                    />
+                  {places
+                    .filter(place => place.doorX === cell.x && place.doorY === cell.y)
+                    .map((place, index) => (
+                      <React.Fragment key={index}>
+                        {/* Agrega las cartas dentro del lugar */}
+                        {cards
+                          .filter(card => card.placeId === place.placeId) // Asocia la carta con el lugar
+                          .map((card, cardIndex) => (
+                            <img
+                              key={cardIndex}
+                              src={card.cardInside.image}
+                              alt={card.name}
+                              className="card-image"
+                              style={{
+                                position: "absolute",
+                                zIndex: 3,  // Asegura que las cartas estén sobre el lugar
+                                left: "50%",
+                                top: "50%",
+                                transform: "translate(-50%, -50%)",
+                              }}
+                            />
+                          ))}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </GameContext.Provider>
+        </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
   );
   }
      

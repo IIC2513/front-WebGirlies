@@ -23,7 +23,6 @@ export function AllGames() {
   const payloadBase64 = token.split('.')[1];
   const payload = JSON.parse(atob(payloadBase64));
   const userId = payload.sub;  // Asegúrate de que 'sub' es el userId
-  console.log("userId:", userId);
 
   useEffect(() => {
     // Función para obtener los juegos del usuario
@@ -55,34 +54,52 @@ export function AllGames() {
   }
 
   return (
-    <div className='BodyGames'>
+    <div className="BodyGames">
       <Navbar />
       <main className="games-main">
-        <h1 className='titulo-games'>All Games</h1>
+        <h1 className="titulo-games">All Games</h1>
         {games.length === 0 ? (
           <p>No hay juegos creados.</p>
         ) : (
           <div className="cards-container">
             {games.map((game) => (
               <div className="card" key={game.gameId}>
-                <div>
-                  <h2 className='nombre-game'>Game {game.gameId}</h2>
-                  <p>Participants: {game.playerCount}</p>
-                  <div className="button-container">
-                    <button
-                      className="card-button"
-                      onClick={() => navigate(`/character?gameId=${game.gameId}`)} // Redirige a detalles del juego
-                    >
-                      Unirme
-                    </button>
-                    <button
-                      className="card-button"
-                      onClick={() => navigate(`/board/${game.boardId}`)} // Redirige a la página del tablero
-                    >
-                      Ver Tablero
-                    </button>
+                <h2 className="nombre-game">Game {game.gameId}</h2>
+                <p>Participants: {game.playerCount}</p>
+                {game.status === 1 ? ( // Partida no iniciada
+                  game.isUserPartOfGame ? ( // Soy parte de la partida
+                    <p>Ya estás unido, pero la partida aún no comienza.</p>
+                  ) : (
+                    <div className="button-container">
+                      <button
+                        className="card-button"
+                        onClick={() => navigate(`/character?gameId=${game.gameId}`)}
+                      >
+                        Unirme
+                      </button>
+                    </div>
+                  )
+                ) : game.isUserPartOfGame ? ( // Partida iniciada y soy parte
+                  <div>
+                    <p>It's your turn: {game.isMyTurn ? 'Yes' : 'No'}</p>
+                    <p>Current turn belongs to User ID: {game.currentTurnUserId}</p>
+                    {game.myCharacter && (
+                      <div>
+                        <p>Your Character: {game.myCharacter.name}</p>
+                        <img
+                          src={game.myCharacter.avatar}
+                          alt={`${game.myCharacter.name} Avatar`}
+                          className="character-avatar"
+                        />
+                        <p>{game.myCharacter.description}</p>
+                      </div>
+                    )}
                   </div>
-                </div>
+                ) : ( // Partida iniciada pero no soy parte
+                  <div>
+                    <p>Status: Started</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
