@@ -49,7 +49,8 @@ export function AllGames() {
         console.log(import.meta.env.VITE_BACKEND_URL);
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/allGames`, {
           params: { userId }});
-          
+        
+        console.log(response.data.games)
         const fetchedGames = Array.isArray(response.data.games)
         ? response.data.games
         : []; // Garantizar que sea un array
@@ -123,7 +124,7 @@ export function AllGames() {
                         <button
                           className="card-button"
                           id="join-game"
-                          onClick={() => navigate(`/character?gameId=${game.gameId}`)}
+                          onClick={() => navigate(`/character?gameId=${game.gameId}`, { state: { from: location.pathname } })}
                         >
                           Join Game
                         </button>
@@ -132,33 +133,34 @@ export function AllGames() {
                       )}
                     </div>
                   )
-                ) : game.isUserPartOfGame ? ( // Partida iniciada y soy parte
-                  <div>
-                    {game.myCharacter && (
-                      <div>
-                        <h3>Your character: {game.myCharacter.name}</h3>
-                        <img
-                          src={game.myCharacter.avatar}
-                          alt={`${game.myCharacter.name} Avatar`}
-                          className="character-avatar"
-                        />
-                      </div>
-                    )}
-                    <p 
-                    id={
-                      game.currentTurnUserId
-                        ? "turnos"
-                        : "no-active-turn"
-                    }>
-                      Current Turn:{" "}
-                      {game.currentTurnUserId
-                        ? game.currentTurnUserId == userId
-                          ? "It's your turn!"
-                          : usernames[game.currentTurnUserId] || "Loading..."
-                        : "No active turn"}
-                    </p>
-                    <div className="button-container">
-                      {game.status === 1 && (
+                ) : game.status === 1 ? ( // Partida iniciada
+                  game.playerCount === 0 ? ( // Juego sin jugadores
+                    <div>
+                      <h1 id="game-finished">Game Finished</h1>
+                    </div>
+                  ) : game.isUserPartOfGame ? ( // El jugador es parte del juego
+                    <div>
+                      {game.myCharacter && (
+                        <div>
+                          <h3>Your character: {game.myCharacter.name}</h3>
+                          <img
+                            src={game.myCharacter.avatar}
+                            alt={`${game.myCharacter.name} Avatar`}
+                            className="character-avatar"
+                          />
+                        </div>
+                      )}
+                      <p
+                        id={game.currentTurnUserId ? "turnos" : "no-active-turn"}
+                      >
+                        Current Turn:{" "}
+                        {game.currentTurnUserId
+                          ? game.currentTurnUserId === userId
+                            ? "It's your turn!"
+                            : usernames[game.currentTurnUserId] || "Loading..."
+                          : "No active turn"}
+                      </p>
+                      <div className="button-container">
                         <button
                           className="card-button"
                           id="board"
@@ -166,15 +168,18 @@ export function AllGames() {
                         >
                           Go to board
                         </button>
-                      )}
+                      </div>
                     </div>
-                  </div>
-                ) : ( // Partida iniciada pero no soy parte
+                  ) : ( // El jugador no es parte del juego
+                    <div>
+                      <h1 id="game-started">Game started</h1>
+                    </div>
+                  )
+                ) : game.status === 2 ? ( // Juego terminado
                   <div>
-                    <p>Status: Started</p>
-                    <h1 id='game-started'>Game started</h1>
+                    <h1 id="game-finished">Game Finished</h1>
                   </div>
-                )}
+                ) : null}
               </div>
             ))}
           </div>

@@ -17,6 +17,7 @@ export function CharacterSelection() {
   // Obtener la ubicación actual de la URL
   const location = useLocation();
   
+  const previousPage = location.state?.from || '/myGames';
   // Extraer los parámetros de consulta de la URL
   const params = new URLSearchParams(location.search);
   const gameId = params.get('gameId'); // Obtienes el valor de 'gameId' de la URL
@@ -68,7 +69,7 @@ export function CharacterSelection() {
         console.log("No se redirige debido a un mensaje de advertencia o error.");
       } else {
         setTimeout(() => {
-          navigate(`/myGames`);
+          navigate(previousPage);
         }, 500);
       }
 

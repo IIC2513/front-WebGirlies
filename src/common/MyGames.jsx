@@ -96,77 +96,93 @@ export function MyGames() {
               <div className="card" key={game.gameId}>
                 <h2 className="nombre-game">Game {game.gameId}</h2>
                 <p>Participants: {game.playerCount}</p>
-                {game.myCharacter && (
+                {game.status !== 2 ? ( // Mostrar solo si el juego no está finalizado
+                  <>
+                    {game.myCharacter && (
+                      <div>
+                        <h3>Your character: {game.myCharacter.name}</h3>
+                        <img
+                          src={game.myCharacter.avatar}
+                          alt={game.myCharacter.name}
+                          className="character-avatar"
+                        />
+                      </div>
+                    )}
+                    {game.myCharacter && (
+                      <p
+                        id={game.currentTurnUserId ? "turnos" : "no-active-turn"}
+                      >
+                        Current Turn:{" "}
+                        {game.currentTurnUserId
+                          ? game.currentTurnUserId == userId
+                            ? "It's your turn!"
+                            : usernames[game.currentTurnUserId] || "Loading..."
+                          : "No active turn"}
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  // Mostrar mensaje para juegos finalizados
                   <div>
-                    <h3>Your character: {game.myCharacter.name}</h3>
-                    <img
-                      src={game.myCharacter.avatar}
-                      alt={game.myCharacter.name}
-                      className="character-avatar"
-                    />
+                    <h1 id="game-finished">Game Finished</h1>
                   </div>
                 )}
-                <p 
-                id={
-                  game.currentTurnUserId
-                    ? "turnos"
-                    : "no-active-turn"
-                }>
-                  Current Turn:{" "}
-                  {game.currentTurnUserId
-                    ? game.currentTurnUserId == userId
-                      ? "It's your turn!"
-                      : usernames[game.currentTurnUserId] || "Loading..."
-                    : "No active turn"}
-                </p>
-                <div className="button-container">
-                {game.status === 0 && (
-                  game.myCharacter === null ? (
-                    <button
-                      className="card-button"
-                      id="start"
-                      onClick={() => navigate(`/character?gameId=${game.gameId}`)}
-                    >
-                      Choose Character
-                    </button>
-                  ) : (
-                    <button
-                      className="card-button"
-                      id="start"
-                      onClick={() =>
-                        axios
-                          .post(
-                            `${import.meta.env.VITE_BACKEND_URL}/games/start`,
-                            {
-                              gameId: game.gameId,
-                              userId: userId,
-                            }
-                          )
-                          .then((response) => {
-                            setGames((prevGames) =>
-                              prevGames.map((g) =>
-                                g.gameId === game.gameId ? { ...g, status: 1 } : g
-                              )
-                            );
-                          })
-                          .catch((error) => {
-                            console.error("Error al iniciar el juego:", error);
-                          })
-                      }
-                    >
-                      Start Game
-                    </button>
-                  )
-                )}
 
+                <div className="button-container">
+                  {game.status === 0 && (
+                    game.myCharacter === null ? (
+                      <button
+                        className="card-button"
+                        id="start"
+                        onClick={() => navigate(`/character?gameId=${game.gameId}`, { state: { from: location.pathname } })}
+                      >
+                        Choose Character
+                      </button>
+                    ) : (
+                      <button
+                        className="card-button"
+                        id="start"
+                        onClick={() =>
+                          axios
+                            .post(
+                              `${import.meta.env.VITE_BACKEND_URL}/games/start`,
+                              {
+                                gameId: game.gameId,
+                                userId: userId,
+                              }
+                            )
+                            .then((response) => {
+                              setGames((prevGames) =>
+                                prevGames.map((g) =>
+                                  g.gameId === game.gameId ? { ...g, status: 1 } : g
+                                )
+                              );
+                            })
+                            .catch((error) => {
+                              console.error("Error al iniciar el juego:", error);
+                            })
+                        }
+                      >
+                        Start Game
+                      </button>
+                    )
+                  )}
                   {game.status === 1 && (
-                    <button
-                      className="card-button"
-                      id="board"
-                      onClick={() => navigate(`/board/${game.board.boardId}`)}
-                    >
-                      Go to board
-                    </button>
+                    <>
+                      {game.myCharacter ? (
+                        <button
+                          className="card-button"
+                          id="board"
+                          onClick={() => navigate(`/board/${game.board.boardId}`)}
+                        >
+                          Go to board
+                        </button>
+                      ) : (
+                        <div>
+                          <h1 id="game-finished">You lost</h1>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -176,6 +192,6 @@ export function MyGames() {
       </main>
     </div>
   );
-}
+}  
 
 export default MyGames;

@@ -73,9 +73,16 @@
   #game-started{
     font-size: 50px;
     font-family: Muro;
-    color: #06A196;
+    color: #15a106;
     text-align: center;
   }
+
+#game-finished{
+    font-size: 50px;
+    font-family: Muro;
+    color: #cb2d11;
+    text-align: center;
+}
   
   #join-game{
     font-size: 18px;
