@@ -1,12 +1,12 @@
 .instructions {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 0%;
     background: #CAEEEB;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     margin: 0;
+    margin-bottom: 2%;
 }
 
 
@@ -14,20 +14,27 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 30px;
+    padding: 4%;
+    padding-top: 0;
 }
 
 .imgtablero {
-    max-width: 40%;
-    height: auto; /* Mantiene las proporciones */
-    padding: 7%;
+    max-width: 100%;
 }
 
 .title {
     font-family:Muro;
     font-size: 60px;
-    padding-top: 15%;
-    padding-bottom: 5%;
+    padding-top: 8%;
+    color: #06A196;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.title2 {
+    font-family:Muro;
+    font-size: 60px;
+    padding-bottom: 2%;
     color: #06A196;
     text-align: center;
     margin: 0 auto;
@@ -43,8 +50,16 @@
 }
 
 .description_container {
+    max-width: 50%;
     align-items: center;
-    padding: 5%;
-    padding-right: 1%;
+    padding: 1%;
+    padding-top: 1%;
+  }
+
+  .TableroConteinerAbout{
+    display: flex;
+    max-width: 50%;
+    align-items: center;
+    padding: 1%;
     padding-top: 1%;
   }
