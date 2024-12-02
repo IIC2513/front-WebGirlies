@@ -49,9 +49,7 @@ export function AllGames() {
         console.log(import.meta.env.VITE_BACKEND_URL);
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/allGames`, {
           params: { userId }});
-        console.log(response)
-        console.log("Juegos:", response.data);
-
+          
         const fetchedGames = Array.isArray(response.data.games)
         ? response.data.games
         : []; // Garantizar que sea un array

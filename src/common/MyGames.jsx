@@ -120,7 +120,16 @@ export function MyGames() {
                     : "No active turn"}
                 </p>
                 <div className="button-container">
-                  {game.status === 0 && (
+                {game.status === 0 && (
+                  game.myCharacter === null ? (
+                    <button
+                      className="card-button"
+                      id="start"
+                      onClick={() => navigate(`/character?gameId=${game.gameId}`)}
+                    >
+                      Choose Character
+                    </button>
+                  ) : (
                     <button
                       className="card-button"
                       id="start"
@@ -136,9 +145,7 @@ export function MyGames() {
                           .then((response) => {
                             setGames((prevGames) =>
                               prevGames.map((g) =>
-                                g.gameId === game.gameId
-                                  ? { ...g, status: 1 }
-                                  : g
+                                g.gameId === game.gameId ? { ...g, status: 1 } : g
                               )
                             );
                           })
@@ -147,9 +154,11 @@ export function MyGames() {
                           })
                       }
                     >
-                      Start game
+                      Start Game
                     </button>
-                  )}
+                  )
+                )}
+
                   {game.status === 1 && (
                     <button
                       className="card-button"

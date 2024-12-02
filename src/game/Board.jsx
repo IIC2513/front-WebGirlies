@@ -7,7 +7,7 @@ import Navbar from '../common/Navbar';
 import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
-import Dashboard from "./Dashboard";
+import card_image from '../assets/images/carta_imagen.png';
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -62,7 +62,7 @@ export function Board() {
   
       // Mostrar un mensaje o notificación de éxito
       console.log(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
-      alert(`¡Has recogido una carta: ${response.data.card.description || 'sin nombre'}!`);
+      alert(`¡Has recogido una carta: ${response.data.card.Card.description || 'sin nombre'}!`);
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
       alert('Hubo un problema al recoger la carta.');
@@ -279,17 +279,17 @@ return (
                     alt={myCharacter.Character.name} 
                     className="mi-personaje-avatar" 
                   />
-                  <p className="mi-personaje-nombre">My Role {myRole}</p>
+                  <p className="mi-personaje-nombre">My Character</p>
                 </div>
               )}
             </div>
             <button className='dice-roller-button' onClick={rollDice}>Roll Dice</button>
             {diceValue !== null && <DiceRoller diceValue={diceValue} />}
           </div>
-          <div>
+          <div className='two-button'>
             {/* Botón para mostrar/ocultar el popup */}
             <button className='popup-toggle-button' onClick={() => { console.log('Botón de notas clickeado'); handlePopup(); }}>
-              Notas
+              Notes
             </button>
             {/* Popup que se muestra al lado del dado */}
             {showPopup && (
@@ -303,70 +303,76 @@ return (
                     rows={5}
                     className='text-notas'
                   />
-                  <button onClick={saveNote}>Guardar Nota</button>
+                  <button onClick={saveNote}>Save note</button>
                 </div>
               </div>
             )}
-          </div>
-          <div>
-            <button onClick={handleAccuse}>
+          
+            <button className='popup-toggle-button' onClick={handleAccuse}>
               Accuse
             </button>
             {showAccusePopup && (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <div className="popup-content">
-                  <button className="close-button" onClick={() => setShowAccusePopup(false)}>X</button>
-                  <h3>Realizar acusación</h3>
-                  <div>
-                    <h4>Selecciona un personaje</h4>
-                    {allCharacters.map((character) => (
-                      <label key={character.Card.cardId}>
-                        <input
-                          type="radio"
-                          name="character"
-                          value={character.id}
-                          onChange={() =>
-                            setAccusation((prev) => ({ ...prev, characterId: character.Card.cardId }))
-                          }
-                        />
-                        {character.Card.description}
-                      </label>
-                    ))}
+                  <button className="close-button" onClick={() => setShowAccusePopup(false)}>x</button>
+                  <h2>Make accusation</h2>
+                  <div className='contenedor-preguntas'>
+                    <div>
+                      <h4>Select a character</h4>
+                      <div className="character-list">
+                        {allCharacters.map((character) => (
+                          <label key={character.Card.cardId} className="character-option">
+                            <input
+                              type="radio"
+                              name="character"
+                              value={character.id}
+                              onChange={() =>
+                                setAccusation((prev) => ({ ...prev, characterId: character.Card.cardId }))
+                              }
+                            />
+                            {character.Card.description}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4>Select a weapon</h4>
+                      <div className="weapon-list">
+                        {allWeapons.map((weapon) => (
+                          <label key={weapon.id} className="weapon-option">
+                            <input
+                              type="radio"
+                              name="weapon"
+                              value={weapon.Card.cardId}
+                              onChange={() =>
+                                setAccusation((prev) => ({ ...prev, weaponId: weapon.Card.cardId }))
+                              }
+                            />
+                            {weapon.Card.description}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4>Select a place</h4>
+                      <div className="place-list">
+                        {allPlaces.map((place) => (
+                          <label key={place.id} className="place-option">
+                            <input
+                              type="radio"
+                              name="place"
+                              value={place.Card.placeId}
+                              onChange={() =>
+                                setAccusation((prev) => ({ ...prev, placeId: place.Card.cardId }))
+                              }
+                            />
+                            {place.Card.description}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4>Selecciona un arma</h4>
-                    {allWeapons
-                      .map((weapon) => (
-                        <label key={weapon.id}>
-                          <input
-                            type="radio"
-                            name="weapon"
-                            value={weapon.Card.cardId}
-                            onChange={() =>
-                              setAccusation((prev) => ({ ...prev, weaponId: weapon.Card.cardId }))
-                            }
-                          />
-                          {weapon.Card.description}
-                        </label>
-                      ))}
-                  </div>
-                  <div>
-                    <h4>Selecciona un lugar</h4>
-                    {allPlaces.map((place) => (
-                      <label key={place.id}>
-                        <input
-                          type="radio"
-                          name="place"
-                          value={place.Card.placeId}
-                          onChange={() =>
-                            setAccusation((prev) => ({ ...prev, placeId: place.Card.cardId }))
-                          }
-                        />
-                        {place.Card.description}
-                      </label>
-                    ))}
-                  </div>
-                  <button onClick={sendAccusation}>Enviar Acusación</button>
+                  <button onClick={sendAccusation}>Submit Accusation</button>
                 </div>
               </div>
             )}
@@ -374,7 +380,7 @@ return (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <div className="popup-content">
                   <button className="close-button" onClick={() => setAccuseResult(null)}>X</button>
-                  <h3>Resultado de la acusación</h3>
+                  <h3>Result of the accusation</h3>
                   <p>{accuseResult.message}</p>
                 </div>
               </div>
@@ -382,18 +388,22 @@ return (
           </div>
           <div>
           {isInAPlace  && (
-              <button onClick={handleCard} className="collect-card-button">
-                Recoger carta
+              <button onClick={handleCard} className='popup-toggle-button' id="pick-card">
+                Pick up card
               </button>
             )}
-            <h2>Mis cartas</h2>
-            <ul>
-              {myCards.map(card => (
-                <li key={card.id}>
+            <h2>My Cards</h2>
+            <div className="card-container">
+              {myCards.map((card) => (
+                <div key={card.id} className="card-dashboard">
+                  <img 
+                    src={card["Card"].image} 
+                    className="card-image-dashboard"
+                  />
                   <p>{card["Card"].description}</p>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
         <div className='AllBoard'>
@@ -442,16 +452,9 @@ return (
                           .map((card, cardIndex) => (
                             <img
                               key={cardIndex}
-                              src={card.cardInside.image}
+                              src={card_image}
                               alt={card.name}
                               className="card-image"
-                              style={{
-                                position: "absolute",
-                                zIndex: 3,  // Asegura que las cartas estén sobre el lugar
-                                left: "50%",
-                                top: "50%",
-                                transform: "translate(-50%, -50%)",
-                              }}
                             />
                           ))}
                       </React.Fragment>
