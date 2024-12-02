@@ -1,76 +1,3 @@
-
-@font-face {
-    font-family: Muro;
-    src: url(../fonts/muro/Muro.otf);
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #CAEEEB;
-}
-
-.headerLan {
-    backdrop-filter: blur(4px);
-    text-align: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.73);
-}
-
-nav ul {
-    padding: 0;
-    position: sticky;
-    list-style-type: none;
-    display: flex;
-    justify-content: center; /* Centramos los elementos */
-}
-
-.links li {
-    display: inline-flex;
-}
-
-.links a {
-    font-family: Muro;
-    color: white;
-    text-decoration: none;
-    padding: 0px 20px;
-    transition: font-size 0.3s, color 0.2s;
-}
-
-.links a:hover {
-    font-size: larger;
-    color: #06A196;
-    text-decoration: none;
-}
-
-#login {
-    background-color: #06A196;
-    border-radius: 5px;
-    padding: 7px;
-    margin: 5px;
-    text-shadow: 1px 1px 4px black;
-}
-
-#login:hover {
-    background-color: #93f0e9;
-    text-shadow:none;
-}
-
-#signup {
-    background-color: #61c8c0;
-    border-radius: 5px;
-    padding: 7px;
-    margin: 5px;
-    text-shadow: 1px 1px 4px black;
-}
-
-#signup:hover {
-    background-color: #93f0e9;
-    text-shadow:none;
-}
-
 .MainLanding {
     background: url(../assets/images/background.jpeg) no-repeat center center;
     background-size: cover; /* Hace que la imagen cubra todo el ancho y alto */
@@ -78,7 +5,6 @@ nav ul {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    width: 100vw; /* Asegura que el contenedor tenga el ancho completo de la ventana */
     height: 100vh;
     display: flex;
     flex-direction: column; /* Permite que los elementos se apilen verticalmente */
@@ -98,28 +24,91 @@ nav ul {
 .description {
     text-align: center;
     background: linear-gradient(to top, black, transparent); /* Degradado de negro a transparente */
-    padding: 7%;
+    padding-bottom: 4%;
     padding-inline: 15%;
     color: white;
     margin-top: auto; /* Hace que la descripción se quede en la parte inferior */
   }
 
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 5px 15px;
-    font-size: 1em;
-    font-family: Muro;
-    color: white;
-    font-weight: 500;
-    background-color: #0ba296;
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .buttonGame {
+    box-shadow: 0px 7px 30px -10px rgba(28, 120, 126, 0.1);
+    background-color: rgb(0, 164, 156);
+    font-size: 24px;
+    font-weight: 400;
+    font-family: Muro, sans-serif; 
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    line-height: 1.4;
+    border-style: outset;
+    border-width: 10px;
+    border-color: rgba(0, 184, 176, 1);
+    border-radius: 4px;
+    padding: 12px 24px;
+    opacity: 1;
+    transition: all 200ms ease, border-bottom-left-radius 200ms; /* Añadido el efecto de transición para todas las propiedades */
     cursor: pointer;
-    transition: border-color 0.25s;
+    align-self: center;
+    min-width: 150px;
+    order: 11;
+    min-height: 0px;
+    height: max-content;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: auto;
+    margin: 0px;
+    z-index: 4;
+    box-sizing: border-box; /* Asegura que el padding y border no afecten el tamaño */
   }
-  button:hover {
-    border-color: #98e5db;
+  
+  .buttonGame:active {
+    transform: translateY(4px); /* Efecto de hundimiento al hacer clic */
+    box-shadow: 0px 3px 12px -8px rgba(var(--color_bTGzr_default_rgb), 0.2); /* La sombra se reduce cuando se presiona */
   }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+  
+  .buttonGame:hover {
+    box-shadow: 0px 10px 40px -10px rgba(var(--color_bTGzr_default_rgb), 0.2); /* Efecto de sombra más fuerte cuando el ratón pasa por encima */
+  }
+  
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+  }
+  
+  .modalContent button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #ff9100;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+  
+  .modalContent button:hover {
+    background-color: #d17104;
   }

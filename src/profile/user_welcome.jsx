@@ -10,7 +10,7 @@ export default function UserWelcome() {
 
     return (
         <>
-        <h2>Mi primer componente!</h2>
+        <h2>My first component!</h2>
         <input 
             onChange={inp => handleChange(inp.target.value)}
         />

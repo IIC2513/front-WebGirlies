@@ -3,36 +3,14 @@ import board from './../assets/images/baord.jpeg';
 import LogoutButton from '../profile/Logout';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthContext'; 
+import Navbar from '../common/Navbar';
 
 function Instructions() {
     const { token } = useContext(AuthContext);
 
     return (
     <div className={styles.instructions}>
-        <header className={styles.headerInstructions}>
-            <nav>
-            <ul>
-                <div className={styles.links}>
-                <li><a href='/'>Start</a></li>
-                <li><a href='/about'>About us</a></li>
-                <li><a href='/instructions'>How to play</a></li>
-                <li><a href='/board'>Play</a></li>
-
-                {/* Mostrar Login y Sign Up solo si no hay token */}
-                {!token ? (
-                    <>
-                    <li id={styles.login}><a href='/login' >Login</a></li>
-                    <li id={styles.signup}><a href='/signup'>Sign up</a></li>
-                    </>
-                ) : (
-                    // Mostrar Logout si hay un token (usuario logueado)
-                    <li><LogoutButton /></li>
-                )}
-                </div>
-            </ul>
-            </nav>
-        </header>
-        
+        <Navbar />
         <div className={styles.mainInstructions}>
             <div className={styles.description_container}>
                 <h3 className={styles.title}>How to Play</h3>

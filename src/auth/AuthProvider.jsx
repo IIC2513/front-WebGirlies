@@ -3,9 +3,11 @@ import { AuthContext } from "./AuthContext";
 
 function AuthProvider({ children }) {
     const [token, setToken] = useState(localStorage.getItem('token') || null);
+    const [userId, setUserId] = useState(localStorage.getItem('user_id') || null);
 
     function logout() {
         setToken(null)
+        setUserId(null)
         localStorage.removeItem('token');
     }
 
@@ -15,8 +17,12 @@ function AuthProvider({ children }) {
         }
     }, [token]);
 
+    useEffect(() => {
+        localStorage.setItem('user_id', userId);
+    }, [userId]);
+
     return (
-        <AuthContext.Provider value={{ token, setToken, logout}}>
+        <AuthContext.Provider value={{ token, setToken, userId, setUserId, logout}}>
             {children}
         </AuthContext.Provider>
     );

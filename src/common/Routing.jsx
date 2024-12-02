@@ -9,14 +9,18 @@ import Login from '../profile/Login'
 import Signup from '../profile/Signup'
 import AdminCheck from '../protected/AdminCheck'
 import UserCheck from '../protected/UserCheck'
-import LogoutButton from '../profile/Logout'
+import Play from '../game/Play';
+import MyGames from './MyGames'
+import AllGames from './AllGames'
+import AdminRoute  from '../protected/AdminRoute'
+
 
 function Routing() {
     return (
         <>
         <BrowserRouter>
             <Routes>
-                <Route path={'/board'} element={<Board/>}/>
+                <Route path={'/board/:boardId'} element={<Board/>}/>
                 <Route path={'/about'} element={<About/>}/>
                 <Route path={'/instructions'} element={<Instructions/>}/>
                 <Route path={'/welcome'} element={<UserWelcome/>}/>
@@ -26,6 +30,10 @@ function Routing() {
                 <Route path={"/usercheck"} element={<UserCheck />}/>
                 <Route path={''} element={<LandingPage/>}/>
                 <Route path={'/character'} element={<CharacterSelection/>}/>
+                <Route path={"/play"} element={<Play/>} />
+                <Route path={"/myGames"} element={<MyGames/>} />
+                <Route path={"/allGames"} element={<AllGames/>} />
+                <Route path={"/admin"} element={<AdminRoute/>} />
             </Routes>
         </BrowserRouter>
         </>

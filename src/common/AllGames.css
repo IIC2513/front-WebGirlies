@@ -1,0 +1,142 @@
+.BodyGames{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #CAEEEB;
+    background-size: cover;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+}
+
+.games-main{
+    padding-top: 6%;
+    text-align: center;
+}
+
+.titulo-games {
+    font-family: Muro;
+    font-size: 60px;
+    color: #06A196;
+    text-align: center; 
+    margin: auto;
+    padding-top: 2%;
+  }
+
+.nombre-game{
+    font-family: Muro;
+    text-align: center;
+    color: #333;
+    font-size: 30px;
+    margin: 10px;
+    font-weight: 100;
+    margin-bottom: 2px;
+}
+
+  /* Contenedor de todas las tarjetas */
+.cards-container {
+    display: grid; /* Diseño de cuadrícula */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Columnas adaptables */
+    gap: 20px; /* Espacio entre las tarjetas */
+    padding: 3%;
+    padding-inline: 5%;
+  }
+  
+  /* Estilo de cada tarjeta */
+  .card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Títulos dentro de las tarjetas */
+  .card h3 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  /* Descripciones dentro de las tarjetas */
+  .card p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  /* Contenedor de botones dentro de las tarjetas */
+  .button-container {
+    margin-top: 15px;
+  }
+
+  #game-started{
+    font-size: 50px;
+    font-family: Muro;
+    color: #06A196;
+    text-align: center;
+  }
+  
+  #join-game{
+    font-size: 18px;
+    padding: 18px 28px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  #turnos{
+    font-family: Muro;
+    font-size: 18px;
+    color: #ec8600;
+    font-weight: 100;
+  }
+
+  #no-active-turn{
+    font-family: Muro;
+    font-size: 18px;
+    color: #4db552;
+    font-weight: 100;
+  }
+  
+  /* Botones dentro de las tarjetas */
+  .card-button {
+        box-shadow: 0px 7px 30px -10px rgba(28, 120, 126, 0.1);
+        background-color: rgb(0, 164, 156);
+        font-size: 12px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: rgba(255, 255, 255, 1);
+        text-align: center;
+        line-height: 1.1;
+        border-style: outset;
+        border-width: 7px;
+        border-color: rgba(0, 184, 176, 1);
+        border-radius: 4px;
+        padding: 8px 10px;
+        opacity: 1;
+        transition: all 200ms ease, border-bottom-left-radius 200ms; /* Añadido el efecto de transición para todas las propiedades */
+        cursor: pointer;
+        align-self: center;
+        order: 11;
+        min-height: 0px;
+        width: auto;
+        margin: 0px 4px;
+        z-index: 4;
+        box-sizing: border-box; /* Asegura que el padding y border no afecten el tamaño */
+      }
+  
+  .card-button:active {
+    transform: scale(0.95); /* Efecto de hundimiento al presionar */
+  }
+
+#start{
+    background-color: #4db552;
+    border-color: #36963b;
+}
+#board{
+    background-color:#ff9100;
+    border-color: #d17104;
+}
+
+.character-avatar{
+    padding: 0;
+}

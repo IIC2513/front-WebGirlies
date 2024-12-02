@@ -1,0 +1,147 @@
+.dice-roller-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 2%;
+    background: none; /* Sin color de fondo */
+  }
+  
+  .dice-roller-game {
+    position: relative;
+    width: auto;
+    height: 100%;
+  }
+  
+.dice-roller-container {
+  display: inline-block;
+}
+  
+  .dice-roller-dice {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+  }
+  
+  .dice-roller-dot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin: -10px 5px 5px -10px;
+    border-radius: 20px;
+    background-color: #f29a5c;
+    box-shadow: inset 2px 2px #d95604;
+  }
+  
+  
+  .dice-roller-side {
+    position: absolute;
+    background-color: #fff; /* Blanco para el dado */
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dice-roller-side:nth-child(1) {
+    transform: translateZ(3.1em);
+  }
+  
+  .dice-roller-side:nth-child(6) {
+    transform: rotateY(90deg) translateZ(3.1em);
+  }
+  
+  .dice-roller-side:nth-child(3) {
+    transform: rotateY(-90deg) translateZ(3.1em);
+  }
+  
+  .dice-roller-side:nth-child(4) {
+    transform: rotateX(90deg) translateZ(3.1em);
+  }
+  
+  .dice-roller-side:nth-child(5) {
+    transform: rotateX(-90deg) translateZ(3.1em);
+  }
+  
+  .dice-roller-side:nth-child(2) {
+    transform: rotateY(-180deg) translateZ(3.1em);
+  }
+  
+  .dice-roller-show-1 {
+    transform: rotateX(720deg) rotateZ(-720deg);
+  }
+  
+  .dice-roller-show-2 {
+    transform: rotateX(-900deg) rotateZ(1080deg);
+  }
+  
+  .dice-roller-show-6 {
+    transform: rotateY(-450deg) rotateZ(-1440deg);
+  }
+  
+  .dice-roller-show-3 {
+    transform: rotateY(810deg) rotateZ(720deg);
+  }
+  
+  .dice-roller-show-4 {
+    transform: rotateX(-810deg) rotateZ(-1080deg);
+  }
+  
+  .dice-roller-show-5 {
+    transform: rotateX(450deg) rotateZ(-720deg);
+  }
+  
+  .dice-roller-two-1,
+  .dice-roller-three-1,
+  .dice-roller-four-1,
+  .dice-roller-five-1,
+  .dice-roller-six-1 {
+    top: 20%;
+    left: 20%;
+  }
+  
+  .dice-roller-four-3,
+  .dice-roller-five-3,
+  .dice-roller-six-4 {
+    top: 20%;
+    left: 80%;
+  }
+  
+  .dice-roller-one-1,
+  .dice-roller-three-2,
+  .dice-roller-five-5 {
+    top: 50%;
+    left: 50%;
+  }
+  
+  .dice-roller-four-2,
+  .dice-roller-five-2,
+  .dice-roller-six-3 {
+    top: 80%;
+    left: 20%;
+  }
+  
+  .dice-roller-two-2,
+  .dice-roller-three-3,
+  .dice-roller-four-4,
+  .dice-roller-five-4,
+  .dice-roller-six-6 {
+    top: 80%;
+    left: 80%;
+  }
+  
+  .dice-roller-six-2 {
+    top: 50%;
+    left: 20%;
+  }
+  
+  .dice-roller-six-5 {
+    top: 50%;
+    left: 80%;
+  }
+  
