@@ -40,6 +40,7 @@ export function Board() {
   const [allWeapons, setAllWeapons] = useState([]);
   const [allPlaces, setAllPlaces] = useState([]);
 
+  const navigate = useNavigate();
 
   const handleCard = async () => {
     try {
@@ -379,7 +380,15 @@ return (
             {accuseResult && (
               <div className="popup" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <div className="popup-content">
-                  <button className="close-button" onClick={() => setAccuseResult(null)}>X</button>
+                  <button 
+                    className="close-button" 
+                    onClick={() => {
+                      setAccuseResult(null); // Limpia el estado
+                      navigate('/allgames'); // Redirige a la página 'allgames'
+                    }}
+                  >
+                    x
+                  </button>
                   <h3>Result of the accusation</h3>
                   <p>{accuseResult.message}</p>
                 </div>
