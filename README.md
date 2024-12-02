@@ -72,3 +72,12 @@ La lógica del juego sigue manteniendo en esencia pero ahora funciona como un Cl
 ### Detalles de funcionamiento del juego
 Existen detalles en el juego que no logramos trabajar al 100% en el frontend pero que en cuanto al backend sí funcionan. Por ejemplo:
 1. Para recoger las cartas se debe parar sobre ellas para recogerlas. Ya que, si bien existe toda la lógica de identificar si es que un usuario está dentro de una habitación al llegar a su respectiva puerta o no y de repartir aleatoriamente las cartas en el tablero, no se concretó el hecho de "mover" la imagen del jugador dentro de la habitación respectiva.
+
+# Administrador
+Este proyecto incluye un sistema con panel de administración (`/admin`). Para acceder a la sección de administración, necesitarás las siguientes credenciales:
+
+## Credenciales de Administrador
+
+- **Email:** admin@example.com
+- **Username:** admin
+- **Contraseña:** Admin123
