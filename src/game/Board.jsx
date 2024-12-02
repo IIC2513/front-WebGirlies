@@ -279,7 +279,7 @@ return (
                     alt={myCharacter.Character.name} 
                     className="mi-personaje-avatar" 
                   />
-                  <p className="mi-personaje-nombre">Your character</p>
+                  <p className="mi-personaje-nombre">My Role {myRole}</p>
                 </div>
               )}
             </div>

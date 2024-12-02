@@ -3,7 +3,6 @@ import { AuthContext } from '../auth/AuthContext';
 import axios from 'axios';
 import './Login.css'; 
 import room from './../assets/images/habitacion_signup.jpg';
-import LogoutButton from '../profile/Logout';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
 

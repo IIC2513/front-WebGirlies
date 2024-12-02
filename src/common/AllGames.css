@@ -28,6 +28,7 @@
     font-size: 30px;
     margin: 10px;
     font-weight: 100;
+    margin-bottom: 2px;
 }
 
   /* Contenedor de todas las tarjetas */
@@ -51,6 +52,7 @@
   
   /* Títulos dentro de las tarjetas */
   .card h3 {
+    margin: 0;
     margin-bottom: 10px;
     font-size: 18px;
     color: #333;
@@ -66,6 +68,34 @@
   /* Contenedor de botones dentro de las tarjetas */
   .button-container {
     margin-top: 15px;
+  }
+
+  #game-started{
+    font-size: 50px;
+    font-family: Muro;
+    color: #06A196;
+    text-align: center;
+  }
+  
+  #join-game{
+    font-size: 18px;
+    padding: 18px 28px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  #turnos{
+    font-family: Muro;
+    font-size: 18px;
+    color: #ec8600;
+    font-weight: 100;
+  }
+
+  #no-active-turn{
+    font-family: Muro;
+    font-size: 18px;
+    color: #4db552;
+    font-weight: 100;
   }
   
   /* Botones dentro de las tarjetas */
@@ -106,4 +136,7 @@
     background-color:#ff9100;
     border-color: #d17104;
 }
-  
+
+.character-avatar{
+    padding: 0;
+}
