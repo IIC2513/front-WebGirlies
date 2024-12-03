@@ -4,6 +4,7 @@ import { AuthContext } from '../auth/AuthContext';
 import Navbar from '../common/Navbar';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import axios from 'axios';
+import VITE_BACKEND_URL from "../config";
 
 function LandingPage() {
   const { token } = useContext(AuthContext);
@@ -32,7 +33,7 @@ function LandingPage() {
     console.log("userId:", userId);
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/games/create`,
+        `${VITE_BACKEND_URL}/games/create`,
         { ownerId: userId }, 
         {
           headers: {

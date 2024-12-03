@@ -5,6 +5,7 @@ import './Login.css';
 import pasillo from './../assets/images/pasillo-oscuro-hospital-salida-emergencia-luz-encima.jpg';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
+import VITE_BACKEND_URL from "../config";
 
 function Login() {
   const { token, setToken , setUserId} = useContext(AuthContext);
@@ -18,7 +19,7 @@ function Login() {
     event.preventDefault();
   
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/login`, {
+      const response = await axios.post(`${VITE_BACKEND_URL}/login`, {
         email,
         password
       });

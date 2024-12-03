@@ -3,6 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../auth/AuthContext";
 import Navbar from '../common/Navbar';
 import './adminUserList.css';
+import VITE_BACKEND_URL from "../config";
 
 const AdminUserList = () => {
   const { token } = useContext(AuthContext);
@@ -13,7 +14,7 @@ const AdminUserList = () => {
     if (token) {
       axios({
         method: "get",
-        url: `${import.meta.env.VITE_BACKEND_URL}/users`,
+        url: `${VITE_BACKEND_URL}/users`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -31,7 +32,7 @@ const AdminUserList = () => {
     // Llamada a la API para eliminar al usuario (deberías implementar esta ruta en el backend)
     axios({
       method: "delete",
-      url: `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+      url: `${VITE_BACKEND_URL}/users/${userId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

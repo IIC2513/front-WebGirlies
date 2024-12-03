@@ -5,6 +5,7 @@ import './Login.css';
 import room from './../assets/images/habitacion_signup.jpg';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../common/Navbar';
+import VITE_BACKEND_URL from "../config";
 
 function Signup() {
   const { token } = useContext(AuthContext);
@@ -21,7 +22,7 @@ function Signup() {
     event.preventDefault();
   
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/signup`, {
+      const response = await axios.post(`${VITE_BACKEND_URL}/signup`, {
         username,
         email,
         password,

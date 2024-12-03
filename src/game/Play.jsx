@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import Navbar from '../common/Navbar';
 import './Play.css';
+import VITE_BACKEND_URL from "../config";
 
 const Play = () => {
   const { token } = useContext(AuthContext); // Para verificar si el usuario está logueado
@@ -12,7 +13,7 @@ const Play = () => {
   const handleCreateGame = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/games/create`,
+        `${VITE_BACKEND_URL}/games/create`,
         { ownerId: 1 }, // Ajusta `ownerId` según tu implementación
         {
           headers: {

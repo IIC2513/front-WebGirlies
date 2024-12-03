@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import DiceRoller from './DiceRoller';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import card_image from '../assets/images/carta_imagen.png';
+import VITE_BACKEND_URL from "../config";
 
 // Exporta el contexto y el componente sin usar `default`
 export const GameContext = createContext(null);
@@ -44,7 +45,7 @@ export function Board() {
 
   const handleCard = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/getClue`, {
+      const response = await axios.post(`${VITE_BACKEND_URL}/games/getClue`, {
         userId: userId, 
         gameId: boardId,
       });
@@ -82,7 +83,7 @@ export function Board() {
   };
   const sendAccusation = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/accuse`, {
+      const response = await axios.post(`${VITE_BACKEND_URL}/games/accuse`, {
         userId,
         gameId: boardId,
         accusation,
@@ -97,7 +98,7 @@ export function Board() {
   };
   const saveNote = async () => {
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
+      const response = await axios.patch(`${VITE_BACKEND_URL}/notes/${boardId}/${userId}`, {
         notes: note, // Envía la nueva nota al backend
       });
       setShowPopup(false); // Cierra el popup después de guardar
@@ -116,7 +117,7 @@ export function Board() {
 
   const fetchNote = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
+      const response = await axios.get(`${VITE_BACKEND_URL}/notes/${boardId}/${userId}`);
       setNote(response.data.notes); // Actualiza el estado con la nota obtenida
     } catch (error) {
       console.error('Error al obtener la nota:', error);
@@ -126,7 +127,7 @@ export function Board() {
   
   const fetchAllData = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/getData`);
+      const response = await axios.get(`${VITE_BACKEND_URL}/games/getData`);
       setAllWeapons(response.data.weapons);
       setAllCharacters(response.data.characters);
       setAllPlaces(response.data.places);
@@ -159,7 +160,7 @@ export function Board() {
   
   const moveCharacter = async (targetX, targetY) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/games/move`, {
+      const response = await axios.post(`${VITE_BACKEND_URL}/games/move`, {
         userId: userId,
         gameId: boardId,
         targetX,
@@ -195,7 +196,7 @@ export function Board() {
 
   const rollDice = async () => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/dice`, {
+        const response = await axios.get(`${VITE_BACKEND_URL}/games/dice`, {
             params: {  // Usa 'params' para incluir los datos en la URL de la solicitud
               userId: userId,
               gameId: boardId,
@@ -215,7 +216,7 @@ export function Board() {
 
   useEffect(() => {
     fetchAllData();
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/boards/boardData`, {
+    axios.get(`${VITE_BACKEND_URL}/boards/boardData`, {
       params: { boardId: boardId, userId: userId }
     })
       .then((response) => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Dashboard.css";
+import VITE_BACKEND_URL from "../config";
 
 const Dashboard = ({ gameId }) => {
     const [playerStats, setPlayerStats] = useState([]);
@@ -10,7 +11,7 @@ const Dashboard = ({ gameId }) => {
         const fetchStats = async () => {
             try {
                 const response = await axios.get(
-                    `${import.meta.env.VITE_BACKEND_URL}/game/${gameId}/stats`
+                    `${VITE_BACKEND_URL}/game/${gameId}/stats`
                 );
                 setPlayerStats(response.data.characters);
                 setLoading(false);
