@@ -9,11 +9,6 @@ import VITE_BACKEND_URL from "../config";
 function Instructions() {
     const { token } = useContext(AuthContext);
     const [characters, setCharacters] = useState([]);
-    
-    // Decodificar el token y obtener el userId
-    const payloadBase64 = token.split('.')[1];
-    const payload = JSON.parse(atob(payloadBase64));
-    const userId = payload.sub || null;
 
     useEffect(() => {
         axios.get(`${VITE_BACKEND_URL}/characters`, {
