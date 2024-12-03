@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../auth/AuthContext'; 
 import Navbar from '../common/Navbar';
 import axios from 'axios';
+import VITE_BACKEND_URL from "../config";
 
 function Instructions() {
     const { token } = useContext(AuthContext);
@@ -15,7 +16,7 @@ function Instructions() {
     const userId = payload.sub || null;
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/characters`, {
+        axios.get(`${VITE_BACKEND_URL}/characters`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -5,6 +5,7 @@ import { AuthContext } from "../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./AllGames.css";
+import VITE_BACKEND_URL from "../config";
 
 export function MyGames() {
   const { token } = useContext(AuthContext);
@@ -23,7 +24,7 @@ export function MyGames() {
   const fetchUsername = async (id) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+        `${VITE_BACKEND_URL}/users/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -41,7 +42,7 @@ export function MyGames() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/games/myGames/${userId}`
+          `${VITE_BACKEND_URL}/games/myGames/${userId}`
         );
         const fetchedGames = Array.isArray(response.data.games)
         ? response.data.games
@@ -145,7 +146,7 @@ export function MyGames() {
                         onClick={() =>
                           axios
                             .post(
-                              `${import.meta.env.VITE_BACKEND_URL}/games/start`,
+                              `${VITE_BACKEND_URL}/games/start`,
                               {
                                 gameId: game.gameId,
                                 userId: userId,

@@ -6,6 +6,7 @@ import axios from 'axios';
 import Navbar from '../common/Navbar';
 import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import VITE_BACKEND_URL from "../config";
 
 export function CharacterSelection() {
   const { token } = useContext(AuthContext);
@@ -31,7 +32,7 @@ export function CharacterSelection() {
   console.log("gameId:", gameId); // Verifica si gameId se obtiene correctamente
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/characters`, {
+    axios.get(`${VITE_BACKEND_URL}/characters`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,7 +52,7 @@ export function CharacterSelection() {
   const handleConfirmSelection = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/games/join`,
+        `${VITE_BACKEND_URL}/games/join`,
         {
           userId: userId, // Ajusta con el usuario autenticado
           gameId: gameId, // Usar el gameId de los parámetros

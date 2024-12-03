@@ -5,6 +5,7 @@ import { AuthContext } from '../auth/AuthContext';  // Asegúrate de que tu cont
 import { useNavigate } from 'react-router-dom';  // Para redirigir si es necesario
 import Navbar from '../common/Navbar';
 import './AllGames.css';
+import VITE_BACKEND_URL from "../config";
 
 
 // AQUI AGREGARIA EL TEMA DE QUE CUANTAS PERSONAS HAY UNIDAS A UN JUEGO (QUE NO SALGAN LAS COMPLETAS)
@@ -29,7 +30,7 @@ export function AllGames() {
   const fetchUsername = async (id) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${id}`,
+        `${VITE_BACKEND_URL}/users/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -46,8 +47,8 @@ export function AllGames() {
     const fetchMyGames = async () => {
       try {
         setLoading(true);
-        console.log(import.meta.env.VITE_BACKEND_URL);
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/games/allGames`, {
+        console.log(VITE_BACKEND_URL);
+        const response = await axios.get(`${VITE_BACKEND_URL}/games/allGames`, {
           params: { userId }});
         
         console.log(response.data.games)
